@@ -1,0 +1,5 @@
+#!/bin/dash
+
+tmux has-session -t master || tmux new-session -ds master -c ~/
+
+[ -n "$TMUX" ] && tmux switch-client -t master || tmux attach -t master

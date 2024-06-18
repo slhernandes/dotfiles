@@ -1,0 +1,66 @@
+Config { overrideRedirect = True
+       , lowerOnStart     = True
+       , font             = "xft:Noto Sans Mono CJK JP:style=Regular:size=11"
+       , additionalFonts  = [ "xft:Nonicons:size=11"
+                            , "xft:Noto Color Emoji:size=11"
+                            , "xft:FiraCode NerdFont:size=11"
+                            ]
+       , bgColor          = "#2e3c64"
+       , fgColor          = "#f8f8f2"
+       , position         = TopH 25
+       , commands         = [ Run Weather "RJTT" 
+                          			[ "--template", "<fc=#5692C4><tempC></fc>°C"
+                                ] 36000
+                            , Run WeatherX "EDDM"
+                                [ ("clear", "☀️")
+                                , ("sunny", "☀️")
+                                , ("mostly clear", "🌤️")
+                                , ("mostly sunny", "🌤️")
+                                , ("partly sunny", "⛅")
+                                , ("fair", "🌑")
+                                , ("cloudy","☁")
+                                , ("overcast","☁")
+                                , ("partly cloudy", "⛅")
+                                , ("mostly cloudy", "🌧")
+                                , ("considerable cloudiness", "⛈")]
+                                [ "-t", "<fn=2><skyConditionS></fn> <fn=3><tempC>°C</fn>"
+                                , "-L","10", "-H", "25", "--normal", "black"
+                                , "--high", "lightgoldenrod4", "--low", "darkseagreen4"
+                                ] 18000
+                            , Run Battery
+                                [ "--template" , "󰁹<acstatus> (<watts>)"
+                                , "--Low"      , "10"  -- units: Watts
+                                , "--High"     , "12"  -- units: Watts
+                                , "--high"     , "lime"
+                                , "--normal"   , "gold"
+                                , "--low"      , "fuchsia"
+                                , "--ppad"     , "3"
+                                , "--suffix"   , "True"
+                                , "--"  -- battery specific options
+                                    , "-o", "<fc=gold><left></fc>"  -- discharging status
+                                    , "-O", "<fc=lime><left>⬆</fc>"     -- getting power from AC
+                                    , "-i", "<fc=lime>on AC</fc>"        -- charged status
+                                    , "-f", "AC0/online"                 -- AC adapter location
+                                ] 50
+                            , Run Alsa "default" "Master"
+                                [ "--template", "<volumestatus>"
+                                , "--suffix"  , "True"
+                                , "--"
+                                , "--on", ""
+                                ]
+                            , Run Brightness [ "-t", "" ] 10
+                            , Run Memory ["--template", "Mem: <usedratio>%"] 10
+                            , Run Swap [] 10
+                            , Run Date " %a %d.%m.%Y <fc=#8be9fd>%H:%M:%S</fc>" "date" 10
+                            , Run UnsafeXMonadLog
+                            , Run Network "wlp2s0" ["-L","0","-H","32","--normal","green","--high","red"] 10
+                            , Run Wireless "wlp2s0" [ "-t", "<ssid> <qualityvbar>" ] 10
+                            , Run Com "setxkbmap -print | grep xkb_symbols | awk -F'+' '{print $2}'" [] "keyboard" 30
+                            , Run Com "/home/samuelhernandes/.config/xmobar/scripts/systraypad.sh" [] "traypad" 10
+                            ]
+       , sepChar          = "%"
+       , alignSep         = "}{"
+       , template         = " <action=`rofi -show drun` button=3><action=`/home/samuelhernandes/.local/bin/sddmenu` button=1>\
+                            \<icon=/home/samuelhernandes/.config/xmobar/xpms/haskell20.xpm/></action></action> %UnsafeXMonadLog% }{\
+                            \<fn=3><fc=lime>·</fc></fn> %EDDM% <fn=3><fc=lime>·</fc> %date% <fc=lime>·</fc> %battery% <fc=lime>·</fc> %traypad%</fn>"
+       }

@@ -1,0 +1,46 @@
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch \
+$cmd_duration\
+$line_break\
+$character"""
+
+right_format = """
+$python\
+$rust\
+$ocaml\
+$haskell\
+$lua\
+$time\
+$battery"""
+
+continuation_prompt = "[ ❯](cyan)"
+
+[directory]
+style = "blue"
+
+[character]
+success_symbol = "[❯](green)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](yellow)"
+
+[git_branch]
+format = "[$branch]($style)"
+style = "bright-black"
+
+[cmd_duration]
+format = "[$duration]($style) "
+style = "yellow"
+
+[python]
+format = "[$virtualenv]($style) "
+style = "bright-black"
+
+[time]
+disabled = false
+
+[[battery.display]]
+threshold = 100
+style = 'green'

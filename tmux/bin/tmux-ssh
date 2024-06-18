@@ -1,0 +1,19 @@
+#!/bin/sh
+
+printf "Enter ssh address: "
+read address
+
+tmux_running=`pgrep tmux`
+session_name=`echo $address | awk -F "@" '{print $1}'`
+
+if [ -z "$tmux_running" -a -z "$TMUX" ]; then
+  tmux new-session -s $session_name "ssh $address"
+elif ! tmux has-session -t=$session_name 2> /dev/null; then
+  current_session=`tmux display-message -p '#S'`
+  echo $current_session >> ~/Dokumente/test/tmux_log
+  tmux new-session -ds $session_name "ssh $address"
+  tmux switch-client -t $session_name
+else
+  echo nope >> ~/Dokumente/test/tmux_log
+  tmux switch-client -t $session_name
+fi
