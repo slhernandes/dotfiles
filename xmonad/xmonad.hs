@@ -7,6 +7,9 @@ import Data.Tree
 import Data.List
 import qualified Data.Map as M
 
+import System.Environment
+import System.IO.Unsafe
+
 import XMonad
 
 import XMonad.Actions.CycleWS
@@ -60,22 +63,22 @@ myConfig = def
     }
   `additionalKeysP`
     [ ("M-S-z"   , spawn "xscreensaver-command -lock"                                     )
-    , ("M-S-q"   , spawn "/home/samuelhernandes/.local/bin/sddmenu"                       )
-    , ("M-d"     , spawn "/home/samuelhernandes/.local/bin/togglekeyboard"                )
+    , ("M-S-q"   , spawn "$HOME/.local/bin/sddmenu"                                       )
+    , ("M-d"     , spawn "$HOME/.local/bin/togglekeyboard"                                )
     , ("M-p"     , spawn "rofi -show drun"                                                )
     , ("M-f"     , spawn "firefox -P default-release"                                     )
-    , ("M-t"     , spawn "kitty -e tmux-start"                                            )
+    , ("M-t"     , spawn "kitty -e $HOME/.config/tmux/bin/tmux-start"                     )
     , ("M-l"     , moveTo Next nonNSPEmpty                                                )
     , ("M-h"     , moveTo Prev nonNSPEmpty                                                )
     , ("M-S-l"   , shiftTo Next nonNSP >> moveTo Next nonNSP                              )
     , ("M-S-h"   , shiftTo Prev nonNSP >> moveTo Prev nonNSP                              )
   --, ("<XF86AudioLowerVolume>", spawn "wpctl set-volume @DEFAULT_SINK@ 2%-"              )
   --, ("<XF86AudioRaiseVolume>", spawn "wpctl set-volume @DEFAULT_SINK@ 2%+"              )
-    , ("<XF86AudioRaiseVolume>", spawn "/home/samuelhernandes/.local/bin/volume.sh up"    )
-    , ("<XF86AudioLowerVolume>", spawn "/home/samuelhernandes/.local/bin/volume.sh down"  )
-    , ("<XF86AudioMute>"       , spawn "/home/samuelhernandes/.local/bin/volume.sh check" )
+    , ("<XF86AudioRaiseVolume>", spawn "$HOME/.local/bin/volume.sh up"                    )
+    , ("<XF86AudioLowerVolume>", spawn "$HOME/.local/bin/volume.sh down"                  )
+    , ("<XF86AudioMute>"       , spawn "$HOME/.local/bin/volume.sh check"                 )
     , ("M-S-s"   , withFocused $ windows . W.sink                                         )
-    , ("M-S-p"   , spawn "/home/samuelhernandes/.local/bin/find_pdf"                      )
+    , ("M-S-p"   , spawn "$HOME/.local/bin/find_pdf"                                      )
     , ("M-s"     , spawn "xsnip"                                                          )
     , ("M-S-f"   , namedScratchpadAction scratchpads "Firefox"                            )
     , ("M-S-b"   , namedScratchpadAction scratchpads "Btop"                               )
@@ -88,8 +91,8 @@ myConfig = def
     [ ((0, xK_Print)        , spawn "xsnip -o"                                            )
     , ((mod4Mask, xK_Left)  , sendMessage Shrink                                          )
     , ((mod4Mask, xK_Right) , sendMessage Expand                                          )
-    , ((0, xK_F7)           , spawn "/home/samuelhernandes/.local/bin/brightness.sh down" )
-    , ((0, xK_F8)           , spawn "/home/samuelhernandes/.local/bin/brightness.sh up"   )
+    , ((0, xK_F7)           , spawn "$HOME/.local/bin/brightness.sh down"                 )
+    , ((0, xK_F8)           , spawn "$HOME/.local/bin/brightness.sh up"                   )
     , ((mod4Mask, xK_Return), sendMessage (MT.Toggle FULL) >> sendMessage ToggleStruts    )
     , ((mod4Mask, xK_Tab)   , spawn "rofi -show window"                                   )
     ]
@@ -142,12 +145,12 @@ myWorkspaces = [ "term"
                , "disc"
                ]
 
-scratchpads = [ NS "Btop" "kitty --class=btop -e btop" (className =? "btop") myFloating
-              , NS "EasyEffects" "easyeffects" (className =? "easyeffects") myFloating
-              , NS "Firefox" "firefox --class firefox_scratch -P scratchpad" (className =? "firefox_scratch") myFloating
-              , NS "Mail" "kitty --class=neomutt -e neomutt" (className =? "neomutt") myFloating
-              , NS "Ranger" "kitty --class=ranger -e ranger" (className =? "ranger") myFloating
-              , NS "Term" "kitty --class=scratchpad" (className =? "scratchpad") myFloating
+scratchpads = [ NS "Btop"        "wezterm start --class=btop -e btop"            (className =? "btop")            myFloating
+              , NS "EasyEffects" "easyeffects"                                   (className =? "easyeffects")     myFloating
+              , NS "Firefox"     "firefox --class firefox_scratch -P scratchpad" (className =? "firefox_scratch") myFloating
+              , NS "Mail"        "wezterm start --class=neomutt -e neomutt"      (className =? "neomutt")         myFloating
+              , NS "Ranger"      "wezterm start --class=ranger -e ranger"        (className =? "ranger")          myFloating
+              , NS "Term"        "wezterm start --class=scratchpad"              (className =? "scratchpad")      myFloating
               ]
               where
     myFloating  = customFloating $ W.RationalRect marginLeft marginTop width height
@@ -207,7 +210,9 @@ myXmobarPP = def
     lowWhite = xmobarColor "#555555" ""
 
 xpmPath :: String -> String
-xpmPath x = "<icon=/home/samuelhernandes/.config/xmobar/xpms/" ++ x ++ "20.xpm/>"
+xpmPath x = "<icon=" ++ home ++ "/.config/xmobar/xpms/" ++ x ++ "20.xpm/>"
+  where
+    home = unsafePerformIO $ getEnv "HOME"
 
 layoutAction :: String -> String
 layoutAction x = "<action=`xdotool key super+space` button=1>" ++ x ++ "</action>"
@@ -268,7 +273,8 @@ myStartupHook = do
   spawnOnce "xscreensaver -nosplash &"
   spawnOnce "xfce4-power-manager &"
   spawnOnce "dunst &"
-  spawnOnce "picom --config /home/samuelhernandes/.config/picom/picom.conf &"
-  spawnOnce "/home/samuelhernandes/.local/bin/statusbar.sh"
+  spawnOnce "picom --config $HOME/.config/picom/picom.conf &"
+  spawnOnce "$HOME/.local/bin/statusbar.sh"
   spawnOnce "if [ -x /usr/bin/nm-applet ] ; then nm-applet --sm-disable & fi"
   spawnOnce "xset r rate 150 50"
+  spawnOnce "caffeine &"

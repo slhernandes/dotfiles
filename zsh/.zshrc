@@ -45,7 +45,7 @@ if [ "$TMUX" != "" ]; then
 fi
 
 if [ -z "$NVIM" ]; then
-  fastfetch
+  fastfetch --logo-width 37 --logo-height 19
 fi
 
 if [ "$TERM" = "xterm-kitty" ]; then
