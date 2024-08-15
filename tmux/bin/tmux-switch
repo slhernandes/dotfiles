@@ -1,0 +1,4 @@
+#!/bin/sh
+
+tmux switch-client -l
+kitten @ set-background-image none

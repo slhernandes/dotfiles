@@ -47,6 +47,7 @@ export __GL_SYNC_TO_VBLANK=0
 # rust stuffs
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
+export PATH="$CARGO_HOME/bin:$PATH"
 
 # CUDA cache
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
@@ -67,3 +68,15 @@ export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc":"$XDG_CONFIG_HOME/gtk-2.0/
 # zsh-autosuggestion config
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+
+# lua env
+export LUA_PATH='/usr/share/lua/5.4/?.lua;/usr/local/share/lua/5.4/?.lua;/usr/local/share/lua/5.4/?/init.lua;/usr/share/lua/5.4/?/init.lua;/usr/local/lib/lua/5.4/?.lua;/usr/local/lib/lua/5.4/?/init.lua;/usr/lib/lua/5.4/?.lua;/usr/lib/lua/5.4/?/init.lua;./?.lua;./?/init.lua;/home/samuelhernandes/.config/luarocks/share/lua/5.4/?.lua;/home/samuelhernandes/.config/luarocks/share/lua/5.4/?/init.lua'
+export LUA_CPATH='/usr/local/lib/lua/5.4/?.so;/usr/lib/lua/5.4/?.so;/usr/local/lib/lua/5.4/loadall.so;/usr/lib/lua/5.4/loadall.so;./?.so;/home/samuelhernandes/.config/luarocks/lib/lua/5.4/?.so'
+export PATH="/home/samuelhernandes/.config/luarocks/bin:$PATH"
+
+# wine env
+export WINEPREFIX="$XDG_DATA_HOME"/wineprefixes/default
+
+# pass env
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
+export PASSWORD_STORE_ENABLE_EXTENSION=true

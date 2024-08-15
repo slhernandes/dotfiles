@@ -13,6 +13,8 @@ import System.IO.Unsafe
 import XMonad
 
 import XMonad.Actions.CycleWS
+import qualified XMonad.Actions.FlexibleResize as Flex
+import XMonad.Actions.SpawnOn
 
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
@@ -40,6 +42,9 @@ import XMonad.Layout.Spiral as Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 
+import XMonad.Prompt
+import XMonad.Prompt.Pass
+
 import qualified XMonad.StackSet as W
 
 main :: IO ()
@@ -53,7 +58,7 @@ myConfig = def
     { modMask            = mod4Mask
     , handleEventHook    = handleEventHook def <> Hacks.trayerAboveXmobarEventHook
     , layoutHook         = layoutToggle
-    , manageHook         = myManageHook <+> namedScratchpadManageHook scratchpads
+    , manageHook         = myManageHook <+> namedScratchpadManageHook scratchpads <> manageSpawn
     , startupHook        = myStartupHook >> myExclusives
     , workspaces         = myWorkspaces
     , focusedBorderColor = "#45e8ce"
@@ -66,8 +71,8 @@ myConfig = def
     , ("M-S-q"   , spawn "$HOME/.local/bin/sddmenu"                                       )
     , ("M-d"     , spawn "$HOME/.local/bin/togglekeyboard"                                )
     , ("M-p"     , spawn "rofi -show drun"                                                )
-    , ("M-f"     , spawn "firefox -P default-release"                                     )
-    , ("M-t"     , spawn "kitty -e $HOME/.config/tmux/bin/tmux-start"                     )
+    , ("M-f"     , spawnOn "br:1" "firefox -P default-release"                            )
+    , ("M-t"     , spawnOn "term" "kitty -e $HOME/.config/tmux/bin/tmux-start"            )
     , ("M-l"     , moveTo Next nonNSPEmpty                                                )
     , ("M-h"     , moveTo Prev nonNSPEmpty                                                )
     , ("M-S-l"   , shiftTo Next nonNSP >> moveTo Next nonNSP                              )
@@ -86,6 +91,7 @@ myConfig = def
     , ("M-S-t"   , namedScratchpadAction scratchpads "Term"                               )
     , ("M-S-r"   , namedScratchpadAction scratchpads "Ranger"                             )
     , ("M-S-e"   , namedScratchpadAction scratchpads "EasyEffects"                        )
+    , ("M-c"     , passPrompt xpconfig                                                    )
     ]
   `additionalKeys`
     [ ((0, xK_Print)        , spawn "xsnip -o"                                            )
@@ -96,6 +102,25 @@ myConfig = def
     , ((mod4Mask, xK_Return), sendMessage (MT.Toggle FULL) >> sendMessage ToggleStruts    )
     , ((mod4Mask, xK_Tab)   , spawn "rofi -show window"                                   )
     ]
+  `additionalMouseBindings`
+    [ ((mod4Mask, button3)  , (\w -> focus w >> (Flex.mouseResizeEdgeWindow (3/4) w))     )
+    ]
+
+xpconfig = def
+    { font                = "xft:Noto Sans Mono CJK JP:style=Regular:size=11"
+    , bgColor             = "#24283b" 
+    , fgColor             = "#c0caf5"
+    , bgHLight            = "#2e3c64"
+    , fgHLight            = "#c0caf5"
+    , borderColor         = "#7AA2F7"
+    , promptBorderWidth   = 0
+    , position            = pos
+    , showCompletionOnTab = True
+    }
+    where
+      pos = CenteredAt { xpCenterY = 1/2
+                       , xpWidth   = 1/3
+                       }
 
 myLayout = tiled ||| myTabbed ||| fullscreen
   where
@@ -160,22 +185,22 @@ scratchpads = [ NS "Btop"        "wezterm start --class=btop -e btop"           
     height      = 2/3
 
 myExclusives = addExclusives
-  [ ["Btop"       , "Firefox"     ]
-  , ["Btop"       , "Mail"        ]
-  , ["Btop"       , "Ranger"      ]
-  , ["Btop"       , "Term"        ]
-  , ["Btop"       , "EasyEffects" ]
-  , ["EasyEffects", "Firefox"     ]
-  , ["EasyEffects", "Mail"        ]
-  , ["EasyEffects", "Ranger"      ]
-  , ["EasyEffects", "Term"        ]
-  , ["Firefox"    , "Mail"        ]
-  , ["Firefox"    , "Ranger"      ]
-  , ["Firefox"    , "Term"        ]
-  , ["Mail"       , "Ranger"      ]
-  , ["Mail"       , "Term"        ]
-  , ["Ranger"     , "Term"        ]
-  ]
+    [ ["Btop"       , "Firefox"     ]
+    , ["Btop"       , "Mail"        ]
+    , ["Btop"       , "Ranger"      ]
+    , ["Btop"       , "Term"        ]
+    , ["Btop"       , "EasyEffects" ]
+    , ["EasyEffects", "Firefox"     ]
+    , ["EasyEffects", "Mail"        ]
+    , ["EasyEffects", "Ranger"      ]
+    , ["EasyEffects", "Term"        ]
+    , ["Firefox"    , "Mail"        ]
+    , ["Firefox"    , "Ranger"      ]
+    , ["Firefox"    , "Term"        ]
+    , ["Mail"       , "Ranger"      ]
+    , ["Mail"       , "Term"        ]
+    , ["Ranger"     , "Term"        ]
+    ]
 
 nonNSP :: WSType
 nonNSP = WSIs (return (\ws -> W.tag ws /= "NSP"))
@@ -260,6 +285,9 @@ myManageHook = composeAll
     , isFullscreen                          --> doFullFloat
     , (className   =?  "discord")           <&&>
       (title       >>= firstCharAlpha)      --> doFloat
+    , className    =?  "vesktop"            --> doShift "disc"
+    , className    =?  "steam"              --> doShift "stms"
+    , className    =?  "firefox"            --> doShift "br:1"
     , manageDocks
     ]
 
