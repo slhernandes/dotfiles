@@ -1,4 +1,3 @@
-#. "$HOME/.cargo/env"
 
 
 # XDG BASE DIRS
@@ -10,6 +9,9 @@ export XDG_DOCUMENTS_DIR=$HOME/Dokumente
 #
 # ZSHRC
 export ZSHRC=$XDG_CONFIG_HOME/zsh/.zshrc
+
+# cargo env
+. "$XDG_DATA_HOME/cargo/env"
 
 # general envs
 export CLANGD_FLAGS=""
@@ -80,3 +82,12 @@ export WINEPREFIX="$XDG_DATA_HOME"/wineprefixes/default
 # pass env
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
 export PASSWORD_STORE_ENABLE_EXTENSION=true
+
+# pipx env
+export PIPX_HOME="$XDG_DATA_HOME"/pipx
+export PIPX_BIN_DIR="$HOME"/.local/bin
+
+# fcitx5 env
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx

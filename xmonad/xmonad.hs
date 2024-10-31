@@ -69,7 +69,7 @@ myConfig = def
   `additionalKeysP`
     [ ("M-S-z"   , spawn "xscreensaver-command -lock"                                     )
     , ("M-S-q"   , spawn "$HOME/.local/bin/sddmenu"                                       )
-    , ("M-d"     , spawn "$HOME/.local/bin/togglekeyboard"                                )
+----, ("M-d"     , spawn "$HOME/.local/bin/togglekeyboard"                                )
     , ("M-p"     , spawn "rofi -show drun"                                                )
     , ("M-f"     , spawnOn "br:1" "firefox -P default-release"                            )
     , ("M-t"     , spawnOn "term" "kitty -e $HOME/.config/tmux/bin/tmux-start"            )
@@ -77,8 +77,8 @@ myConfig = def
     , ("M-h"     , moveTo Prev nonNSPEmpty                                                )
     , ("M-S-l"   , shiftTo Next nonNSP >> moveTo Next nonNSP                              )
     , ("M-S-h"   , shiftTo Prev nonNSP >> moveTo Prev nonNSP                              )
-  --, ("<XF86AudioLowerVolume>", spawn "wpctl set-volume @DEFAULT_SINK@ 2%-"              )
-  --, ("<XF86AudioRaiseVolume>", spawn "wpctl set-volume @DEFAULT_SINK@ 2%+"              )
+----, ("<XF86AudioLowerVolume>", spawn "wpctl set-volume @DEFAULT_SINK@ 2%-"              )
+----, ("<XF86AudioRaiseVolume>", spawn "wpctl set-volume @DEFAULT_SINK@ 2%+"              )
     , ("<XF86AudioRaiseVolume>", spawn "$HOME/.local/bin/volume.sh up"                    )
     , ("<XF86AudioLowerVolume>", spawn "$HOME/.local/bin/volume.sh down"                  )
     , ("<XF86AudioMute>"       , spawn "$HOME/.local/bin/volume.sh check"                 )
@@ -91,6 +91,7 @@ myConfig = def
     , ("M-S-t"   , namedScratchpadAction scratchpads "Term"                               )
     , ("M-S-r"   , namedScratchpadAction scratchpads "Ranger"                             )
     , ("M-S-e"   , namedScratchpadAction scratchpads "EasyEffects"                        )
+    , ("M-S-y"   , namedScratchpadAction scratchpads "Ytermusic"                          )
     , ("M-c"     , passPrompt xpconfig                                                    )
     ]
   `additionalKeys`
@@ -176,6 +177,7 @@ scratchpads = [ NS "Btop"        "wezterm start --class=btop -e btop"           
               , NS "Mail"        "wezterm start --class=neomutt -e neomutt"      (className =? "neomutt")         myFloating
               , NS "Ranger"      "wezterm start --class=ranger -e ranger"        (className =? "ranger")          myFloating
               , NS "Term"        "wezterm start --class=scratchpad"              (className =? "scratchpad")      myFloating
+              , NS "Ytermusic"   "wezterm start --class=ytermusic -e ytermusic"  (className =? "ytermusic")       myFloating
               ]
               where
     myFloating  = customFloating $ W.RationalRect marginLeft marginTop width height
@@ -185,21 +187,26 @@ scratchpads = [ NS "Btop"        "wezterm start --class=btop -e btop"           
     height      = 2/3
 
 myExclusives = addExclusives
-    [ ["Btop"       , "Firefox"     ]
+    [ ["Btop"       , "EasyEffects" ]
+    , ["Btop"       , "Firefox"     ]
     , ["Btop"       , "Mail"        ]
     , ["Btop"       , "Ranger"      ]
     , ["Btop"       , "Term"        ]
-    , ["Btop"       , "EasyEffects" ]
+    , ["Btop"       , "Ytermusic"   ]
     , ["EasyEffects", "Firefox"     ]
     , ["EasyEffects", "Mail"        ]
     , ["EasyEffects", "Ranger"      ]
     , ["EasyEffects", "Term"        ]
+    , ["EasyEffects", "Ytermusic"   ]
     , ["Firefox"    , "Mail"        ]
     , ["Firefox"    , "Ranger"      ]
     , ["Firefox"    , "Term"        ]
+    , ["Firefox"    , "Ytermusic"   ]
     , ["Mail"       , "Ranger"      ]
     , ["Mail"       , "Term"        ]
+    , ["Mail"       , "Ytermusic"   ]
     , ["Ranger"     , "Term"        ]
+    , ["Ranger"     , "Ytermusic"   ]
     ]
 
 nonNSP :: WSType
@@ -283,7 +290,7 @@ myManageHook = composeAll
     , title        =?  "Library"            --> doFloat
     , title        =?  "Friends List"       --> doFloat
     , isFullscreen                          --> doFullFloat
-    , (className   =?  "discord")           <&&>
+    , (className   =?  "vesktop")           <&&>
       (title       >>= firstCharAlpha)      --> doFloat
     , className    =?  "vesktop"            --> doShift "disc"
     , className    =?  "steam"              --> doShift "stms"
@@ -293,7 +300,7 @@ myManageHook = composeAll
 
 myStartupHook :: X ()
 myStartupHook = do
-  --spawnOnce "/usr/bin/prime-offload"
+--spawnOnce "/usr/bin/prime-offload"
   spawnOnce "xsetroot -cursor_name left_ptr"
   spawnOnce "amixer -c 2 sset 'Mic Boost',0 0"
   spawnOnce "feh --bg-fill --no-fehbg ~/Dokumente/custom_bg.png"
@@ -306,3 +313,5 @@ myStartupHook = do
   spawnOnce "if [ -x /usr/bin/nm-applet ] ; then nm-applet --sm-disable & fi"
   spawnOnce "xset r rate 150 50"
   spawnOnce "caffeine &"
+  spawnOnce "fcitx5 &"
+--spawnOnce "nat_scroll.sh"

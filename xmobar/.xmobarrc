@@ -8,10 +8,10 @@ Config { overrideRedirect = True
        , bgColor          = "#2e3c64"
        , fgColor          = "#f8f8f2"
        , position         = TopH 25
-       , commands         = [ Run Weather "RJTT" 
+       , commands         = [ Run Weather "EDDM" 
                           			[ "--template", "<fc=#5692C4><tempC></fc>°C"
                                 ] 36000
-                            , Run WeatherX "EDDM"
+                            , Run WeatherX "RJTT"
                                 [ ("clear", "☀️")
                                 , ("sunny", "☀️")
                                 , ("mostly clear", "🌤️")
