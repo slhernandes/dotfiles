@@ -207,6 +207,7 @@ myExclusives = addExclusives
     , ["Mail"       , "Ytermusic"   ]
     , ["Ranger"     , "Term"        ]
     , ["Ranger"     , "Ytermusic"   ]
+    , ["Term"       , "Ytermusic"   ]
     ]
 
 nonNSP :: WSType
@@ -314,4 +315,4 @@ myStartupHook = do
   spawnOnce "xset r rate 150 50"
   spawnOnce "caffeine &"
   spawnOnce "fcitx5 &"
---spawnOnce "nat_scroll.sh"
+  spawnOnce "nat_scroll.sh"
