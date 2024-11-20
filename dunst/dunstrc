@@ -73,6 +73,9 @@
     mouse_right_click = context_all
 
     gap_size = 2
+    
+[log_notifs]
+    script = ~/.config/dunst/scripts/dunst_logger.sh
 
 
 # [shortcuts]

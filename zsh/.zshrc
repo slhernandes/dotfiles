@@ -53,7 +53,10 @@ if [ "$TERM" = "xterm-kitty" ]; then
   alias ssh="kitty +kitten ssh"
 fi
 
-xset r rate 150 50
+if [ -z "$WAYLAND_DISPLAY" ]; then
+  xset r rate 150 50
+fi
+
 amixer -c 2 sset 'Mic Boost',0 0 &> /dev/null
 
 voteaur(){

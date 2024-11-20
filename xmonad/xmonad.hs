@@ -37,6 +37,7 @@ import XMonad.Layout.Magnifier
 import XMonad.Layout.MultiToggle as MT
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.NoBorders
+import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Spacing
 import XMonad.Layout.Spiral as Spiral
 import XMonad.Layout.Tabbed
@@ -57,7 +58,7 @@ main = xmonad
 myConfig = def
     { modMask            = mod4Mask
     , handleEventHook    = handleEventHook def <> Hacks.trayerAboveXmobarEventHook
-    , layoutHook         = layoutToggle
+    , layoutHook         = myLayoutHook
     , manageHook         = myManageHook <+> namedScratchpadManageHook scratchpads <> manageSpawn
     , startupHook        = myStartupHook >> myExclusives
     , workspaces         = myWorkspaces
@@ -69,6 +70,7 @@ myConfig = def
   `additionalKeysP`
     [ ("M-S-z"   , spawn "xscreensaver-command -lock"                                     )
     , ("M-S-q"   , spawn "$HOME/.local/bin/sddmenu"                                       )
+    , ("M-S-n"   , spawn "notificationcenter"                                             )
 ----, ("M-d"     , spawn "$HOME/.local/bin/togglekeyboard"                                )
     , ("M-p"     , spawn "rofi -show drun"                                                )
     , ("M-f"     , spawnOn "br:1" "firefox -P default-release"                            )
@@ -79,18 +81,18 @@ myConfig = def
     , ("M-S-h"   , shiftTo Prev nonNSP >> moveTo Prev nonNSP                              )
 ----, ("<XF86AudioLowerVolume>", spawn "wpctl set-volume @DEFAULT_SINK@ 2%-"              )
 ----, ("<XF86AudioRaiseVolume>", spawn "wpctl set-volume @DEFAULT_SINK@ 2%+"              )
-    , ("<XF86AudioRaiseVolume>", spawn "$HOME/.local/bin/volume.sh up"                    )
-    , ("<XF86AudioLowerVolume>", spawn "$HOME/.local/bin/volume.sh down"                  )
-    , ("<XF86AudioMute>"       , spawn "$HOME/.local/bin/volume.sh check"                 )
+    , ("<XF86AudioRaiseVolume>", spawn "$HOME/.local/bin/volume up"                       )
+    , ("<XF86AudioLowerVolume>", spawn "$HOME/.local/bin/volume down"                     )
+    , ("<XF86AudioMute>"       , spawn "$HOME/.local/bin/volume mute"                     )
     , ("M-S-s"   , withFocused $ windows . W.sink                                         )
     , ("M-S-p"   , spawn "$HOME/.local/bin/find_pdf"                                      )
     , ("M-s"     , spawn "xsnip"                                                          )
-    , ("M-S-f"   , namedScratchpadAction scratchpads "Firefox"                            )
     , ("M-S-b"   , namedScratchpadAction scratchpads "Btop"                               )
-    , ("M-S-m"   , namedScratchpadAction scratchpads "Mail"                               )
-    , ("M-S-t"   , namedScratchpadAction scratchpads "Term"                               )
-    , ("M-S-r"   , namedScratchpadAction scratchpads "Ranger"                             )
     , ("M-S-e"   , namedScratchpadAction scratchpads "EasyEffects"                        )
+    , ("M-S-f"   , namedScratchpadAction scratchpads "Firefox"                            )
+    , ("M-S-m"   , namedScratchpadAction scratchpads "Mail"                               )
+    , ("M-S-r"   , namedScratchpadAction scratchpads "Ranger"                             )
+    , ("M-S-t"   , namedScratchpadAction scratchpads "Term"                               )
     , ("M-S-y"   , namedScratchpadAction scratchpads "Ytermusic"                          )
     , ("M-c"     , passPrompt xpconfig                                                    )
     ]
@@ -123,11 +125,31 @@ xpconfig = def
                        , xpWidth   = 1/3
                        }
 
-myLayout = tiled ||| myTabbed ||| fullscreen
+myWorkspaces :: [String]
+myWorkspaces = [ "term"
+               , "prog"
+               , "dc:1"
+               , "dc:2"
+               , "br:1"
+               , "br:2"
+               , "stms"
+               , "game"
+               , "socs"
+               ]
+
+tiled = spacing space $ Tall nmaster delta ratio
   where
-    tiled             = spacing space $ Tall nmaster delta ratio
-    mirror            = spacing space $ Mirror tiled
-    myTabbed          = spacing space $ tabbed shrinkText myTabbedConfig
+    nmaster = 1
+    ratio   = 1/2
+    delta   = 3/100
+    space   = 4
+
+--mirror = spacing space $ Mirror tiled
+--  where
+--    space = 4
+
+myTabbed = spacing space $ tabbed shrinkText myTabbedConfig
+  where
     myTabbedConfig    = def { activeColor         = lightBlue
                             , inactiveColor       = blue
                             , urgentColor         = yellow
@@ -142,34 +164,26 @@ myLayout = tiled ||| myTabbed ||| fullscreen
                             , urgentTextColor     = red
                             , fontName            = fontTabbed
                             }
-    fullscreen        = noBorders Full
     space             = 4
     borderWidthActive = 0
     borderWidth       = 1
-    nmaster           = 1
-    ratio             = 1/2
-    delta             = 3/100
     blue              = "#2E3C64"
     lightBlue         = "#7AA2F7"
     green             = "#57F287"
     yellow            = "#F1FA8C" 
     white             = "#F8F8F2"
     red               = "#FF5555"
-    fontTabbed        = "xft:Noto Sans Mono CJK JP:style=Regular:size=11"
+    fontTabbed        = "xft:Noto Sans Mono CJK JP:style=Regular:size=12"
 
-layoutToggle = smartBorders $ mkToggle (NOBORDERS ?? FULL ?? EOT) myLayout
+fullscreen = noBorders Full
 
-myWorkspaces :: [String]
-myWorkspaces = [ "term"
-               , "prog"
-               , "dc:1"
-               , "dc:2"
-               , "br:1"
-               , "br:2"
-               , "stms"
-               , "game"
-               , "disc"
-               ]
+layoutNorm = tiled ||| myTabbed ||| fullscreen
+layoutSocs = myTabbed ||| tiled ||| fullscreen
+
+layoutToggleNorm = smartBorders $ mkToggle (NOBORDERS ?? FULL ?? EOT) layoutNorm
+layoutToggleSocs = smartBorders $ mkToggle (NOBORDERS ?? FULL ?? EOT) layoutSocs
+
+myLayoutHook = onWorkspace "socs" layoutToggleSocs $ layoutToggleNorm
 
 scratchpads = [ NS "Btop"        "wezterm start --class=btop -e btop"            (className =? "btop")            myFloating
               , NS "EasyEffects" "easyeffects"                                   (className =? "easyeffects")     myFloating
@@ -277,9 +291,8 @@ myPpHidden x = clickableWrap idx $ xmobarColor "#f8f8f2" "" $ wrap "" "" x
     idx :: Int
     idx = getIndex myWorkspaces x
 
-firstCharAlpha :: String -> Query Bool
-firstCharAlpha ""    = pure False
-firstCharAlpha (x:_) = pure $ isLetter x
+suffixIsPopout :: String -> Query Bool
+suffixIsPopout s = pure $ isSuffixOf "Popout" s
 
 myManageHook :: ManageHook
 myManageHook = composeAll
@@ -292,10 +305,11 @@ myManageHook = composeAll
     , title        =?  "Friends List"       --> doFloat
     , isFullscreen                          --> doFullFloat
     , (className   =?  "vesktop")           <&&>
-      (title       >>= firstCharAlpha)      --> doFloat
-    , className    =?  "vesktop"            --> doShift "disc"
+      (title       >>= suffixIsPopout)      --> doFloat
+    , className    =?  "vesktop"            --> doShift "socs"
     , className    =?  "steam"              --> doShift "stms"
     , className    =?  "firefox"            --> doShift "br:1"
+    , className    =?  "Ferdium"            --> doShift "socs"
     , manageDocks
     ]
 
