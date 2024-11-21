@@ -2,11 +2,24 @@
   "layer": "top", // Waybar at top layer
   "position": "top", // Waybar at the bottom of your screen
   "height": 30, // Waybar height
-  "width": 1920, // Waybar width
+  "width": 1912, // Waybar width
+  "margin": "4 4 0 4",
   // Choose the order of the modules
   "modules-left": ["hyprland/workspaces", "hyprland/submap"],
   "modules-center": ["hyprland/window"],
   "modules-right": ["tray", "pulseaudio", "battery", "memory", "clock"],
+  "hyprland/window": {
+    "format": "{title}",
+    "rewrite": {
+      "kitty - (.*)": "💻Kitty - $1",
+      ".*Mozilla Firefox": "🌏Firefox",
+      ".*Discord.*": "📟Discord",
+      ".*Ferdium.*": "📟Ferdium",
+      ".*pdf": "📘Zathura",
+      "rofi.*": "🔍Rofi",
+      "Steam": "🎮Steam"
+    }
+  },
   "hyprland/workspaces": {
     "disable-scroll": true,
     "all-outputs": false,
@@ -14,7 +27,7 @@
     "special-visible-only": true,
     "format": "{icon}",
     "format-icons": {
-      "1": "",
+      "1": "",
       "2": "",
       "3": "󱔘",
       "4": "󱔘",
@@ -24,6 +37,12 @@
       "8": "󰊗",
       "9": "󰙯",
       "magic": "❑",
+      "btop": "",
+      "neomutt": "",
+      "wezterm": "",
+      "firefox": "",
+      "ytermusic": "",
+
           // "urgent": "",
           // "focused": "",
           // "default": ""

@@ -14,7 +14,7 @@ case $1 in
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "firefox"
     else
-      firefox --name firefox_sp -P scratchpad
+      firefox --name firefox_sp -P scratchpad --new-instance
     fi
     ;;
   wezterm)

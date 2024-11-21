@@ -1,6 +1,6 @@
 @define-color text            @foreground;
 @define-color background-alt  alpha(@color4, .4);
-@define-color selected        @color6;
+@define-color selected        @color4;
 @define-color hover           alpha(@selected, .4);
 @define-color urgent          @color2;
 
@@ -9,7 +9,7 @@
 
   all: unset;
   font-size: 16px;
-  font-family: "FiraCode Nerd Font 10";
+  font-family: "FiraCode Nerd Font 12";
   transition: 200ms;
 
 }
@@ -22,11 +22,12 @@
 /* CONTROL CENTER ------------------------------------------------------------------------ */
 
 .control-center {
-  background: alpha(@background, .55);
-  border-radius: 24px;
-  border: 1px solid @selected;
-  box-shadow: 0 0 10px 0 rgba(0,0,0,.6);
-  margin: 18px;
+  background: alpha(@background, .65);
+  border-radius: 10px;
+  border: 2px solid @selected;
+  /*box-shadow: 0 0 10px 0 rgba(0,0,0,.6);*/
+  box-shadow: none;
+  margin: 2px 4px;
   padding: 12px;
 }
 
@@ -34,7 +35,7 @@
 .control-center .notification-row .notification-background,
 .control-center .notification-row .notification-background .notification.critical {
   background-color: @background-alt;
-  border-radius: 16px;
+  border-radius: 10px;
   margin: 4px 0px;
   padding: 4px;
 }
@@ -55,7 +56,7 @@
 .control-center .notification-row .notification-background .notification > *:last-child > * .notification-action {
   background: alpha(@selected, .6);
   color: @text;
-  border-radius: 12px;
+  border-radius: 10px;
   margin: 6px;
 }
 
@@ -71,7 +72,7 @@
 
 .control-center .notification-row .notification-background .close-button {
   background: transparent;
-  border-radius: 6px;
+  border-radius: 10px;
   color: @text;
   margin: 0px;
   padding: 4px;
@@ -88,7 +89,7 @@
 progressbar,
 progress,
 trough {
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 progressbar {
@@ -117,7 +118,7 @@ progressbar {
   background: transparent;
   color: @text;
   margin: 4px; 
-  border-radius: 6px;
+  border-radius: 10px;
   padding: 4px;
 }
 
@@ -136,8 +137,8 @@ progressbar {
 
 .widget-title button {
   background: @background-alt;
-  border-radius: 6px;
-  padding: 4px 16px;
+  border-radius: 10px;
+  padding: 6px 16px;
 }
 
 .widget-title button:hover {
@@ -157,9 +158,9 @@ progressbar {
 .widget-dnd > switch {
   background: @background-alt;
   font-size: initial;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: none;
-  padding: 2px;
+  padding: 2px 2px;
 }
 
 .widget-dnd > switch:hover {
@@ -176,23 +177,24 @@ progressbar {
 
 .widget-dnd > switch slider {
   background: @text;
-  border-radius: 6px;
+  border-radius: 10px;
+  padding: 4px;
 }
 
   /* Buttons menu */
 .widget-buttons-grid {
-  font-size: x-large;
+  font-size: 36px;
   padding: 6px 2px;
   margin: 6px;
-  border-radius: 12px;
+  border-radius: 10px;
   background: @background-alt;
 }
 
 .widget-buttons-grid>flowbox>flowboxchild>button {
   margin: 4px 10px;
-  padding: 6px 12px;
+  padding: 6px 18px;
   background: transparent;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .widget-buttons-grid>flowbox>flowboxchild>button:hover {
@@ -203,7 +205,7 @@ progressbar {
   /* Music player */
 .widget-mpris {
     background: @background-alt;
-    border-radius: 16px;
+    border-radius: 10px;
     color: @text;
     margin:  20px 6px;
 }
@@ -211,14 +213,14 @@ progressbar {
   /* NOTE: Background need *opacity 1* otherwise will turn into the album art blurred  */
 .widget-mpris-player {
     background-color: @background-sec;
-    border-radius: 22px;
+    border-radius: 10px;
     padding: 6px 14px;
     margin: 6px;
 }
 
 .widget-mpris > box > button {
   color: @text;
-  border-radius: 20px;
+  border-radius: 10px;
 }
  
 .widget-mpris button {
@@ -230,7 +232,7 @@ progressbar {
 }
 
 .widget-mpris-album-art {
-  border-radius: 16px;
+  border-radius: 10px;
 }
  
 .widget-mpris-title {
@@ -249,5 +251,5 @@ progressbar {
   color: @background;
   padding: 4px;
   margin: 6px;
-  border-radius: 6px;
+  border-radius: 10px;
 }
