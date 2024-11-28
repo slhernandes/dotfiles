@@ -79,6 +79,12 @@ window#waybar {
   color:#ee2e24;
 }
 
+#custom-logo {
+  font-size: 18px;
+  color: #1793d0;
+
+}
+
 #tray,
 #mode,
 #battery,
