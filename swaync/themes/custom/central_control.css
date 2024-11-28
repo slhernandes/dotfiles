@@ -9,7 +9,7 @@
 
   all: unset;
   font-size: 16px;
-  font-family: "FiraCode Nerd Font 12";
+  font-family: "FiraCode Nerd Font 16";
   transition: 200ms;
 
 }
@@ -185,14 +185,14 @@ progressbar {
 .widget-buttons-grid {
   font-size: 36px;
   padding: 6px 2px;
-  margin: 6px;
+  margin: 8px;
   border-radius: 10px;
   background: @background-alt;
 }
 
 .widget-buttons-grid>flowbox>flowboxchild>button {
   margin: 4px 10px;
-  padding: 6px 18px;
+  padding: 6px 26px;
   background: transparent;
   border-radius: 10px;
 }
@@ -201,55 +201,59 @@ progressbar {
   background: @hover;
 }
 
-
-  /* Music player */
+/* Music player */
 .widget-mpris {
-    background: @background-alt;
-    border-radius: 10px;
-    color: @text;
-    margin:  20px 6px;
+  background-color: @background-alt;
+  padding: 0px;  
+  margin: 8px;  
+  border-radius: 10px;
 }
 
-  /* NOTE: Background need *opacity 1* otherwise will turn into the album art blurred  */
 .widget-mpris-player {
-    background-color: @background-sec;
-    border-radius: 10px;
-    padding: 6px 14px;
-    margin: 6px;
-}
-
-.widget-mpris > box > button {
-  color: @text;
+  background-color: @background-sec;
+  padding: 8px;
+  padding-bottom: 0px;
+  margin: 0px;
   border-radius: 10px;
-}
- 
-.widget-mpris button {
-  color: alpha(@text, .6);
+  box-shadow: unset;
 }
 
-.widget-mpris button:hover {
-  color: @text;
+.widget-mpris .widget-mpris-player > box > button:hover {
+  background-color: @hover;
+  border-radius: 100%;
 }
 
-.widget-mpris-album-art {
-  border-radius: 10px;
-}
- 
 .widget-mpris-title {
-    font-weight: 700;
-    font-size: 1rem;
-}
- 
-.widget-mpris-subtitle {
-    font-weight: 500;
-    font-size: 0.8rem;
+  font-weight: bold;
+  font-size: 1.25rem;
 }
 
-/* Volume */
-.widget-volume {
-  background: @background-sec;
-  color: @background;
-  padding: 4px;
-  margin: 6px;
+.widget-mpris-subtitle {
+  font-size: 1.1rem;
+}
+
+/* Volume widget */
+trough highlight {
+  background-color: @text;
   border-radius: 10px;
+}
+
+scale trough {
+  background-color: transparent;
+  border: 4px solid @background;
+  border-radius: 10px;
+  padding: 0px;
+  min-height: 5px;
+  margin: 0 0 0 10px;
+}
+
+.widget-volume {
+  background-color: @background-alt;
+  border-radius: 10px;
+  font-size: 50px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin: 8px;
 }

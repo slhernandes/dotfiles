@@ -1,0 +1,58 @@
+[manager]
+ratio = [2, 7, 7]
+sort_by = "natural"
+sort_sensitive = true
+sort_reverse = false
+sort_dir_first = true
+sort_translit = true
+linemode = "none"
+show_hidden = true
+show_symlink = true
+scrolloff = 8
+# mouse_events
+title_format = "🦆: {cwd}"
+
+[preview]
+wrap = "no"
+tab_size = 4
+max_width = 836
+max_height = 1000
+# cache_dir = 
+# image_delay = 
+image_filter = "triangle"
+image_quality = 60
+# sixel_fraction
+ueberzug_scale = 1.25
+# ueberzug_offset = 
+
+[opener]
+play = [
+	{ run = 'mpv "$@"', orphan = true, for = "unix" },
+]
+edit = [
+	{ run = '$EDITOR "$@"', block = true, for = "unix" },
+]
+open = [
+	{ run = 'xdg-open "$@"', desc = "Open" },
+]
+
+[input]
+cursor_blink = true
+
+cd_origin = "bottom-left"
+create_origin = "bottom-left"
+rename_origin = "bottom-left"
+filter_origin = "bottom-left"
+find_origin = "bottom-left"
+search_origin = "bottom-left"
+shell_origin = "bottom-left"
+
+[[plugin.prepend_fetchers]]
+id = "git"
+name = "*"
+run = "git"
+
+[[plugin.prepend_fetchers]]
+id = "git"
+name = "*/"
+run = "git"

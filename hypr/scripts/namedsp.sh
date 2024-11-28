@@ -6,7 +6,7 @@ case $1 in
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "btop"
     else
-      wezterm start --class=btop_sp -e btop
+      hyprctl dispatch exec '[workspace special:btop]' 'wezterm start --class=btop_sp -e btop'
     fi
     ;;
   firefox)
@@ -14,7 +14,7 @@ case $1 in
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "firefox"
     else
-      firefox --name firefox_sp -P scratchpad --new-instance
+      hyprctl dispatch exec '[workspace special:firefox]' 'firefox --name=firefox_sp --new-instance -P scratchpad'
     fi
     ;;
   wezterm)
@@ -22,7 +22,7 @@ case $1 in
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "wezterm"
     else
-      wezterm start --class=wezterm_sp
+      hyprctl dispatch exec '[workspace special:wezterm]' 'wezterm start --class=wezterm_sp'
     fi
     ;;
   neomutt)
@@ -30,7 +30,7 @@ case $1 in
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "neomutt"
     else
-      wezterm start --class=neomutt_sp -e neomutt
+      hyprctl dispatch exec '[workspace special:neomutt]' 'wezterm start --class=neomutt_sp -e neomutt'
     fi
     ;;
   ytermusic)
@@ -38,7 +38,31 @@ case $1 in
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "ytermusic"
     else
-      wezterm start --class=ytermusic_sp -e ytermusic
+      hyprctl dispatch exec '[workspace special:ytermusic]' 'wezterm start --class=ytermusic_sp -e ytermusic'
+    fi
+    ;;
+  yazi)
+    workspace_name=$(hyprctl workspaces | grep "special:yazi")
+    if [ -n "$workspace_name" ]; then
+      hyprctl dispatch togglespecialworkspace "yazi"
+    else
+      hyprctl dispatch exec '[workspace special:yazi]' 'wezterm start --class=yazi_sp -e yazi'
+    fi
+    ;;
+  ferdium)
+    workspace_name=$(hyprctl workspaces | grep "special:ferdium")
+    if [ -n "$workspace_name" ]; then
+      hyprctl dispatch togglespecialworkspace "ferdium"
+    else
+      hyprctl dispatch exec '[workspace special:ferdium]' 'ferdium'
+    fi
+    ;;
+  termusic)
+    workspace_name=$(hyprctl workspaces | grep "special:music")
+    if [ -n "$workspace_name" ]; then
+      hyprctl dispatch togglespecialworkspace "music"
+    else
+      hyprctl dispatch exec '[workspace special:music]' 'wezterm start --class=music_sp -e termusic'
     fi
     ;;
   *)

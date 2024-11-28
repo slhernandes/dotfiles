@@ -1,5 +1,4 @@
 
-
 # XDG BASE DIRS
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_CONFIG_HOME=$HOME/.config
@@ -16,7 +15,7 @@ export ZSHRC=$XDG_CONFIG_HOME/zsh/.zshrc
 # general envs
 export CLANGD_FLAGS=""
 export MANPAGER='nvim +Man!'
-export EDITOR=vim
+export EDITOR=nvim
 
 # OMNeT++ env
 export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/opt/omnetpp/include

@@ -43,8 +43,8 @@ window#waybar {
 }
 
 #workspaces button.urgent {
-  background-color: #a96d1f;
-  color: white;
+  color: #a96d1f;
+  /*color: white;*/
 }
 
 #workspaces button:hover {
@@ -110,29 +110,35 @@ window#waybar {
   min-width:  140px;
 } */
 
-  #battery.warning {
-    color: rgba(255, 210, 4, 1);
-  }
+#battery.warning {
+  color: rgba(255, 210, 4, 1);
+}
 
-  #battery.critical {
-    color: rgba(238, 46, 36, 1);
-  }
+#battery.critical {
+  color: rgba(238, 46, 36, 1);
+}
 
-  #battery.charging {
-    color: rgba(217, 216, 216, 1);
-  }
+#battery.charging {
+  color: rgba(217, 216, 216, 1);
+}
 
-  #custom-storage.warning {
-    color: rgba(255, 210, 4, 1);
-  }
+#custom-storage.warning {
+  color: rgba(255, 210, 4, 1);
+}
 
-  #custom-storage.critical {
-    color: rgba(238, 46, 36, 1);
-  }
+#custom-storage.critical {
+  color: rgba(238, 46, 36, 1);
+}
 
-  @keyframes blink {
-    to {
-      background-color: #ffffff;
-      color: black;
-    }
+@keyframes blink {
+  to {
+    background-color: #ffffff;
+    color: black;
   }
+}
+#custom-logo {
+  background-image: url('~/.config/waybar/icons/arch-icon.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain; 
+}
