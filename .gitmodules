@@ -15,4 +15,4 @@
   url = https://github.com/wfxr/tmux-fzf-url.git
 [submodule "tmux/plugins/tmux-weather"]
   path = tmux/plugins/tmux-weather
-  url = https://github.com/ilya-manin/tmux-weather
+  url = https://github.com/aaronpowell/tmux-weather
