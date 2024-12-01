@@ -5,11 +5,11 @@ alias cdf='cd $(find -maxdepth 6 -type d | fzf --height=50% --border=rounded --m
 alias fortune="misfortune"
 alias ls="ls -A --color=auto"
 alias open="xdg-open"
+alias pump="prime-run wine ~/.local/share/wineprefixes/default/drive_c/users/samuelhernandes/pumpsanity/Program64/PumpSanity.exe"
 alias ranger="LC_ALL=C ranger"
 alias tlupdate="sudo env PATH=$PATH tlmgr update --all"
 alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
 alias vim="nvim"
-alias pump="prime-run wine ~/.local/share/wineprefixes/default/drive_c/users/samuelhernandes/pumpsanity/Program64/PumpSanity.exe"
 
 # completion style (case-insensitive)
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'

@@ -7,7 +7,7 @@
   // Choose the order of the modules
   "modules-left": ["custom/logo", "hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
-  "modules-right": ["tray", "pulseaudio", "battery", "memory", "clock"],
+  "modules-right": ["tray", "pulseaudio", "battery", "custom/weather", "custom/date", "clock"],
   "hyprland/window": {
     "format": "{title}",
     "rewrite": {
@@ -73,8 +73,13 @@
       "spacing": 10
   },
   "clock": {
-    "format": "{:%a, %d. %b %Y %H:%M:%S  }",
+    "format": " · {:%H:%M:%S  }",
     "interval": 1
+  },
+  "custom/date": {
+    "format": " · {}",
+    "exec": "~/.config/waybar/scripts/date.sh",
+    "restart-interval": 1,
   },
   "cpu": {
     "format": "{usage}% "
@@ -92,7 +97,7 @@
 
   "pulseaudio": {
       //"scroll-step": 1,
-      "format": "{volume}% {icon}",
+      "format": "· {volume}% <span size=\"large\">{icon}</span>",
       "format-bluetooth": "{volume}% {icon}",
       "format-muted": "",
       "ingored-sinks": "Easy Effects Sink",
@@ -125,10 +130,15 @@
   //  "on-click": "kitty bluetuith" 
   //},
   "custom/logo": {
-    "format": "  ",
+    "format": "<span size=\"x-large\">  </span>",
     "tooltip": false,
     "on-click": "rofi -show drun &",
     "on-click-right": "~/.local/bin/sddmenu &"
+  },
+  "custom/weather": {
+    "format": "· {}",
+    "exec": "~/.config/waybar/scripts/weather.sh",
+    "restart-interval": 900
   },
   "wlr/taskbar": {
     "format": "{icon} {title:.17}",
@@ -140,7 +150,8 @@
     "on-click": "activate"
   },
   "battery": {
-    "format": "{capacity}% {icon}",
+    "format": " · {capacity}% {icon}",
+    "format-discharging": " · {capacity}% {icon}",
     "format-icons": {
       "charging": [
         "󰢜",
@@ -167,12 +178,13 @@
         "󰁹"
       ]
     },
-    "format-full": "Charged ",
+    "format-full": " · Charged ",
     "interval": 10,
     "states": {
+      "full": 100,
       "warning": 20,
       "critical": 10
     },
     "tooltip": false
-  },
+  }
 }

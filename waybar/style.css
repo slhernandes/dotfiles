@@ -71,6 +71,7 @@ window#waybar {
 
 #pulseaudio {
   /* font-size: 26px; */
+  color: #bb9af7;
 }
 
 #custom-recorder {
@@ -85,7 +86,14 @@ window#waybar {
 
 }
 
-#tray,
+#tray {
+  border-left: 2px hidden #7aa2f7;
+  border-right: 2px hidden #7aa2f7;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-right: 4px;
+  border-radius: 10px;
+}
 #mode,
 #battery,
 #temperature,
@@ -95,7 +103,6 @@ window#waybar {
 #bluetooth {
   padding-right: 10px;
 }
-#pulseaudio,
 #idle_inhibitor,
 #sway-language,
 #backlight,
@@ -103,7 +110,12 @@ window#waybar {
 #custom-cpu_speed,
 #custom-powermenu,
 #custom-spotify,
-#custom-weather,
+#custom-weather {
+  color:  #7dcfff;
+}
+#custom-date {
+  color:  #e0af68;
+}
 #custom-mail,
 #custom-media {
   margin: 0px 0px 0px 10px;
@@ -111,10 +123,11 @@ window#waybar {
   /* border-top: 3px solid rgba(217, 216, 216, 0.5); */
 }
 
-/* #clock {
-  margin:     0px 16px 0px 10px;
-  min-width:  140px;
-} */
+#clock {
+/*  margin:     0px 16px 0px 10px;*/
+/*  min-width:  140px;*/
+  color: #7aa2f7;
+}
 
 #battery.warning {
   color: rgba(255, 210, 4, 1);
@@ -124,15 +137,16 @@ window#waybar {
   color: rgba(238, 46, 36, 1);
 }
 
-#battery.charging {
-  color: rgba(217, 216, 216, 1);
+#battery.full {
+  color: #9ece6a;
+  margin-right: -5px;
 }
 
-#custom-storage.warning {
+#battery.discharging.warning {
   color: rgba(255, 210, 4, 1);
 }
 
-#custom-storage.critical {
+#custom-storage.discharging.critical {
   color: rgba(238, 46, 36, 1);
 }
 

@@ -1,11 +1,12 @@
 #!/usr/bin/env zsh
 
 directories=(.config .config/nvim dotfiles Dokumente/ba/cqf-fp-simulation Dokumente/ba/cqf-fp-simulation/inet/src Dokumente/ba/workspace/ .local Dokumente Dokumente/advent Dokumente/notes Dokumente/ba Dokumente/tsn-testbed)
+apps=(termusic btop neomutt)
 
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/${^directories} -mindepth 1 -maxdepth 1 -type d | fzf)
+  selected=$(echo -n "$(find ~/${^directories} -mindepth 1 -maxdepth 1 -type d)""\n$(print -l ${apps})" | fzf)
 fi
 
 if [[ -z $selected ]]; then
@@ -14,14 +15,23 @@ fi
 
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
-
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s $selected_name -c $selected
-    exit 0
-fi
+app_running=0
 
 if ! tmux has-session -t=$selected_name 2> /dev/null; then
+  if (($apps[(Ie)$selected_name])); then
+    app_running=1
+    tmux new-session -ds $selected_name "$selected_name"
+  else
     tmux new-session -ds $selected_name -c $selected
+  fi
 fi
 
-tmux switch-client -t $selected_name
+if [ "$selected_name" = "termusic" ] && [ $app_running -eq 1 ]; then
+  tmux new-window -d "pause_at_start"
+fi
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+  tmux attach -t $selected_name
+else
+  tmux switch-client -t $selected_name
+fi
