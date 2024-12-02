@@ -74,12 +74,14 @@
   },
   "clock": {
     "format": " · {:%H:%M:%S  }",
+    "tooltip": false,
     "interval": 1
   },
   "custom/date": {
     "format": " · {}",
     "exec": "~/.config/waybar/scripts/date.sh",
-    "restart-interval": 1,
+    "tooltip": false,
+    "restart-interval": 1
   },
   "cpu": {
     "format": "{usage}% "
@@ -136,9 +138,14 @@
     "on-click-right": "~/.local/bin/sddmenu &"
   },
   "custom/weather": {
-    "format": "· {}",
+    "format": "· {}",
+    "return-type": "json",
     "exec": "~/.config/waybar/scripts/weather.sh",
-    "restart-interval": 900
+    //"exec-if": "~/.config/waybar/scripts/fetch_location.sh",
+    "exec-on-event": true,
+    "on-click": "~/.config/waybar/scripts/fetch_location.sh",
+    "tooltip": true,
+    "interval": 900
   },
   "wlr/taskbar": {
     "format": "{icon} {title:.17}",
@@ -185,6 +192,6 @@
       "warning": 20,
       "critical": 10
     },
-    "tooltip": false
+    "tooltip": true
   }
 }

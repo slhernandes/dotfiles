@@ -14,7 +14,9 @@ window#waybar {
   text-shadow: none;
   transition-duration: 0s;
   color: rgba(217, 216, 216, 1);
-  background: alpha(#1a1b26, .55); 
+  /*background: alpha(#1a1b26, .55);*/
+  background: alpha(#24283b, .55);
+
 } 
 
 #workspaces {
@@ -83,7 +85,7 @@ window#waybar {
 #custom-logo {
   font-size: 18px;
   color: #1793d0;
-
+  margin-right: -4px;
 }
 
 #tray {
@@ -112,6 +114,7 @@ window#waybar {
 #custom-spotify,
 #custom-weather {
   color:  #7dcfff;
+  margin-bottom: -1px;
 }
 #custom-date {
   color:  #e0af68;
@@ -140,6 +143,7 @@ window#waybar {
 #battery.full {
   color: #9ece6a;
   margin-right: -5px;
+  margin-bottom: -1px;
 }
 
 #battery.discharging.warning {
