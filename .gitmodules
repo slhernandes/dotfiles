@@ -6,7 +6,7 @@
   url = https://github.com/zsh-users/zsh-syntax-highlighting.git
 [submodule "nvim"]
   path = nvim
-  url = git@github.com:slhernandes/nvim_config.git
+  url = https://github.com/slhernandes/nvim_config.git
 [submodule "tmux/plugins/tpm"]
   path = tmux/plugins/tpm
   url = https://github.com/tmux-plugins/tpm
