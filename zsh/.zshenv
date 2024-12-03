@@ -87,6 +87,6 @@ export PIPX_HOME="$XDG_DATA_HOME"/pipx
 export PIPX_BIN_DIR="$HOME"/.local/bin
 
 # fcitx5 env
-GTK_IM_MODULE=fcitx
-QT_IM_MODULE=fcitx
-XMODIFIERS=@im=fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
