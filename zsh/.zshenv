@@ -10,7 +10,7 @@ export XDG_DOCUMENTS_DIR=$HOME/Dokumente
 export ZSHRC=$XDG_CONFIG_HOME/zsh/.zshrc
 
 # cargo env
-. "$XDG_DATA_HOME/cargo/env"
+# . "$XDG_DATA_HOME/cargo/env"
 
 # general envs
 export CLANGD_FLAGS=""
