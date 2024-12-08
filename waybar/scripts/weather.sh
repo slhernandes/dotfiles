@@ -1,6 +1,8 @@
 #!/bin/sh
 
-DEBUG=1
+SCRIPT_DIR=$(echo $0 | xargs realpath | xargs dirname)
+
+DEBUG=0
 if [ $DEBUG -eq 1 ]; then
   LOG_FILE="/tmp/weather.log"
 else
@@ -31,11 +33,13 @@ else
 fi
 
 if [ $EXIT_STATUS -ne 0 ]; then
-  WEATHER="Offline 󱓤"
-  TOOLTIP="Offline 󱓤"
+  WEATHER="$(head -n 1 $SCRIPT_DIR/weather_cache)"
+  TOOLTIP="$(tail -n 1 $SCRIPT_DIR/weather_cache) (cached)"
 else
   WEATHER=$(echo $WEATHER_TMP | awk -F"|" '{print $1}')
   TOOLTIP="$(echo $WEATHER_TMP | awk -F"|" '{print $2}') $TOOLTIP"
+  echo $WEATHER >  $SCRIPT_DIR/weather_cache
+  echo $TOOLTIP >> $SCRIPT_DIR/weather_cache
 fi
 
 echo "{\"text\":\"$WEATHER\",\"tooltip\":\"$TOOLTIP\"}"
