@@ -186,12 +186,14 @@
       ]
     },
     "format-full": " · Charged ",
-    "interval": 10,
+    "on-update": "~/.config/waybar/scripts/notify-battery.sh",
+    "interval": 5,
     "states": {
       "full": 100,
       "warning": 20,
       "critical": 10
     },
-    "tooltip": true
+    "tooltip": true,
+    "tooltip-format": "{power}W, {time}"
   }
 }

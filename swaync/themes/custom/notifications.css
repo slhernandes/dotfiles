@@ -2,7 +2,7 @@
 @define-color background-alt  @color1;
 @define-color selected        @color4;
 @define-color hover           @color5;
-@define-color urgent          @color2;
+@define-color urgent          @color1;
 
 * {
 
