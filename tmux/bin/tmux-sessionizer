@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 directories=(.config .config/nvim dotfiles Dokumente/ba/cqf-fp-simulation Dokumente/ba/cqf-fp-simulation/inet/src Dokumente/ba/workspace/ .local Dokumente Dokumente/advent Dokumente/notes Dokumente/ba Dokumente/tsn-testbed)
-apps=(termusic btop neomutt)
+apps=(termusic btop neomutt bluetuith)
 
 if [[ $# -eq 1 ]]; then
     selected=$1
