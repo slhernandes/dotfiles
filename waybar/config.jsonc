@@ -100,8 +100,8 @@
   "pulseaudio": {
       //"scroll-step": 1,
       "format": "· {volume}% <span size=\"large\">{icon}</span>",
-      "format-bluetooth": "{volume}% {icon}",
-      "format-muted": "",
+      "format-bluetooth": " · {volume}% 󰂯",
+      "format-muted": " · 󰝟",
       "ingored-sinks": "Easy Effects Sink",
       "ingored-sinks": "Renoir Radeon High Definition Audio Controller Digital Stereo (HDMI)",
       "format-icons": {
@@ -113,7 +113,8 @@
         "car": "",
         "default": ["", ""]
       },
-      "on-click": "kitty alsamixer"
+      "on-click": "~/.config/waybar/scripts/audio.py Sinks",
+      "on-click-right": "~/.config/waybar/scripts/audio.py Sources"
   },
   "wireplumber": {
     "format": "{icon}",
@@ -158,7 +159,7 @@
   },
   "battery": {
     "format": " · {capacity}% {icon}",
-    "format-plugged": " · {capacity}%  ",
+    "format-plugged": " · {capacity}% ",
     //"format-charging": " · {capacity}% <span font_desc='FiraCode Nerd Font'> </span>",
     "format-charging": " · {capacity}% ",
     "format-discharging": " · {capacity}% {icon}",
