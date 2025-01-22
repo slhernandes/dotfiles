@@ -18,7 +18,7 @@
       ".*pdf": "📘Zathura",
       "rofi.*": "🔍Rofi",
       "Steam": "🎮Steam"
-    }
+    },
   },
   "hyprland/workspaces": {
     "disable-scroll": true,
