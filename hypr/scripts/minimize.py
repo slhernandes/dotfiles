@@ -105,9 +105,9 @@ def maximizerofi():
             prop_name = j.split(": ")
             if prop_name[0].strip() == "class":
                 title += prop_name[1]
-                title += ": "
             elif prop_name[0].strip() == "title":
-                title += prop_name[1]
+                # Prevent rm -rf shenanigans
+                title = f"{title}: \"{prop_name[1][:14]}…\""
             elif prop_name[0].strip() == "pid":
                 pid = int(prop_name[1].strip())
         title = f"{title}, (pid: {pid})"
