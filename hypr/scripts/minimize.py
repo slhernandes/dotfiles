@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import sys
 import subprocess
 import argparse
@@ -24,7 +25,6 @@ def get_cur_workspace_prop():
             stderr=subprocess.PIPE
             )
     return output.stdout
-
 
 
 def move_window_to_special(pid):
@@ -83,6 +83,7 @@ def maximize(pid):
 
 
 def maximizerofi():
+    icons_dir = (os.getenv("XDG_CONFIG_HOME") + "/hypr/icons") or (os.getenv("HOME") + ".config/hypr/icons")
     minimized_wins = subprocess.run(
             "hyprctl clients | grep \'special:script_.*\' -A 8",
             shell=True,
@@ -92,6 +93,13 @@ def maximizerofi():
             )
     output = minimized_wins.stdout
     if output == '':
+        _ = subprocess.run(
+                f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
+                        \"Minimizer\" \"No minimized window\"\
+                        -h string:x-canonical-private-synchronous:test",
+                shell=True,
+                encoding="utf-8",
+                )
         return
     minimized_wins = output.split("--")
     title_pid_map = {}
@@ -123,6 +131,15 @@ def maximizerofi():
     pid = title_pid_map[output.stdout.strip()]
     if pid is not None:
         maximize(pid)
+    else:
+        _ = subprocess.run(
+                f"dunstify -r 818 -u low -i {icons_dir}/dialog-error.svg \
+                        \"Minimizer\" \"Window not found\"\
+                        -h string:x-canonical-private-synchronous:test",
+                shell=True,
+                encoding="utf-8",
+                )
+        exit(1)
 
 
 if __name__ == "__main__":
