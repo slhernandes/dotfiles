@@ -88,15 +88,6 @@ def restorerofi():
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             ).stdout)
-    if len(minimized_wins) == 0:
-        _ = subprocess.run(
-                f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
-                        \"Minimizer\" \"No minimized window\"\
-                        -h string:x-canonical-private-synchronous:test",
-                shell=True,
-                encoding="utf-8",
-                )
-        exit(0)
 
     title_pid_map = {}
     titles = []
@@ -108,20 +99,29 @@ def restorerofi():
         title = f"{win['class']}: \"{win['title'][:14]}…\", (pid: {pid})"
         titles.append(title)
         title_pid_map[title] = pid
+    if len(titles) == 0:
+        _ = subprocess.run(
+                f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
+                        \"Minimizer\" \"No minimized window\"\
+                        -h string:x-canonical-private-synchronous:test",
+                shell=True,
+                encoding="utf-8",
+                )
+        exit(0)
     output = subprocess.run(
             f"echo \'{"\n".join(titles)}\' | rofi -dmenu -no-custom -p restore:",
             shell=True,
             encoding="utf-8",
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            )
-    pid = title_pid_map[output.stdout.strip()]
-    if pid is not None:
+            ).stdout.strip()
+    if len(output) > 0:
+        pid = title_pid_map[output]
         restore(pid)
     else:
         _ = subprocess.run(
                 f"dunstify -r 818 -u low -i {icons_dir}/dialog-error.svg \
-                        \"Minimizer\" \"Window not found\"\
+                        \"Minimizer\" \"No Window is chosen.\"\
                         -h string:x-canonical-private-synchronous:test",
                 shell=True,
                 encoding="utf-8",
