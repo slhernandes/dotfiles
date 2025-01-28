@@ -13,6 +13,7 @@ alias vim="nvim"
 alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
 alias glg="git log --graph"
 alias glgo="git log --graph --oneline"
+alias glog="git log --graph --oneline"
 
 # completion style (case-insensitive)
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
