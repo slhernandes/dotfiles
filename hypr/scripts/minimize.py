@@ -47,7 +47,7 @@ def initiate_argparse():
     parser_restore = subparsers\
         .add_parser("restore",
                     help="Move selected window back to workspace")
-    parser_restore.add_argument("pid", type=int, help="pid of window")
+    parser_restore.add_argument("address", type=int, help="address of window")
 
     _ = subparsers.add_parser("restorerofi",
                               help="Use rofi to interactively restore window")
@@ -74,11 +74,11 @@ def minimize():
                 )
 
 
-def restore(pid):
+def restore(address):
     prop = get_cur_workspace_prop()
     _ = subprocess.run(
             ["hyprctl", "dispatch", "movetoworkspace",
-             f"{prop['id']},pid:{pid}"],
+             f"{prop['id']},address:{address}"],
             shell=False,
             encoding="utf-8",
             )
@@ -99,10 +99,11 @@ def restorerofi():
     for win in minimized_wins:
         if win['workspace']['name'] != "special:minimized":
             continue
-        pid = win['pid']
-        title = f"{win['class']}: \"{win['title'][:14]}…\", (pid: {pid})"
+        address = win['address']
+        title =\
+            f"{win['class']}: \"{win['title'][:14]}…\", (address: {address})"
         titles.append(title)
-        title_pid_map[title] = pid
+        title_pid_map[title] = address
     if len(titles) == 0:
         _ = subprocess.run(
                 f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
@@ -160,7 +161,7 @@ if __name__ == "__main__":
         case "minimize":
             minimize()
         case "restore":
-            restore(args.pid)
+            restore(args.address)
         case "restorerofi":
             restorerofi()
         case "info":

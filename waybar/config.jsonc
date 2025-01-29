@@ -153,9 +153,8 @@
     "format": "· {}  ",
     "return-type": "json",
     "exec": "~/.config/hypr/scripts/minimize.py info",
-    "exec-on-event": true,
-    "on-click": "~/.config/hypr/scripts/minimize.py restorerofi",
-    "on-click-right": "hyprctl dispatch togglespecialworkspace minimized",
+    "on-click": "~/.config/hypr/scripts/minimize.py restorerofi; pkill -SIGRTMIN+8 waybar",
+    "on-click-right": "hyprctl dispatch togglespecialworkspace minimized; pkill -SIGRTMIN+8 waybar",
     "tooltip": true,
     "signal": 8
     //"interval": 1
