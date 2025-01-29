@@ -7,7 +7,7 @@
   // Choose the order of the modules
   "modules-left": ["custom/logo", "hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
-  "modules-right": ["tray", "pulseaudio", "battery", "custom/weather", "custom/date", "clock"],
+  "modules-right": ["tray", "custom/minimize", "pulseaudio", "battery", "custom/weather", "custom/date", "clock"],
   "hyprland/window": {
     "format": "{title}",
     "rewrite": {
@@ -139,7 +139,7 @@
     "on-click-right": "~/.local/bin/sddmenu &"
   },
   "custom/weather": {
-    "format": "·  {}",
+    "format": "· {} ",
     "return-type": "json",
     "exec": "~/.config/waybar/scripts/weather.sh",
     //"exec-if": "~/.config/waybar/scripts/fetch_location.sh",
@@ -147,6 +147,15 @@
     "on-click": "~/.config/waybar/scripts/fetch_location.sh",
     "tooltip": true,
     "interval": 900
+  },
+  "custom/minimize": {
+    "format": "· {}  ",
+    "return-type": "json",
+    "exec": "~/.config/hypr/scripts/minimize.py info",
+    "on-click": "~/.config/hypr/scripts/minimize.py restorerofi",
+    "on-click-right": "hyprctl dispatch togglespecialworkspace minimized",
+    "tooltip": true,
+    "interval": 1
   },
   "wlr/taskbar": {
     "format": "{icon} {title:.17}",
