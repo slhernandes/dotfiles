@@ -37,6 +37,7 @@
       "8": "󰊗",
       "9": "󰙯",
       "magic": "❑",
+      "minimized": "",
       "btop": "",
       "neomutt": "",
       "wezterm": "",
@@ -152,10 +153,12 @@
     "format": "· {}  ",
     "return-type": "json",
     "exec": "~/.config/hypr/scripts/minimize.py info",
+    "exec-on-event": true,
     "on-click": "~/.config/hypr/scripts/minimize.py restorerofi",
     "on-click-right": "hyprctl dispatch togglespecialworkspace minimized",
     "tooltip": true,
-    "interval": 1
+    "signal": 8
+    //"interval": 1
   },
   "wlr/taskbar": {
     "format": "{icon} {title:.17}",
