@@ -32,7 +32,7 @@ else
   TOOLTIP="Current Location"
 fi
 
-if [ $EXIT_STATUS -ne 0 ]; then
+if [ $EXIT_STATUS -ne 0 ] || [ -n "$(echo $WEATHER_TMP | grep "Unknown")" ]; then
   WEATHER="$(head -n 1 $SCRIPT_DIR/weather_cache)"
   TOOLTIP="$(tail -n 1 $SCRIPT_DIR/weather_cache) (cached)"
 else
