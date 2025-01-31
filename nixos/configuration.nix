@@ -204,7 +204,14 @@
     })
   ];
 
-  nix.settings.auto-optimise-store = true;
+  nix.settings = {
+    auto-optimise-store = true;
+    experimental-features = [
+      "flakes"
+      "nix-command"
+    ];
+  };
+
   nix.gc = {
     automatic = true;
     dates = "daily";
