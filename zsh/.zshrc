@@ -78,7 +78,7 @@ set_win_title(){
  
 function yz() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	/usr/bin/yazi "$@" --cwd-file="$tmp"
+  $(which yazi) "$@" --cwd-file="$tmp"
 	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
 		builtin cd -- "$cwd"
 	fi
