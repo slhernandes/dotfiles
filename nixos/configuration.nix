@@ -149,6 +149,7 @@
     slurp
     ripgrep
     ruby
+    python3Full
     python312Packages.jupytext
     python312Packages.jupyter-client
     python312Packages.cairosvg
