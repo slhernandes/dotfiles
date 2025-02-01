@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports =
@@ -128,6 +128,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    unzip
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
@@ -167,7 +168,7 @@
     hypridle
     hyprpaper
     wl-clipboard
-    rofi
+    rofi-wayland
     dash
     fswatch
     playerctl
@@ -186,7 +187,9 @@
     swaynotificationcenter
     swww
     alsa-utils
+    hyprcursor
     (libsForQt5.callPackage ./tokyo-night-sddm/default.nix {})
+    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
   ];
 
   fonts.packages = with pkgs; [
