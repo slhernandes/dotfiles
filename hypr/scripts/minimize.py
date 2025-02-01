@@ -122,8 +122,8 @@ def restorerofi():
             stderr=subprocess.PIPE,
             ).stdout.strip()
     if len(output) > 0:
-        pid = title_pid_map[output]
-        restore(pid)
+        address = title_pid_map[output]
+        restore(address)
     else:
         _ = subprocess.run(
                 f"dunstify -r 818 -u low -i {icons_dir}/dialog-error.svg \
