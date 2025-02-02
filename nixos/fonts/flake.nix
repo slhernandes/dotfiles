@@ -12,7 +12,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system};
       in {
-        defaultPackage = pkgs.symlinkJoin {
+          defaultPackage = pkgs.symlinkJoin {
           name = "myfonts-0.1.4";
           paths = builtins.attrValues
             self.packages.${system}; # Add font derivation names here
@@ -56,7 +56,7 @@
           src = pkgs.fetchurl {
             url = "https://github.com/ya2s/nonicons/raw/refs/heads/master/dist/nonicons.ttf";
             hash = "sha256-25k4k7IUzmrYO1TF4ErDia1VT0vMxqQZuWviiesU1qc=";
-            stripRoot = false;
+            #stripRoot = false;
           };
           installPhase = ''
             mkdir -p $out/share/fonts
