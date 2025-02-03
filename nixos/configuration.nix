@@ -195,7 +195,8 @@
     hyprcursor
     (libsForQt5.callPackage ./tokyo-night-sddm/default.nix {})
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-    birghtnessctl
+    inputs.fonts.packages.${pkgs.system}.nonicons
+    brightnessctl
   ];
 
   fonts.packages = with pkgs; [

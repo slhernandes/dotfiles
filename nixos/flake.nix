@@ -4,7 +4,8 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-24.11";
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
-    fonts.url = "file://home/samuelhernandes/dotfiles/nixos/fonts";
+# temporary fonts url
+    fonts.url = "git+file:///home/samuelhernandes/fonts";
   };
 
   outputs = {self, nixpkgs, ...} @inputs: {
