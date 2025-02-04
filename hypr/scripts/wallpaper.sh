@@ -27,6 +27,12 @@ fi
 SUNRISE="06:00:00"
 SUNSET="18:00:00"
 MIDNIGHT=$(date -d 0 +%s)
+# Use hard-coded path for wallpapers
+# WP_DARK="$SCRIPT_DIR/../wallpapers/sequoia_bg.jpg"
+# WP_LIGHT="$SCRIPT_DIR/../wallpapers/custom_bg.png"
+# Use first(dark) and second(light) entry of hyprpaper (preload first in hyprpaper.conf)
+WP_DARK=$(hyprctl hyprpaper listloaded | sed -n "1p")
+WP_LIGHT=$(hyprctl hyprpaper listloaded | sed -n "2p")
 
 TMP=$(timeout 1s curl wttr.in/\?format='%S')
 if [ "$?" -eq 0 ]; then

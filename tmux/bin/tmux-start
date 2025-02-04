@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/usr/bin/env dash
 
 tmux has-session -t master || tmux new-session -ds master -c ~/
 

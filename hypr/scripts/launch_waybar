@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 CONFIG_FILES="$HOME/.config/waybar/config.jsonc $HOME/.config/waybar/style.css"
 
@@ -6,6 +6,6 @@ trap "killall waybar" EXIT
 
 waybar &
 fswatch --event Updated $CONFIG_FILES | while read STDOUT; do
-    killall waybar
+    pgrep waybar | xargs kill
     waybar &
 done
