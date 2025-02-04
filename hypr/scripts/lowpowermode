@@ -6,12 +6,16 @@
 
 MODE_FILE=/tmp/lpmmode
 icon_name=$XDG_CONFIG_HOME/hypr/icons/low-bat.png
+G14=1
 
 on() {
   hyprctl keyword decoration:blur:enabled false
   hyprctl keyword decoration:shadow:enabled false
   hyprctl keyword animations:enabled false
   hyprctl keyword misc:vfr true
+  if [ $G14 -eq 1 ]; then
+    asusctl anime -b Off
+  fi
   dunstify "Low Power Mode" "on" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test
   echo on > $MODE_FILE
 }
@@ -21,6 +25,10 @@ off() {
   hyprctl keyword decoration:shadow:enabled true
   hyprctl keyword animations:enabled true
   hyprctl keyword misc:vfr false
+  if [ $G14 -eq 1 ]; then
+    asusctl anime -b Low
+    asusctl anime gif -p $XDG_CONFIG_HOME/hypr/asus_anime/pikachu_running.gif -l 0 &
+  fi
   dunstify "Low Power Mode" "off" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test
   echo off > $MODE_FILE
 }
