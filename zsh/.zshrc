@@ -1,13 +1,6 @@
 # aliases
-alias alert_fail='notify-send --urgency=critical -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias cdf='cd $(find -maxdepth 6 -type d | fzf --height=50% --border=rounded --margin 5% --padding 5% --tmux=center)'
-alias fortune="misfortune"
+alias cdf='cd $(find -maxdepth 6 -type d | fzf --height=50% --border=rounded --margin 5% --padding 5%)'
 alias ls="ls -A --color=auto"
-alias open="xdg-open"
-alias pump="prime-run wine ~/.local/share/wineprefixes/default/drive_c/users/samuelhernandes/pumpsanity/Program64/PumpSanity.exe"
-alias ranger="LC_ALL=C ranger"
-alias tlupdate="sudo env PATH=$PATH tlmgr update --all"
 alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
 alias vim="nvim"
 alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
@@ -56,16 +49,6 @@ fi
 if [ "$TERM" = "xterm-kitty" ]; then
   alias ssh="kitty +kitten ssh"
 fi
-
-if [ -z "$WAYLAND_DISPLAY" ]; then
-  xset r rate 150 50
-fi
-
-if [ -f /etc/bash.command-not-found ]; then
-    . /etc/bash.command-not-found
-fi
-
-amixer -c 2 sset 'Mic Boost',0 0 &> /dev/null
 
 voteaur(){
   ssh aur@aur.archlinux.org vote $1
