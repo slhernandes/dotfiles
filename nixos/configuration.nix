@@ -43,7 +43,6 @@
     "1.0.0.1"
   ];
 
-
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
@@ -196,6 +195,9 @@
     (libsForQt5.callPackage ./tokyo-night-sddm/default.nix {})
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     brightnessctl
+    xdg-user-dirs
+    jq
+    swappy
   ];
 
   fonts.packages = with pkgs; [

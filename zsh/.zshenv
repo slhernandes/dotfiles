@@ -26,8 +26,9 @@ export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:$XDG_DOCUMENTS_DIR/ba/cqf-fp-simul
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/Dokumente/srcs/omnetpp-6.0.2/lib
 
 # go directory
+export GOPATH="$XDG_DATA_HOME"/go
 export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:$HOME/go/bin
+export PATH=$PATH:$GOPATH/bin
 
 # local scripts directory
 export PATH=$PATH:$HOME/.local/bin
@@ -90,3 +91,28 @@ export PIPX_BIN_DIR="$HOME"/.local/bin
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
+
+# android env
+export ANDROID_USER_HOME="$XDG_DATA_HOME"/android
+
+# node env
+export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
+
+# parallel env
+export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
+
+# python env
+export PYTHONSTARTUP="$HOME"/python/pythonrc
+
+# tex env
+export TEXMFVAR="$XDG_CACHE_HOME"/texlive/texmf-var
+
+# X11 env
+export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
+export ERRFILE="$XDG_CACHE_HOME"/X11/xsession-errors
+
+# zoom env
+export SSB_HOME="$XDG_DATA_HOME"/zoom
+
+# jupyter env
+export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter

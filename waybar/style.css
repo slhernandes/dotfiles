@@ -116,6 +116,10 @@ window#waybar {
   color:  #7dcfff;
   margin-bottom: -1px;
 }
+#custom-minimize {
+  color:  #f7768e;
+  margin-bottom: -1px;
+}
 #custom-date {
   color:  #e0af68;
 }

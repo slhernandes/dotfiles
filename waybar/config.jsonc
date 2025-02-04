@@ -7,7 +7,7 @@
   // Choose the order of the modules
   "modules-left": ["custom/logo", "hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
-  "modules-right": ["tray", "pulseaudio", "battery", "custom/weather", "custom/date", "clock"],
+  "modules-right": ["tray", "custom/minimize", "pulseaudio", "battery", "custom/weather", "custom/date", "clock"],
   "hyprland/window": {
     "format": "{title}",
     "rewrite": {
@@ -18,7 +18,7 @@
       ".*pdf": "📘Zathura",
       "rofi.*": "🔍Rofi",
       "Steam": "🎮Steam"
-    }
+    },
   },
   "hyprland/workspaces": {
     "disable-scroll": true,
@@ -37,6 +37,7 @@
       "8": "󰊗",
       "9": "󰙯",
       "magic": "❑",
+      "minimized": "",
       "btop": "",
       "neomutt": "",
       "wezterm": "",
@@ -100,8 +101,8 @@
   "pulseaudio": {
       //"scroll-step": 1,
       "format": "· {volume}% <span size=\"large\">{icon}</span>",
-      "format-bluetooth": "{volume}% {icon}",
-      "format-muted": "",
+      "format-bluetooth": " · {volume}% 󰂯",
+      "format-muted": " · 󰝟",
       "ingored-sinks": "Easy Effects Sink",
       "ingored-sinks": "Renoir Radeon High Definition Audio Controller Digital Stereo (HDMI)",
       "format-icons": {
@@ -113,7 +114,8 @@
         "car": "",
         "default": ["", ""]
       },
-      "on-click": "kitty alsamixer"
+      "on-click": "~/.config/waybar/scripts/audio.py Sinks",
+      "on-click-right": "~/.config/waybar/scripts/audio.py Sources"
   },
   "wireplumber": {
     "format": "{icon}",
@@ -138,7 +140,7 @@
     "on-click-right": "~/.local/bin/sddmenu &"
   },
   "custom/weather": {
-    "format": "· {}",
+    "format": "· {} ",
     "return-type": "json",
     "exec": "~/.config/waybar/scripts/weather.sh",
     //"exec-if": "~/.config/waybar/scripts/fetch_location.sh",
@@ -146,6 +148,16 @@
     "on-click": "~/.config/waybar/scripts/fetch_location.sh",
     "tooltip": true,
     "interval": 900
+  },
+  "custom/minimize": {
+    "format": "· {}  ",
+    "return-type": "json",
+    "exec": "~/.config/hypr/scripts/minimize.py info",
+    "on-click": "~/.config/hypr/scripts/minimize.py restorerofi; pkill -SIGRTMIN+8 waybar",
+    "on-click-right": "hyprctl dispatch togglespecialworkspace minimized; pkill -SIGRTMIN+8 waybar",
+    "tooltip": true,
+    "signal": 8
+    //"interval": 1
   },
   "wlr/taskbar": {
     "format": "{icon} {title:.17}",
@@ -158,7 +170,15 @@
   },
   "battery": {
     "format": " · {capacity}% {icon}",
+<<<<<<< HEAD
+    "format-plugged": " · {capacity}% ",
+=======
+    "format-plugged": " · {capacity}%  ",
+>>>>>>> 51128a3 (Fix hypridle locking commands and waybar battery modules)
+    //"format-charging": " · {capacity}% <span font_desc='FiraCode Nerd Font'> </span>",
+    "format-charging": " · {capacity}% ",
     "format-discharging": " · {capacity}% {icon}",
+    "format-full": " · Charged ",
     "format-icons": {
       "charging": [
         "󰢜",
@@ -185,13 +205,14 @@
         "󰁹"
       ]
     },
-    "format-full": " · Charged ",
-    "interval": 10,
+    "on-update": "~/.config/waybar/scripts/notify-battery.sh",
+    "interval": 5,
     "states": {
       "full": 100,
       "warning": 20,
       "critical": 10
     },
-    "tooltip": true
+    "tooltip": true,
+    "tooltip-format": "{power}W, {time}"
   }
 }

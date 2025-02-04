@@ -3,6 +3,9 @@ alias cdf='cd $(find -maxdepth 6 -type d | fzf --height=50% --border=rounded --m
 alias ls="ls -A --color=auto"
 alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
 alias vim="nvim"
+alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
+alias glgo="git log --graph --oneline"
+alias glog="git log --graph --oneline"
 
 # completion style (case-insensitive)
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
@@ -46,10 +49,6 @@ if [ "$TERM" = "xterm-kitty" ]; then
   alias ssh="kitty +kitten ssh"
 fi
 
-# if [ -z "$WAYLAND_DISPLAY" ]; then
-#   xset r rate 150 50
-# fi
-
 voteaur(){
   ssh aur@aur.archlinux.org vote $1
 }
@@ -60,7 +59,7 @@ mkcdir(){
 }
 
 weather(){
-  curl wttr.in/$1
+  curl v2.wttr.in/$1
 }
 
 rr(){
@@ -83,6 +82,10 @@ function yz() {
 		builtin cd -- "$cwd"
 	fi
 	rm -f -- "$tmp"
+}
+
+function chtsh() {
+  curl cht.sh/$1 | less -R
 }
 
 # opam configuration
