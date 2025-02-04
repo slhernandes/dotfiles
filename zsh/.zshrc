@@ -4,7 +4,6 @@ alias ls="ls -A --color=auto"
 alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
 alias vim="nvim"
 alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings"
-alias glg="git log --graph"
 alias glgo="git log --graph --oneline"
 alias glog="git log --graph --oneline"
 

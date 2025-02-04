@@ -201,6 +201,7 @@
         "󰁹"
       ]
     },
+    "format-full": " · Charged ",
     "on-update": "~/.config/waybar/scripts/notify-battery.sh",
     "interval": 5,
     "states": {
