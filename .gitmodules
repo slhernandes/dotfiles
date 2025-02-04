@@ -8,5 +8,11 @@
   path = nvim
   url = https://github.com/slhernandes/nvim_config.git
 [submodule "tmux/plugins/tpm"]
-	path = tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm.git
+  path = tmux/plugins/tpm
+  url = https://github.com/tmux-plugins/tpm
+[submodule "tmux/plugins/tmux-fzf-url"]
+  path = tmux/plugins/tmux-fzf-url
+  url = https://github.com/wfxr/tmux-fzf-url.git
+[submodule "tmux/plugins/tmux-weather"]
+  path = tmux/plugins/tmux-weather
+  url = https://github.com/aaronpowell/tmux-weather
