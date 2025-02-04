@@ -24,17 +24,17 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1738626708,
-        "narHash": "sha256-wPsv/0krOGPlUsUhyVAXSwcCM+Ejqv3sRYi4FLtNJwo=",
-        "ref": "refs/heads/master",
-        "rev": "b629570715e954908ed6fad3ce84f96be236dd72",
-        "revCount": 2,
-        "type": "git",
-        "url": "file:///home/samuelhernandes/fonts"
+        "lastModified": 1738629930,
+        "narHash": "sha256-GYSE5AsF9N2bA3bIW4qUZDpnHBISXpagYd0Wgu62tLA=",
+        "owner": "slhernandes",
+        "repo": "fonts",
+        "rev": "033ae73eb69991cd9ae4b581ecd3f3a5777d3545",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/samuelhernandes/fonts"
+        "owner": "slhernandes",
+        "repo": "fonts",
+        "type": "github"
       }
     },
     "hyprlang": {
