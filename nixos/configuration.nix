@@ -195,7 +195,6 @@
     hyprcursor
     (libsForQt5.callPackage ./tokyo-night-sddm/default.nix {})
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-    inputs.fonts.packages.${pkgs.system}.nonicons
     brightnessctl
   ];
 
@@ -206,6 +205,7 @@
     liberation_ttf
     fira-code
     fira-code-symbols
+    inputs.fonts.packages.${pkgs.system}.nonicons
     (nerdfonts.override {
       fonts = [
         "FiraCode"
