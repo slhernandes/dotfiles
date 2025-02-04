@@ -225,7 +225,7 @@
   nix.gc = {
     automatic = true;
     dates = "daily";
-    options = "--delete-older-than +3";
+    options = "--delete-older-than 3d";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
