@@ -67,6 +67,21 @@ local function set_binding(config)
       mods = 'LEADER',
       action = act.ActivateCopyMode,
     },
+    {
+      key = 'z',
+      mods = 'LEADER',
+      action = act.ToggleFullScreen
+    },
+    {
+      key = 'x',
+      mods = 'LEADER',
+      action = act.CloseCurrentPane { confirm = false },
+    },
+    {
+      key = '&',
+      mods = 'LEADER | SHIFT',
+      action = act.CloseCurrentTab { confirm = false },
+    },
   }
 end
 

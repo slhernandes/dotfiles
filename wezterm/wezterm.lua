@@ -10,11 +10,11 @@ local config = {
   color_scheme = 'Tokyo Night Storm',
   initial_rows = 47,
   initial_cols = 191,
-  enable_wayland = true
+  enable_wayland = false
 }
 
 local projects = {
-  "~/.config",
+  "~/dotfiles",
   "~/Dokumente",
   "~/Dokumente/srcs",
   "~/Dokumente/tsn-testbed",
