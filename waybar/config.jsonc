@@ -170,7 +170,11 @@
   },
   "battery": {
     "format": " · {capacity}% {icon}",
+<<<<<<< HEAD
     "format-plugged": " · {capacity}% ",
+=======
+    "format-plugged": " · {capacity}%  ",
+>>>>>>> 51128a3 (Fix hypridle locking commands and waybar battery modules)
     //"format-charging": " · {capacity}% <span font_desc='FiraCode Nerd Font'> </span>",
     "format-charging": " · {capacity}% ",
     "format-discharging": " · {capacity}% {icon}",
@@ -201,7 +205,6 @@
         "󰁹"
       ]
     },
-    "format-full": " · Charged ",
     "on-update": "~/.config/waybar/scripts/notify-battery.sh",
     "interval": 5,
     "states": {
