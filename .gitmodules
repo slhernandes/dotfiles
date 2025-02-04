@@ -16,3 +16,6 @@
 [submodule "tmux/plugins/tmux-weather"]
   path = tmux/plugins/tmux-weather
   url = https://github.com/aaronpowell/tmux-weather
+[submodule "yazi/flavors/tokyo-night.yazi"]
+	path = yazi/flavors/tokyo-night.yazi
+	url = https://github.com/BennyOe/tokyo-night.yazi
