@@ -204,6 +204,7 @@
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
+    cascadia-code
     liberation_ttf
     fira-code
     fira-code-symbols
