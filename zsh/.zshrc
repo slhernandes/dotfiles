@@ -129,6 +129,6 @@ PLUG=$ZSH_DIR/plugins
 # source $PLUG/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 source $PLUG/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 # source $PLUG/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-source $PLUG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $PLUG/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 typeset -aU path

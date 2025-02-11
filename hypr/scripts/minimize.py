@@ -47,7 +47,8 @@ def initiate_argparse():
     parser_restore = subparsers\
         .add_parser("restore",
                     help="Move selected window back to workspace")
-    parser_restore.add_argument("address", type=int, help="address of window")
+    parser_restore.add_argument("address",
+                                type=str, help="address of window (0x…)")
 
     _ = subparsers.add_parser("restorerofi",
                               help="Use rofi to interactively restore window")
