@@ -73,6 +73,7 @@ prompt {
 
 listview {
   lines: 8;
+  dynamic: true;
 }
 
 element {
