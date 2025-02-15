@@ -1,0 +1,6 @@
+#!/bin/sh
+
+SCRIPT_DIR=$(realpath $0 | xargs dirname)
+
+pidof waybar | xargs kill
+$SCRIPT_DIR/launch_waybar

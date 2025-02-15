@@ -38,8 +38,8 @@ end
 local function set_fonts(config)
   config.font = wezterm.font_with_fallback {
     'Fira Code',
-    'FiraCode Nerd Font Mono',
     'nonicons',
+    'FiraCode Nerd Font Mono',
     'Hasklug Nerd Font',
     'Noto Color Emoji',
   }

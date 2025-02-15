@@ -36,6 +36,14 @@ def move_window_to_special():
             )
 
 
+def screenshot_active(file):
+    _ = subprocess.run(
+            ["grimblast", "save", "active", file],
+            shell=False,
+            encoding="utf-8",
+            )
+
+
 def initiate_argparse():
     parser = argparse.ArgumentParser(
             description="A script to minimize and restore hyprland window")
@@ -62,8 +70,14 @@ def initiate_argparse():
 def minimize():
     icons_dir = (os.getenv("XDG_CONFIG_HOME") + "/hypr/icons")\
             or (os.getenv("HOME") + ".config/hypr/icons")
+    screenshot_dir = "/tmp/minimize"
+    if not os.path.isdir(screenshot_dir):
+        os.mkdir(screenshot_dir)
     prop = get_cur_window_prop()
     if len(prop) != 0:
+        screenshot_file = f"{screenshot_dir}/{prop['address']}.png"
+        print(screenshot_file)
+        screenshot_active(screenshot_file)
         move_window_to_special()
     else:
         _ = subprocess.run(
@@ -88,6 +102,7 @@ def restore(address):
 def restorerofi():
     icons_dir = (os.getenv("XDG_CONFIG_HOME") + "/hypr/icons")\
             or (os.getenv("HOME") + ".config/hypr/icons")
+    screenshot_dir = "/tmp/minimize"
     minimized_wins = json.loads(subprocess.run(
             ["hyprctl", "clients", "-j"],
             encoding="utf-8",
@@ -95,17 +110,16 @@ def restorerofi():
             stderr=subprocess.PIPE,
             ).stdout)
 
-    title_pid_map = {}
-    titles = []
+    address_title_map = {}
+    addresses = []
     for win in minimized_wins:
         if win['workspace']['name'] != "special:minimized":
             continue
         address = win['address']
-        title =\
-            f"{win['class']}: \"{win['title'][:14]}…\", (address: {address})"
-        titles.append(title)
-        title_pid_map[title] = address
-    if len(titles) == 0:
+        title = win['class']
+        addresses.append(address)
+        address_title_map[address] = title
+    if len(addresses) == 0:
         _ = subprocess.run(
                 f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
                         \"Minimizer\" \"No minimized window\"\
@@ -114,16 +128,24 @@ def restorerofi():
                 encoding="utf-8",
                 )
         exit(0)
+
+    rofi_string = ""
+    for address in addresses:
+        rofi_string += address_title_map[address]
+        rofi_string +=\
+            fr"\0icon\x1f{screenshot_dir}/{address}.png\n"
+
     output = subprocess.run(
-            f"echo \'{"\n".join(titles)}\'\
-              | rofi -dmenu -no-custom -p restore:",
+            # f"echo \'{"\n".join(titles)}\'\
+            #   | rofi -dmenu -l {min(8, len(titles))} -no-custom -p restore:",
+            fr'''echo -en "{rofi_string}" |\
+              rofi -dmenu -theme "~/.config/rofi/themes/listview.rasi"''',
             shell=True,
             encoding="utf-8",
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             ).stdout.strip()
     if len(output) > 0:
-        address = title_pid_map[output]
         restore(address)
     else:
         _ = subprocess.run(

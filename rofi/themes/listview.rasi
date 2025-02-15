@@ -1,0 +1,108 @@
+/* config - Wallpaper select */
+
+* {
+  background-color: transparent;
+}
+
+
+configuration {
+    modi:                        "drun";
+    show-icons:                  true;
+  	drun-display-format:         "{name}";
+    hover-select:                true;
+    font:                        "Noto Sans CJK JP 12";
+}
+/* Config and colors ----------------------------------------------- */
+
+@import "tokyonight2.rasi"
+
+/* Main Window ------------------------------------------------ */
+window {
+    width:                       65%;
+    margin:                      0px;
+    padding:                     0px;
+    location:                    center;
+    anchor:                      center;
+    background-color:            transparent;
+}
+
+/* Main Box --------------------------------------------------- */
+mainbox {
+    children:                    [ "listview" ];
+
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     0px;
+    background-color:            @bg;
+    text-color:                  transparent;
+}
+
+/* ---- List ---- */
+listview {
+    columns:                     3;
+    lines:                       2;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               false;
+
+    background-color:            @bg;
+    text-color:                  transparent;
+
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     0px;
+}
+
+/* Elements --------------------------------------------------- */
+element {
+    cursor:                      pointer;
+    border-radius:               10px;
+    background-color:            transparent;
+    text-color:                  transparent;
+    orientation:                 vertical;
+
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     2px;
+}
+
+element.selected {
+    cursor:                      pointer;
+    border-radius:               10px;
+    background-color:            @bg-alt;
+    text-color:                  @fg-alt;
+    orientation:                 vertical;
+    text-outline:                transparent;
+
+    spacing:                     0px;
+    margin:                      0px;
+    padding:                     0px;
+}
+
+element-icon {
+    expand:                      false;
+    background-color:            transparent;
+    text-color:                  @bg;
+    size:                        35%;
+    cursor:                      pointer;
+}
+
+element-icon.selected {
+    expand:                      false;
+    background-color:            transparent;
+    text-color:                  @bg;
+    size:                        35%;
+    cursor:                      pointer;
+}
+
+element-text {
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+    background-color:            transparent;
+    text-color:                  @fg;
+    text-outline:                transparent;
+}

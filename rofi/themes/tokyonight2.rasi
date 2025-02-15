@@ -33,10 +33,10 @@ configuration {
   padding: 0;
   spacing: 0;
 
-  bg: #1a1b26;
-  bg-alt: #232433;
-  fg: #6a6f87;
-  fg-alt: #a9b1d6;
+  bg: #1a1b269f;
+  bg-alt: #2324339f;
+  fg: #6a6f879f;
+  fg-alt: #a9b1d69f;
 
   background-color: @bg;
   text-color: @fg;
@@ -47,10 +47,13 @@ window {
   width: 700px;
   location: southwest;
   anchor: southwest;
+  padding: 6px;
+  background-color: transparent;
 }
 
 mainbox {
   children: [inputbar, listview];
+  border-radius: 10px;
 }
 
 inputbar {
