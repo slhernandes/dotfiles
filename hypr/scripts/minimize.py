@@ -111,6 +111,7 @@ def restorerofi():
             ).stdout)
 
     address_title_map = {}
+    title_address_map = {}
     addresses = []
     for win in minimized_wins:
         if win['workspace']['name'] != "special:minimized":
@@ -118,7 +119,9 @@ def restorerofi():
         address = win['address']
         title = win['class']
         addresses.append(address)
+        title = title + ' (' + address[2:] + ')'
         address_title_map[address] = title
+        title_address_map[title] = address
     if len(addresses) == 0:
         _ = subprocess.run(
                 f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
@@ -146,7 +149,7 @@ def restorerofi():
             stderr=subprocess.PIPE,
             ).stdout.strip()
     if len(output) > 0:
-        restore(address)
+        restore(title_address_map[output])
     else:
         _ = subprocess.run(
                 f"dunstify -r 818 -u low -i {icons_dir}/dialog-error.svg \
