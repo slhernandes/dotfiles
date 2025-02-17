@@ -130,6 +130,7 @@ def restorerofi():
         title = title + ' (' + address[2:] + ')'
         address_title_map[address] = title
         title_address_map[title] = address
+
     if len(addresses) == 0:
         _ = subprocess.run(
                 f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
@@ -140,6 +141,9 @@ def restorerofi():
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 )
+        exit(0)
+    elif len(addresses) == 1:
+        restore(addresses[0])
         exit(0)
 
     rofi_string = ""
