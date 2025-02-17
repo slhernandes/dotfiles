@@ -6,7 +6,7 @@ apps=(termusic btop neomutt bluetuith yazi)
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-  selected=$(echo -n "$(find ~/${^directories} -mindepth 1 -maxdepth 1 -type d)""\n$(print -l ${apps})" | fzf)
+  selected=$(echo -n "$(find ~/${^directories} -mindepth 1 -maxdepth 1 -type d)""\n$(print -l ${apps})" | fzf --tmux=center,95%,95%)
 fi
 
 if [[ -z $selected ]]; then

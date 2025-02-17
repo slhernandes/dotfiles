@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 import subprocess
 import argparse
 import json
@@ -33,6 +34,8 @@ def move_window_to_special():
              "movetoworkspacesilent", "special:minimized"],
             shell=False,
             encoding="utf-8",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
             )
 
 
@@ -41,6 +44,8 @@ def screenshot_active(file):
             ["grimblast", "save", "active", file],
             shell=False,
             encoding="utf-8",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
             )
 
 
@@ -76,7 +81,6 @@ def minimize():
     prop = get_cur_window_prop()
     if len(prop) != 0:
         screenshot_file = f"{screenshot_dir}/{prop['address']}.png"
-        print(screenshot_file)
         screenshot_active(screenshot_file)
         move_window_to_special()
     else:
@@ -86,6 +90,8 @@ def minimize():
                         -h string:x-canonical-private-synchronous:test",
                 shell=True,
                 encoding="utf-8",
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 )
 
 
@@ -96,6 +102,8 @@ def restore(address):
              f"{prop['id']},address:{address}"],
             shell=False,
             encoding="utf-8",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             )
 
 
@@ -129,6 +137,8 @@ def restorerofi():
                         -h string:x-canonical-private-synchronous:test",
                 shell=True,
                 encoding="utf-8",
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 )
         exit(0)
 

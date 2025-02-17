@@ -116,3 +116,17 @@ export SSB_HOME="$XDG_DATA_HOME"/zoom
 
 # jupyter env
 export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
+
+# fzf env
+export FZF_DEFAULT_OPTS="--tmux=center,50%,60% --multi -0 --no-preview --info=hidden --pointer → --color \"prompt:#7aa2f7,pointer:#7aa2f7\""
+# Preview file content using bat (https://github.com/sharkdp/bat)
+export FZF_CTRL_T_OPTS="
+  --tmux=center,70%,80%
+  --walker-skip .git,node_modules,target,plugins,plugin
+  --preview 'bat -n --color=always {}'
+  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+  # Print tree structure in the preview window
+export FZF_ALT_C_OPTS="
+  --tmux=center,70%,80%
+  --walker-skip .git,node_modules,target
+  --preview 'tree -C {}'"

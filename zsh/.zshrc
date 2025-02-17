@@ -1,7 +1,7 @@
 # aliases
 alias alert_fail='notify-send --urgency=critical -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias cdf='cd $(find -maxdepth 6 -type d | fzf --height=50% --border=rounded --margin 5% --padding 5% --tmux=center)'
+alias cdf='cd $(find -maxdepth 6 -type d | fzf --prompt "cd to: ")'
 alias fortune="misfortune"
 alias ls="ls -A --color=auto"
 alias open="xdg-open"
@@ -44,10 +44,10 @@ setopt HIST_FIND_NO_DUPS
 # fzf shell integration
 eval "$(fzf --zsh)"
 
-if [ "$TMUX" != "" ]; then
-  export TERM="screen-256color"
-  # export TERM="kitty"
-fi
+# if [ "$TMUX" != "" ]; then
+#   export TERM="screen-256color"
+#   export TERM="kitty"
+# fi
 
 if [ -z "$NVIM" ]; then
   fastfetch --logo-width 37 --logo-height 19
@@ -107,19 +107,21 @@ function chtsh() {
 }
 
 # opam configuration
-[[ ! -r $HOME/.opam/opam-init/init.zsh ]] || source $HOME/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+# [[ ! -r $HOME/.opam/opam-init/init.zsh ]] || source $HOME/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
 # ghcup-env
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" 
 
-#OMNeT++ env
-#[ -f "$HOME/Dokumente/srcs/omnetpp-6.0.3/setenv" ] && source "$HOME/Dokumente/srcs/omnetpp-6.0.3/setenv" > /dev/null 2> /dev/null
+# OMNeT++ env
+# [ -f "$HOME/Dokumente/srcs/omnetpp-6.0.3/setenv" ] && source "$HOME/Dokumente/srcs/omnetpp-6.0.3/setenv" > /dev/null 2> /dev/null
 
-#inet env
-#[ -f "$HOME/Dokumente/ba/cqf-fp-simulation/inet/setenv" ] && source "$HOME/Dokumente/ba/cqf-fp-simulation/inet/setenv" > /dev/null
+# inet env
+# [ -f "$HOME/Dokumente/ba/cqf-fp-simulation/inet/setenv" ] && source "$HOME/Dokumente/ba/cqf-fp-simulation/inet/setenv" > /dev/null
 
-#enable starship prompt
-eval "$(starship init zsh)"
+# enable starship prompt conditionally
+type starship_zle-keymap-select > /dev/null || {
+  eval "$(starship init zsh)"
+}
 precmd_functions+=(set_win_title)
 setopt TRANSIENT_RPROMPT
 
