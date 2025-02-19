@@ -1,7 +1,6 @@
 # aliases
 alias alert_fail='notify-send --urgency=critical -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias cdf='cd $(find -maxdepth 6 -type d | fzf --prompt "cd to: ")'
 alias fortune="misfortune"
 alias ls="ls -A --color=auto"
 alias open="xdg-open"
@@ -66,6 +65,15 @@ if [ -f /etc/bash.command-not-found ]; then
 fi
 
 amixer -c 2 sset 'Mic Boost',0 0 &> /dev/null
+
+cdf(){
+  input_path=$(find -maxdepth 6 -type d | fzf --prompt "cd to: ")
+  if [ -n "$input_path" ]; then
+    cd $input_path
+  else
+    exit 1
+  fi
+}
 
 voteaur(){
   ssh aur@aur.archlinux.org vote $1

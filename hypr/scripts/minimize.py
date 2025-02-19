@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
 import os
-import sys
 import subprocess
 import argparse
 import json
+
+
+def send_waybar_update():
+    _ = subprocess.run(
+            ["pkill", "-SIGRTMIN+8", "waybar"],
+            shell=False,
+            encoding="utf-8",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+            )
 
 
 def get_cur_window_prop():
@@ -83,6 +92,7 @@ def minimize():
         screenshot_file = f"{screenshot_dir}/{prop['address']}.png"
         screenshot_active(screenshot_file)
         move_window_to_special()
+        send_waybar_update()
     else:
         _ = subprocess.run(
                 f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
@@ -105,12 +115,14 @@ def restore(address):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             )
+    send_waybar_update()
 
 
 def restorerofi():
     icons_dir = (os.getenv("XDG_CONFIG_HOME") + "/hypr/icons")\
             or (os.getenv("HOME") + ".config/hypr/icons")
     screenshot_dir = "/tmp/minimize"
+    fallback_thumbnail = f"{icons_dir}/hakase_no_img.jpg"
     minimized_wins = json.loads(subprocess.run(
             ["hyprctl", "clients", "-j"],
             encoding="utf-8",
@@ -148,9 +160,14 @@ def restorerofi():
 
     rofi_string = ""
     for address in addresses:
+        thumbnail = f"{screenshot_dir}/{address}.png"
         rofi_string += address_title_map[address]
-        rofi_string +=\
-            fr"\0icon\x1f{screenshot_dir}/{address}.png\n"
+        if os.path.isfile(thumbnail):
+            rofi_string +=\
+                fr"\0icon\x1f{thumbnail}\n"
+        else:
+            rofi_string +=\
+                fr"\0icon\x1f{fallback_thumbnail}\n"
 
     output = subprocess.run(
             # f"echo \'{"\n".join(titles)}\'\
@@ -190,7 +207,7 @@ def show_info():
     info = {}
     count = window_count()
     info['text'] = str(count)
-    info['tooltip'] = f"{count} minimized windows"
+    info['tooltip'] = f"{count} minimized windows (right-click to force sync)"
     print(json.dumps(info))
 
 
