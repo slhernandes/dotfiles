@@ -13,6 +13,7 @@ alias nvidia-settings="nvidia-settings --config=$XDG_CONFIG_HOME/nvidia/settings
 alias glg="git log --graph"
 alias glgo="git log --graph --oneline"
 alias glog="git log --graph --oneline"
+alias celar="fortune | cowsay | lolcat"
 
 # completion style (case-insensitive)
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
@@ -43,11 +44,6 @@ setopt HIST_FIND_NO_DUPS
 # fzf shell integration
 eval "$(fzf --zsh)"
 
-# if [ "$TMUX" != "" ]; then
-#   export TERM="screen-256color"
-#   export TERM="kitty"
-# fi
-
 if [ -z "$NVIM" ]; then
   fastfetch --logo-width 37 --logo-height 19
 fi
@@ -61,10 +57,8 @@ if [ -z "$WAYLAND_DISPLAY" ]; then
 fi
 
 if [ -f /etc/bash.command-not-found ]; then
-    . /etc/bash.command-not-found
+  . /etc/bash.command-not-found
 fi
-
-amixer -c 2 sset 'Mic Boost',0 0 &> /dev/null
 
 cdf(){
   input_path=$(find -maxdepth 6 -type d | fzf --prompt "cd to: ")
@@ -80,8 +74,7 @@ voteaur(){
 }
 
 mkcdir(){
-  mkdir -p -- "$1" &&
-    cd -P -- "$1"
+  mkdir -p -- "$1" && cd -P -- "$1"
 }
 
 weather(){
@@ -93,45 +86,34 @@ rr(){
   curl -s -L http://bit.ly/10hA8iC | bash
 }
 
-celar(){
-  fortune | cowsay | lolcat
+set_win_title(){
+  echo -ne "\033]0;$(basename "$PWD")\007"
 }
 
-set_win_title(){
-    echo -ne "\033]0;$(basename "$PWD")\007"
-}
- 
 function yz() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	/usr/bin/yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  /usr/bin/yazi "$@" --cwd-file="$tmp"
+  if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    builtin cd -- "$cwd"
+  fi
+  rm -f -- "$tmp"
 }
 
 function chtsh() {
   curl cht.sh/$1 | less -R
 }
 
-# opam configuration
-# [[ ! -r $HOME/.opam/opam-init/init.zsh ]] || source $HOME/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
-
 # ghcup-env
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" 
 
-# OMNeT++ env
-# [ -f "$HOME/Dokumente/srcs/omnetpp-6.0.3/setenv" ] && source "$HOME/Dokumente/srcs/omnetpp-6.0.3/setenv" > /dev/null 2> /dev/null
+FORCE_STARSHIP=0
 
-# inet env
-# [ -f "$HOME/Dokumente/ba/cqf-fp-simulation/inet/setenv" ] && source "$HOME/Dokumente/ba/cqf-fp-simulation/inet/setenv" > /dev/null
-
-# enable starship prompt conditionally
-type starship_zle-keymap-select > /dev/null || {
-  eval "$(starship init zsh)"
-}
-precmd_functions+=(set_win_title)
-setopt TRANSIENT_RPROMPT
+ZSH_PROMPT="$ZSH_DIR/prompt"
+if [ -n "$NVIM" ] || [ $FORCE_STARSHIP -ge 1 ]; then
+  source "$ZSH_PROMPT/starship.zsh"
+else
+  source "$ZSH_PROMPT/ohmyposh.zsh"
+fi
 
 #plugins
 PLUG=$ZSH_DIR/plugins

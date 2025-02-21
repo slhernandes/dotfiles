@@ -1,0 +1,140 @@
+terminal_background = 'p:t-background'
+console_title_template = ' {{ .Folder }} :: {{if .Root}}Admin{{end}}'
+version = 3
+final_space = true
+
+[palette]
+  url-color        = '#73daca'
+  main-bg          = 'transparent'
+  t-background     = 'p:main-bg'
+  terminal-black   = '#414868'
+  terminal-red     = '#f7768e'
+  terminal-green   = '#9ece6a'
+  terminal-yellow  = '#e0af68'
+  terminal-blue    = '#7aa2f7'
+  terminal-magenta = '#bb9af7'
+  terminal-cyan    = '#7dcfff'
+  terminal-white   = '#c0caf5'
+
+  termdark-black   = '#1d202f'
+  termdark-white   = '#a9b1d6'
+
+  terminal-orange  = '#ff9e64'
+  termalt-red      = '#db4b4b'
+
+[secondary_prompt]
+  template = ' ❯'
+  foreground = 'p:terminal-cyan'
+  background = 'transparent'
+
+[transient_prompt]
+  template = '❯ '
+  foreground = 'p:terminal-green'
+  background = 'p:t-background'
+
+[upgrade]
+  source = 'cdn'
+  interval = '168h'
+  auto = false
+  notice = false
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    template = '{{ if .Segments.Contains "Git" }}<b>{{ .Path }}</b>{{ else }}<b>{{ .PWD }}</b>{{ end }} '
+    foreground = 'p:terminal-blue'
+    type = 'path'
+    style = 'plain'
+
+    [blocks.segments.properties]
+      style = 'folder'
+
+  [[blocks.segments]]
+    type = 'git'
+    style = 'plain'
+    foreground = 'p:terminal-black'
+    background = 'transparent'
+    template = '{{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} <p:terminal-cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
+
+    [blocks.segments.properties]
+      branch_icon = ''
+      fetch_status = true
+
+  [[blocks.segments]]
+    template = '󰢱'
+    foreground = 'p:terminal-blue'
+    type = 'lua'
+    style = 'plain'
+
+  [[blocks.segments]]
+    template = '󰲒'
+    foreground = 'p:terminal-magenta'
+    type = 'haskell'
+    style = 'plain'
+
+  [[blocks.segments]]
+    template = ''
+    foreground = 'p:terminal-green'
+    type = 'node'
+    style = 'plain'
+
+  [[blocks.segments]]
+    template = ''
+    foreground = 'p:terminal-blue'
+    type = 'php'
+    style = 'plain'
+
+  [[blocks.segments]]
+    template = ''
+    foreground = 'p:terminal-yellow'
+    type = 'python'
+    style = 'plain'
+
+  [[blocks.segments]]
+    template = ''
+    foreground = 'p:terminal-red'
+    type = 'ruby'
+    style = 'plain'
+
+  [[blocks.segments]]
+    template = ''
+    foreground = 'p:terminal-cyan'
+    type = 'go'
+    style = 'plain'
+
+  [[blocks.segments]]
+    type = 'executiontime'
+    style = 'plain'
+    foreground = 'p:terminal-yellow'
+    background = 'transparent'
+    [properties]
+    threshold = 2000
+    style = 'austin'
+
+[[blocks]]
+  type = 'rprompt'
+
+  [[blocks.segments]]
+    type = "time"
+    style = "plain"
+    foreground = "p:terminal-yellow"
+
+  [[blocks.segments]]
+    type = "battery"
+    style = "plain"
+    foreground = "p:terminal-green"
+    background = "transparent"
+    template = "󰁹 {{ .Percentage }}% "
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    template = '{{ if gt .Code 0 }}<p:terminal-red>❯</>{{ else if .Env.POSH_VI_MODE }}{{ .Env.POSH_VI_MODE }}{{ else }}<p:terminal-green>❯</>{{ end }}'
+    type = 'text'
+    style = 'plain'
