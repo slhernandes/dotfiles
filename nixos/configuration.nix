@@ -79,8 +79,8 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
-    theme = "tokyo-night-sddm";
-    # theme = pkgs.libsForQt5.callPackage ./tokyo-night-sddm/default.nix {};
+    # theme = "tokyo-night-sddm";
+    theme = "sddm-astronaut";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -193,6 +193,7 @@
     alsa-utils
     hyprcursor
     (libsForQt5.callPackage ./tokyo-night-sddm/default.nix {})
+    sddm-astronaut
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     brightnessctl
     xdg-user-dirs
