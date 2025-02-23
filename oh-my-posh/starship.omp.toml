@@ -1,5 +1,5 @@
 terminal_background = 'p:t-background'
-console_title_template = ' {{ .Folder }} :: {{if .Root}}Admin{{end}}'
+console_title_template = '{{ .Folder }}'
 version = 3
 final_space = true
 
@@ -44,13 +44,17 @@ final_space = true
   newline = true
 
   [[blocks.segments]]
-    template = '{{ if .Segments.Contains "Git" }}<b>{{ .Path }}</b>{{ else }}<b>{{ .PWD }}</b>{{ end }} '
+    # template = '{{ if .Segments.Contains "Git" }}<b>{{ .Env.GIT_PREFIX }}</b>{{ else }}<b>{{ .PWD }}</b>{{ end }} '
+    template = '{{ .Path }} '
     foreground = 'p:terminal-blue'
     type = 'path'
     style = 'plain'
 
     [blocks.segments.properties]
-      style = 'folder'
+      style = 'agnoster_short'
+      max_depth = 3
+      hide_root_location = true
+      folder_icon = "…"
 
   [[blocks.segments]]
     type = 'git'

@@ -1,3 +1,4 @@
+@import "./colors.css";
 #waybar {
   font-family: "SF Pro Display", Cantarell, Noto Sans, sans-serif;
   font-size: 18px;
@@ -8,14 +9,14 @@
 }
 
 window#waybar {
-  border: 2px solid #414868;
+  border: 2px solid @color8;
   border-radius: 10px;
   box-shadow: none;
   text-shadow: none;
   transition-duration: 0s;
-  color: rgba(217, 216, 216, 1);
+  color: @foreground;
   /*background: alpha(#1a1b26, .55);*/
-  background: alpha(#24283b, .55);
+  background: alpha(@background, .8);
 
 } 
 
@@ -25,72 +26,72 @@ window#waybar {
 
 #workspaces button {
   padding: 0 4px;
-  color: #f8f8f2;
-  border: 2px solid rgba(9, 85, 225, 0);
+  color: @foreground;
+  border: 2px solid alpha(@color4, 0);
   border-radius: 0px;
   min-width: 30px;
 }
 
 #workspaces button.empty {
-  color: #565f89;
+  color: @color8;
 }
 
 #workspaces button.visible {
-  color: #f8f8f2;
+  color: @foreground;
 }
 
 #workspaces button.focused {
-  border-top: 2px solid #7aa2f7;
-  border-bottom: 2px solid #7aa2f7;
+  border-top: 2px solid @color4;
+  border-bottom: 2px solid @color4;
 }
 
 #workspaces button.urgent {
-  color: #a96d1f;
+  color: @color3;
   /*color: white;*/
 }
 
 #workspaces button:hover {
   box-shadow: inherit;
-  border-top: 2px solid #7aa2f7;
-  border-bottom: 2px solid #7aa2f7;
-  color: #7aa2f7;
+  border-top: 2px solid @color4;
+  border-bottom: 2px solid @color4;
+  color: @color4;
   background: inherit; 
 }
 
 /* Repeat style here to ensure properties are overwritten as there's no !important and button:hover above resets the colour */
 
 #workspaces button.focused {
-  color: #7aa2f7;
+  color: @color4;
 }
 
 #workspaces button.focused:hover {
-  color: #bb9af7;
+  color: @color5;
 }
 
 #workspaces button.active {
-  border-bottom: 2px solid #7aa2f7;
+  border-bottom: 2px solid @color4;
 }
 
 #pulseaudio {
   /* font-size: 26px; */
-  color: #bb9af7;
+  color: @color5;
 }
 
 #custom-recorder {
   font-size: 18px;
   margin: 2px 7px 0px 7px;
-  color:#ee2e24;
+  color:@color1;
 }
 
 #custom-logo {
   font-size: 18px;
-  color: #1793d0;
+  color: #1793d0; /* Hard-coded Arch linux logo */
   margin-right: -4px;
 }
 
 #tray {
-  border-left: 2px hidden #7aa2f7;
-  border-right: 2px hidden #7aa2f7;
+  border-left: 2px hidden @color4;
+  border-right: 2px hidden @color4;
   padding-left: 4px;
   padding-right: 4px;
   margin-right: 4px;
@@ -113,49 +114,46 @@ window#waybar {
 #custom-powermenu,
 #custom-spotify,
 #custom-weather {
-  color:  #7dcfff;
+  color:  @color6;
   margin-bottom: -1px;
 }
 #custom-minimize {
-  color:  #f7768e;
+  color:  @color1;
   margin-bottom: -1px;
 }
 #custom-date {
-  color:  #e0af68;
+  color:  @color3;
 }
 #custom-mail,
 #custom-media {
   margin: 0px 0px 0px 10px;
   padding: 0 5px;
-  /* border-top: 3px solid rgba(217, 216, 216, 0.5); */
 }
 
 #clock {
-/*  margin:     0px 16px 0px 10px;*/
-/*  min-width:  140px;*/
-  color: #7aa2f7;
+  color: @color4;
 }
 
 #battery.warning {
-  color: rgba(255, 210, 4, 1);
+  color: @color3;
 }
 
 #battery.critical {
-  color: rgba(238, 46, 36, 1);
+  color: @color1;
 }
 
 #battery.full {
-  color: #9ece6a;
+  color: @color2;
   margin-right: -5px;
   margin-bottom: -1px;
 }
 
 #battery.discharging.warning {
-  color: rgba(255, 210, 4, 1);
+  color: @color3;
 }
 
 #custom-storage.discharging.critical {
-  color: rgba(238, 46, 36, 1);
+  color: @color1;
 }
 
 @keyframes blink {

@@ -11,112 +11,72 @@ fi
 
 echo "" > $LOG_FILE
 
-if [ $(pgrep wallpaper.sh | wc -l) -gt 2 ]; then
-  echo "ERROR: wallpaper.sh is already running." > /dev/stderr
-  exit 1
-fi
-
 SCRIPT_DIR=$(realpath $0 | xargs dirname)
-echo $SCRIPT_DIR >> $LOG_FILE
+echo script_dir: $SCRIPT_DIR >> $LOG_FILE
 
-if [ -z "$(pgrep hyprpaper)" ]; then
-  nohup hyprpaper &
-  sleep 0.1
+if [ -z "$XDG_CONFIG_HOME" ]; then
+  HYPR_CONFIG="$HOME/.config/hypr"
+else
+  HYPR_CONFIG="$XDG_CONFIG_HOME/hypr"
 fi
 
-SUNRISE="06:00:00"
-SUNSET="18:00:00"
-MIDNIGHT=$(date -d 0 +%s)
+WALL_DIR="$HYPR_CONFIG/wallpapers"
+
+echo hypr_config: $HYPR_CONFIG >> $LOG_FILE
+echo wall_dir: $WALL_DIR >> $LOG_FILE
+
+SUNRISE="0600"
+SUNSET="1800"
 
 TMP=$(timeout 1s curl wttr.in/\?format='%S')
 if [ "$?" -eq 0 ]; then
-  SUNRISE=$TMP
+  SUNRISE=$(echo $TMP | awk -F":" '{print $1$2}')
 else
   DEFAULT_TIME=1
 fi
 
 TMP=$(timeout 1s curl wttr.in/\?format='%s')
 if [ "$?" -eq 0 ]; then
-  SUNSET=$TMP
+  SUNSET=$(echo $TMP | awk -F":" '{print $1$2}')
 else
   DEFAULT_TIME=1
 fi
-echo $SUNRISE >> $LOG_FILE
-echo $SUNSET >> $LOG_FILE
-SUNRISE=$(date -d $SUNRISE +%s)
-SUNSET=$(date -d $SUNSET +%s)
 
-# Use hard-coded path for wallpapers
-# WP_DARK="$SCRIPT_DIR/../wallpapers/sequoia_bg.jpg"
-# WP_LIGHT="$SCRIPT_DIR/../wallpapers/custom_bg.png"
-# Use first(dark) and second(light) entry of hyprpaper (preload first in hyprpaper.conf)
-while true; do
-  WP_DARK=$(hyprctl hyprpaper listloaded | sed -n "1p")
-  if [ -z "$WP_DARK" ]; then
-    sleep 1
-  else
-    break
+echo sunrise: $SUNRISE >> $LOG_FILE
+echo sunset: $SUNSET >> $LOG_FILE
+
+if [ -f "$HYPR_CONFIG/.wallpaper" ]; then
+  WALL_NAME=$(cat "$HYPR_CONFIG/.wallpaper")
+else
+  WALL_NAME="woods"
+fi
+
+NOW_EPOCH=$(date +%s)
+SUNRISE_EPOCH=$(date -d $SUNRISE +%s)
+SUNSET_EPOCH=$(date -d $SUNSET +%s)
+WALL_TYPE="night"
+
+echo wall_name: $WALL_NAME >> $LOG_FILE
+echo now_epoch: $NOW_EPOCH >> $LOG_FILE
+echo sunrise_epoch: $SUNRISE_EPOCH >> $LOG_FILE
+echo sunset_epoch: $SUNSET_EPOCH >> $LOG_FILE
+echo is_dark: $IS_DARK >> $LOG_FILE
+
+if [ $NOW_EPOCH -ge $SUNRISE_EPOCH ] && [ $NOW_EPOCH -lt $SUNSET_EPOCH ]; then
+  WALL_TYPE="day"
+  if [ -z "$(atq -q w)" ]; then
+    echo "$(realpath $0)" | at $SUNSET -q w
   fi
-done
-
-while true; do
-  WP_LIGHT=$(hyprctl hyprpaper listloaded | sed -n "2p")
-  if [ -z "$WP_LIGHT" ]; then
-    sleep 1
-  else
-    break
+else
+  if [ -z "$(atq -q w)" ]; then
+    echo "$(realpath $0)" | at $SUNRISE -q w
   fi
-done
+fi
 
-while true; do
-  NOW=$(date +%s)
-  DIFF=$(python -c "print(int($NOW) - int($MIDNIGHT))")
+WALL="${WALL_DIR}/${WALL_TYPE}_${WALL_NAME}.png"
 
-  if [ $DIFF -le 600 ] || [ $DEFAULT_TIME -eq 1 ]; then
-    TMP=$(timeout 1s curl wttr.in/\?format='%S')
-    if [ "$?" -eq 0 ]; then
-      SUNRISE=$TMP
-    else
-      sleep 5
-      continue
-    fi
+echo wall: $WALL >> $LOG_FILE
 
-    TMP=$(timeout 1s curl wttr.in/\?format='%s')
-    if [ "$?" -eq 0 ]; then
-      SUNSET=$TMP
-    else
-      sleep 5
-      continue
-    fi
-    SUNRISE=$(date -d $SUNRISE +%s)
-    SUNSET=$(date -d $SUNSET +%s)
-    echo "sunrise: $SUNRISE" >> $LOG_FILE
-    echo "sunset: $SUNSET" >> $LOG_FILE
-    DEFAULT_TIME=0
-  fi
-
-  echo "active: $(hyprctl hyprpaper listactive | awk '{print $NF}')"
-  CHECK_DARK=$(hyprctl hyprpaper listactive | awk '{print $NF}' | grep $WP_DARK)
-  CHECK_LIGHT=$(hyprctl hyprpaper listactive | awk '{print $NF}' | grep $WP_LIGHT)
-
-  echo "dark_wp: $CHECK_DARK" >> $LOG_FILE
-  echo "light_wp: $CHECK_LIGHT" >> $LOG_FILE
-  echo "now: $NOW" >> $LOG_FILE
-  echo "sunrise: $SUNRISE" >> $LOG_FILE
-  echo "sunset: $SUNSET" >> $LOG_FILE
-
-  if [ $NOW -le $SUNRISE ]; then
-    if [ -z "$CHECK_DARK" ]; then
-      hyprctl hyprpaper wallpaper "eDP-1,$WP_DARK"
-    fi
-  elif [ $NOW -le $SUNSET ]; then
-    if [ -z "$CHECK_LIGHT" ]; then
-      hyprctl hyprpaper wallpaper "eDP-1,$WP_LIGHT"
-    fi
-  else
-    if [ -z "$CHECK_DARK" ]; then
-      hyprctl hyprpaper wallpaper "eDP-1,$WP_DARK"
-    fi
-  fi
-  sleep 60
-done
+hyprctl hyprpaper reload ,$WALL
+hyprctl hyprpaper reload eDP-1,$WALL
+wal -i $WALL -s -t

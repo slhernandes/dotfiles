@@ -4,5 +4,8 @@ trap "" SIGRTMIN+8
 
 SCRIPT_DIR=$(realpath $0 | xargs dirname)
 
-pidof waybar | xargs kill
-$SCRIPT_DIR/launch_waybar
+if [ -n "$(pgrep launch_waybar)" ]; then
+  pgrep launch_waybar | xargs kill
+fi
+
+nohup $SCRIPT_DIR/launch_waybar &
