@@ -95,7 +95,7 @@ def minimize():
         send_waybar_update()
     else:
         _ = subprocess.run(
-                f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
+                f"notify-send -r 818 -u low -i {icons_dir}/dialog-warning.svg \
                         \"Minimizer\" \"No active window detected\"\
                         -h string:x-canonical-private-synchronous:test",
                 shell=True,
@@ -145,7 +145,7 @@ def restorerofi():
 
     if len(addresses) == 0:
         _ = subprocess.run(
-                f"dunstify -r 818 -u low -i {icons_dir}/dialog-warning.svg \
+                f"notify-send -r 818 -u low -i {icons_dir}/dialog-warning.svg \
                         \"Minimizer\" \"No minimized window\"\
                         -h string:x-canonical-private-synchronous:test",
                 shell=True,

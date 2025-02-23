@@ -37,7 +37,7 @@ function send_notification {
   fi 
   # Send the notification
   # dunstify " Volume " "$bar" -i $icon_name -r 5555 -u normal
-  dunstify "Mic volume $volume% " -i $icon_name -r 5555 -u normal -h int:value:$(($volume)) -h string:x-canonical-private-synchronous:test
+  notify-send "Mic volume $volume% " -i $icon_name -r 5555 -u normal -h int:value:$(($volume)) -h string:x-canonical-private-synchronous:test
   # notify-send.sh "Volume : $volume" -i "$icon_name" -t 2000 --replace=555
 }
 
@@ -61,7 +61,7 @@ case $1 in
 	  amixer -D pulse set Capture 1+ toggle > /dev/null
     if is_mute ; then
       icon_name="$DIR/icons/input-muted.svg"
-      dunstify "Mic muted" -i $icon_name -r 5555 -u normal -h int:value:0 -h string:x-canonical-private-synchronous:test
+      notify-send "Mic muted" -i $icon_name -r 5555 -u normal -h int:value:0 -h string:x-canonical-private-synchronous:test
     else
       send_notification
     fi

@@ -4,8 +4,8 @@ icon_path=/usr/share/icons/Pop/64x64/emblems
 notify_id=817
 
 function brightness_notification {
-  brightness=`lux -G`
-  dunstify -r $notify_id -u low -i $icon_path/emblem-system.svg --hints=int:value:$brightness% "Brightness" "" -h string:x-canonical-private-synchronous:test
+  brightness=`lux -G | tr '%' ' '`
+  notify-send -r $notify_id -u low -i $icon_path/emblem-system.svg -h int:value:$(($brightness)) "Brightness" "" -h string:x-canonical-private-synchronous:test
 }
 
 case $1 in
