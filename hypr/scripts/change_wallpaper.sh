@@ -12,6 +12,10 @@ WALL_LIST="city\nspace\nstreet\nwoods"
 NEW_WALL=$(echo -en $WALL_LIST | rofi -dmenu -p "select wallpaper: " --only-match)
 
 if [ -n "$NEW_WALL" ]; then
+  CH_WALL=$(grep "$NEW_WALL" $HYPR_CONFIG/.wallpaper)
+  if [ -n "$CH_WALL" ]; then
+    exit 0
+  fi
   echo $NEW_WALL > $HYPR_CONFIG/.wallpaper
   $SCRIPT_DIR/wallpaper.sh
   $SCRIPT_DIR/restart_waybar

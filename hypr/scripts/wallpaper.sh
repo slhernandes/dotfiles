@@ -56,27 +56,42 @@ SUNRISE_EPOCH=$(date -d $SUNRISE +%s)
 SUNSET_EPOCH=$(date -d $SUNSET +%s)
 WALL_TYPE="night"
 
+# remove previous scheduled process(es)
+atq -q w | awk '{print $1}' | xargs atrm;
+
+if [ $NOW_EPOCH -ge $SUNRISE_EPOCH ] && [ $NOW_EPOCH -lt $SUNSET_EPOCH ]; then
+  WALL_TYPE="day"
+  echo "$(realpath $0)" | at $SUNSET -q w
+elif [ $NOW_EPOCH -ge $SUNSET_EPOCH ]; then
+  echo "$(realpath $0)" | at 0001 -q w
+else
+  echo "$(realpath $0)" | at $SUNRISE -q w
+fi
+
+echo wall_type: $WALL_TYPE >> $LOG_FILE
+
+WALL="${WALL_DIR}/${WALL_TYPE}_${WALL_NAME}.png"
+
 echo wall_name: $WALL_NAME >> $LOG_FILE
 echo now_epoch: $NOW_EPOCH >> $LOG_FILE
 echo sunrise_epoch: $SUNRISE_EPOCH >> $LOG_FILE
 echo sunset_epoch: $SUNSET_EPOCH >> $LOG_FILE
-echo is_dark: $IS_DARK >> $LOG_FILE
-
-if [ $NOW_EPOCH -ge $SUNRISE_EPOCH ] && [ $NOW_EPOCH -lt $SUNSET_EPOCH ]; then
-  WALL_TYPE="day"
-  if [ -z "$(atq -q w)" ]; then
-    echo "$(realpath $0)" | at $SUNSET -q w
-  fi
-else
-  if [ -z "$(atq -q w)" ]; then
-    echo "$(realpath $0)" | at $SUNRISE -q w
-  fi
-fi
-
-WALL="${WALL_DIR}/${WALL_TYPE}_${WALL_NAME}.png"
-
 echo wall: $WALL >> $LOG_FILE
 
+if [ -n "$(hyprctl hyprpaper listactive | grep $WALL)" ]; then
+  exit 0
+fi
+
 hyprctl hyprpaper reload ,$WALL
-hyprctl hyprpaper reload eDP-1,$WALL
+ctr=1
+echo ctr: $ctr >> $LOG_FILE
+while [ "$(hyprctl hyprpaper listactive)" = "no wallpapers active" ] && [ $ctr -lt 100 ]; do
+  hyprctl hyprpaper reload ,$WALL
+  ctr=$(expr $ctr + 1)
+  echo ctr: $ctr >> $LOG_FILE
+  sleep 0.1
+done
+
+# hyprctl hyprpaper reload eDP-1,$WALL
 wal -i $WALL -s -t
+swaync-client -rs
