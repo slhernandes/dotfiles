@@ -1,5 +1,3 @@
-source './color.conf'
-
 unbind C-b
 set-option -g prefix M-b
 bind-key M-b send-prefix
@@ -45,35 +43,32 @@ bind-key -n 'M-l' if-shell "$is_vim" 'send-keys M-l' { if -F '#{pane_at_right}' 
 set -g @fzf-url-history-limit '2000'
 set -g @fzf-url-fzf-options '-w 50% -h 60% --multi -0 --no-preview --prompt "url: " --info=hidden --pointer → --color "prompt:#7aa2f7,pointer:#7aa2f7"'
 
-set -g @prefix_highlight_empty_prompt '◤  ◢'
-set -g @prefix_highlight_empty_attr 'fg=#1d202f,bg=#7aa2f7'
-
-set -g @prefix_highlight_output_prefix '◤ '
-set -g @prefix_highlight_output_suffix ' ◢'
+set -g @prefix_highlight_empty_prompt '  '          # default is '' (empty char)
+set -g @prefix_highlight_empty_attr 'fg=#15161E,bg=blue' # default is 'fg=default,bg=default'
 
 set -g @prefix_highlight_show_copy_mode 'on'
 set -g @prefix_highlight_copy_prompt '󰆏'
-set -g @prefix_highlight_copy_mode_attr 'fg=#1d202f,bg=#e0af68'
+set -g @prefix_highlight_copy_mode_attr 'fg=black,bg=yellow'
 
 set -g @prefix_highlight_prefix_prompt '⎇'
-set -g @prefix_highlight_fg $c0
-set -g @prefix_highlight_bg $c1
+set -g @prefix_highlight_fg 'black'
+set -g @prefix_highlight_bg 'red'
 
 set -sg escape-time 0
 
 # TokyoNight colors for Tmux
-set -g mode-style "fg=$c4,bg=$sel_bg"
+set -g mode-style "fg=#7aa2f7,bg=#3b4261"
 
-set -g message-style "fg=$c4,bg=$sel_bg"
-set -g message-command-style "fg=$c4,bg=$sel_bg"
+set -g message-style "fg=#7aa2f7,bg=#3b4261"
+set -g message-command-style "fg=#7aa2f7,bg=#3b4261"
 
-set -g pane-border-style "fg=$c8"
-set -g pane-active-border-style "fg=$c4"
+set -g pane-border-style "fg=#3b4261"
+set -g pane-active-border-style "fg=#7aa2f7"
 
 set -g status "on"
 set -g status-justify "left"
 
-set -g status-style "fg=$c4,bg=$c0"
+set -g status-style "fg=#7aa2f7,bg=#1f2335"
 
 set -g status-left-length "100"
 set -g status-right-length "100"
@@ -81,12 +76,15 @@ set -g status-right-length "100"
 set -g status-left-style NONE
 set -g status-right-style NONE
 
-set -g status-left "#{prefix_highlight}#[fg=$c0,bg=$c4,bold]◤ #S #[fg=$c4,bg=$c0]◤"
-set -g status-right "#[fg=$c8]◢#[fg=$c4,bg=$c8] 💾: #[fg=$c3]#{df_avail}B#[fg=$c4]/${max_storage} (#[fg=$c2]#{df_percent}#[fg=$c4]) #[fg=$c0]◢#[fg=$c0,bg=$c4,bold]◤ #h ◢"
+set -g status-left "#{prefix_highlight}#[fg=#15161E,bg=#7aa2f7,bold] #S #[fg=#7aa2f7,bg=#1f2335,nobold,nounderscore,noitalics]"
+set -g status-right "#[fg=#7aa2f7,bg=#1f2335,nobold,nounderscore,noitalics]💾: #[fg=#e0af68,bg=#1f2335]#{df_avail}B#[fg=#7aa2f7,bg=#1f2335,nobold,nounderscore,noitalics]/${max_storage} (#[fg=#9ece6a,bg=#1f2335]#{df_percent}#[fg=#7aa2f7,bg=#1f2335,nobold,nounderscore,noitalics]) #[fg=#15161E,bg=#7aa2f7,bold] #h "
 
+setw -g window-status-activity-style "italics,fg=color3"
+setw -g window-status-bell-style "italics,fg=#f7768e"
 setw -g window-status-separator ""
-setw -g window-status-format "#[fg=$c0,bg=$bg]◤ #[fg=$fg]#I: #W #[fg=$c0]◢"
-setw -g window-status-current-format "#[fg=$c0,bg=$sel_bg]◤#[fg=$c4,bg=$sel_bg] #I: #W #[fg=$sel_bg,bg=$c0]◤"
+setw -g window-status-style "NONE,fg=#a9b1d6,bg=#1f2335"
+setw -g window-status-format " #W "
+setw -g window-status-current-format "#[fg=#1f2335,bg=#3b4261,nobold,nounderscore,noitalics]#[fg=#7aa2f7,bg=#3b4261,bold] #W #[fg=#3b4261,bg=#1f2335,nobold,nounderscore,noitalics]"
 
 # List of plugins
 set -g @plugin 'tmux-plugins/tpm'

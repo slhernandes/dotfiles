@@ -16,7 +16,22 @@ alias glog="git log --graph --oneline"
 alias celar="fortune | cowsay | lolcat"
 
 # completion style (case-insensitive)
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+# raspbian style completion
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+# zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=2
+eval "$(dircolors -b)"
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ''
+# zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r'
+# zstyle ':completion:*' menu select=long
+# zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+# zstyle ':completion:*' use-compctl false
+# zstyle ':completion:*' verbose true
 autoload -Uz compinit && compinit
 
 # bindkeys
@@ -61,11 +76,11 @@ if [ -f /etc/bash.command-not-found ]; then
 fi
 
 cdf(){
-  input_path=$(find -maxdepth 6 -type d | fzf --prompt "cd to: ")
+  input_path=$(find -maxdepth 6 -type d | fzf --prompt "cd to: " --preview 'tree -L 1 {}' --preview-window=right,35%)
   if [ -n "$input_path" ]; then
     cd $input_path
   else
-    exit 1
+    echo "[\033[1;31mError\033[0m] No directory specified." > /dev/stderr
   fi
 }
 

@@ -118,7 +118,7 @@ export SSB_HOME="$XDG_DATA_HOME"/zoom
 export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
 
 # fzf env
-export FZF_DEFAULT_OPTS="--tmux=center,50%,60% --multi -0 --no-preview --info=hidden --pointer → --color \"prompt:#7aa2f7,pointer:#7aa2f7\""
+export FZF_DEFAULT_OPTS="--tmux=center,70%,80% --multi -0 --no-preview --info=hidden --pointer → --color \"prompt:#7aa2f7,pointer:#7aa2f7\""
 # Preview file content using bat (https://github.com/sharkdp/bat)
 export FZF_CTRL_T_OPTS="
   --tmux=center,70%,80%
