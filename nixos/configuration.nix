@@ -79,8 +79,8 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
-    # theme = "tokyo-night-sddm";
-    theme = "sddm-astronaut";
+    theme = "tokyo-night-sddm";
+    # theme = "sddm-astronaut-theme";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
