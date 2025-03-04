@@ -5,7 +5,6 @@ alias fortune="misfortune"
 alias ls="ls -A --color=auto"
 alias open="xdg-open"
 alias pump="prime-run wine ~/.local/share/wineprefixes/default/drive_c/users/samuelhernandes/pumpsanity/Program64/PumpSanity.exe"
-alias ranger="LC_ALL=C ranger"
 alias tlupdate="sudo env PATH=$PATH tlmgr update --all"
 alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
 alias vim="nvim"
@@ -17,21 +16,15 @@ alias celar="fortune | cowsay | lolcat"
 
 # completion style (case-insensitive)
 # zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
-# raspbian style completion
+# New completion style
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
-# zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
 eval "$(dircolors -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
-# zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r'
-# zstyle ':completion:*' menu select=long
-# zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-# zstyle ':completion:*' use-compctl false
-# zstyle ':completion:*' verbose true
 autoload -Uz compinit && compinit
 
 # bindkeys
@@ -41,10 +34,11 @@ bindkey "^p" history-search-backward
 bindkey "^n" history-search-forward
 bindkey "^y" autosuggest-accept
 bindkey -s "^[[15~" "source $ZSHRC^m"
+stty stop undef # disable ^s
 
 # history
 ZSH_DIR=$XDG_CONFIG_HOME/zsh
-HISTSIZE=100
+HISTSIZE=200
 HISTFILE=$ZSH_DIR/.zsh_history
 SAVEHIST=$HISTSIZE
 HISTDUP=erase

@@ -4,7 +4,7 @@ local module = {}
 
 local function set_leader(config)
   config.leader = {
-    key = 'b',
+    key = 'a',
     mods = 'ALT',
     timeout_milliseconds = 1000,
   }
