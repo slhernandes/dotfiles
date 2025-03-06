@@ -61,7 +61,7 @@ if [ "$TERM" = "xterm-kitty" ]; then
   alias ssh="kitty +kitten ssh"
 fi
 
-if [ -z "$WAYLAND_DISPLAY" ]; then
+if [ "$XDG_SESSION_TYPE" = "x11" ]; then
   xset r rate 150 50
 fi
 
