@@ -110,6 +110,7 @@ export TEXMFVAR="$XDG_CACHE_HOME"/texlive/texmf-var
 # X11 env
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export ERRFILE="$XDG_CACHE_HOME"/X11/xsession-errors
+export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 
 # zoom env
 export SSB_HOME="$XDG_DATA_HOME"/zoom
@@ -130,3 +131,6 @@ export FZF_ALT_C_OPTS="
   --tmux=center,70%,80%
   --walker-skip .git,node_modules,target
   --preview 'tree -C {}'"
+
+# java env
+export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
