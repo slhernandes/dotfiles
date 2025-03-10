@@ -70,7 +70,30 @@ if [ -f /etc/bash.command-not-found ]; then
 fi
 
 cdf(){
-  input_path=$(find -maxdepth 6 -type d | fzf --prompt "cd to: " --preview 'tree -L 1 {}' --preview-window=right,35%)
+  input_path=$(find -maxdepth 6 -type d\
+    -not \( -path "./.nuget" -prune \)\
+    -not \( -path "./.dart-cli-completion" -prune \)\
+    -not \( -path "./.dart-tool" -prune \)\
+    -not \( -path "./.dotnet" -prune \)\
+    -not \( -path "./.eclipse" -prune \)\
+    -not \( -path "./.hoogle" -prune \)\
+    -not \( -path "./.klei" -prune \)\
+    -not \( -path "./.mono" -prune \)\
+    -not \( -path "./.mozilla" -prune \)\
+    -not \( -path "./.net" -prune \)\
+    -not \( -path "./.pki" -prune \)\
+    -not \( -path "./.pub-cache" -prune \)\
+    -not \( -path "./.pydev" -prune \)\
+    -not \( -path "./.pytest_cache" -prune \)\
+    -not \( -path "./.steam" -prune \)\
+    -not \( -path "./.steamCloud" -prune \)\
+    -not \( -path "./.steampid" -prune \)\
+    -not \( -path "./.swt" -prune \)\
+    -not \( -path "./.var" -prune \)\
+    -not \( -path "./.yarn" -prune \)\
+    -not \( -path "./.cache" -prune \)\
+    -not \( -name ".git" -prune \)\
+    | fzf --prompt "cd to: " --preview 'tree -L 1 {}' --preview-window=right,35%)
   if [ -n "$input_path" ]; then
     cd $input_path
   else
