@@ -26,6 +26,7 @@ password=$(printf '%s\n' "${password_files[@]}" | rofi -dmenu "$@")
 
 [[ -n $password ]] || exit
 
+copyq disable
 if [[ $typeit -eq 0 ]]; then
   if [ $(echo "$password" | awk -F"/" '{print tolower($NF)}') = "otp" ]; then
     # requires OTP plugin for pass
@@ -36,4 +37,4 @@ if [[ $typeit -eq 0 ]]; then
 else
 	pass show "$password" | { IFS= read -r pass; printf %s "$pass"; } | $xdotool
 fi
-
+copyq enable
