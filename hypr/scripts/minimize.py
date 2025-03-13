@@ -97,7 +97,8 @@ def minimize():
         _ = subprocess.run(
                 f"notify-send -r 818 -u low -i {icons_dir}/dialog-warning.svg \
                         \"Minimizer\" \"No active window detected\"\
-                        -h string:x-canonical-private-synchronous:test",
+                        -h string:synchronous:test\
+                        -h boolean:SWAYNC_BYPASS_DND:true",
                 shell=True,
                 encoding="utf-8",
                 stdout=subprocess.PIPE,
@@ -147,7 +148,8 @@ def restorerofi():
         _ = subprocess.run(
                 f"notify-send -r 818 -u low -i {icons_dir}/dialog-warning.svg \
                         \"Minimizer\" \"No minimized window\"\
-                        -h string:x-canonical-private-synchronous:test",
+                        -h string:synchronous:test\
+                        -h boolean:SWAYNC_BYPASS_DND:true",
                 shell=True,
                 encoding="utf-8",
                 stdout=subprocess.PIPE,
@@ -185,7 +187,8 @@ def restorerofi():
         _ = subprocess.run(
                 f"dunstify -r 818 -u low -i {icons_dir}/dialog-error.svg \
                         \"Minimizer\" \"No window is chosen to be restored\"\
-                        -h string:x-canonical-private-synchronous:test",
+                        -h string:synchronous:test\
+                        -h boolean:SWAYNC_BYPASS_DND:true",
                 shell=True,
                 encoding="utf-8",
                 )

@@ -7,11 +7,11 @@
 DIR="$HOME/.config/swaync"
 
 function get_volume {
-      amixer -D pulse get Master | grep '%' | head -n 1 | awk -F'[' '{print $2}' | awk -F'%' '{print $1}'
+  amixer -D pulse get Master | grep '%' | head -n 1 | awk -F'[' '{print $2}' | awk -F'%' '{print $1}'
 }
 
 function is_mute {
-      amixer -D pulse get Master | grep '%' | grep -oE '[^ ]+$' | grep off
+  amixer -D pulse get Master | grep '%' | grep -oE '[^ ]+$' | grep off
 }
 
 function send_notification {
@@ -37,31 +37,31 @@ function send_notification {
   fi 
   # Send the notification
   # dunstify " Volume " "$bar" -i $icon_name -r 5555 -u normal
-  notify-send "Volume $volume% " -i $icon_name -r 5555 -u normal -h int:value:$(($volume)) -h string:x-canonical-private-synchronous:test
+  notify-send "Volume $volume% " -i $icon_name -r 5555 -u normal -h int:value:$(($volume)) -h string:synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
   # notify-send.sh "Volume : $volume" -i "$icon_name" -t 2000 --replace=555
 }
 
 case $1 in
   up)
     # Unmute
-	  amixer -D pulse set Master on > /dev/null
-	  # +5%
-	  amixer -D pulse set Master 5%+ > /dev/null
+    amixer -D pulse set Master on > /dev/null
+    # +5%
+    amixer -D pulse set Master 5%+ > /dev/null
     send_notification
     ;;
   down)
     # Unmute
-	  amixer -D pulse set Master on > /dev/null
+    amixer -D pulse set Master on > /dev/null
     # -5%
-	  amixer -D pulse set Master 5%- > /dev/null
+    amixer -D pulse set Master 5%- > /dev/null
     send_notification
     ;;
   mute)
     # Toggle mute
-	  amixer -D pulse set Master 1+ toggle > /dev/null
+    amixer -D pulse set Master 1+ toggle > /dev/null
     if is_mute ; then
       icon_name="$DIR/icons/volume-muted.svg"
-      notify-send "Mute" -i $icon_name -r 5555 -u normal -h int:value:0 -h string:x-canonical-private-synchronous:test
+      notify-send "Mute" -i $icon_name -r 5555 -u normal -h int:value:0 -h string:synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
     else
       send_notification
     fi
