@@ -1,3 +1,5 @@
+# zsh config directory
+ZSH_DIR=$XDG_CONFIG_HOME/zsh
 # aliases
 alias alert_fail='notify-send --urgency=critical -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -17,7 +19,7 @@ alias celar="fortune | cowsay | lolcat"
 # completion style (case-insensitive)
 # zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 # New completion style
-zstyle ':completion:*' auto-description 'specify: %d'
+fpath=($ZSH_DIR $fpath)
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' menu select=2
@@ -25,6 +27,7 @@ eval "$(dircolors -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r'
+zstyle ':completion:*:*:git:*' script /usr/share/git/completion/git-completion.bash
 autoload -Uz compinit && compinit
 
 # bindkeys
@@ -37,7 +40,6 @@ bindkey -s "^[[15~" "source $ZSHRC^m"
 stty stop undef # disable ^s
 
 # history
-ZSH_DIR=$XDG_CONFIG_HOME/zsh
 HISTSIZE=200
 HISTFILE=$ZSH_DIR/.zsh_history
 SAVEHIST=$HISTSIZE
