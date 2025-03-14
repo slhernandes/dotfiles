@@ -4,7 +4,9 @@ ZSH_DIR=$XDG_CONFIG_HOME/zsh
 alias alert_fail='notify-send --urgency=critical -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias fortune="misfortune"
+alias ip="ip --color=auto"
 alias ls="ls -A --color=auto"
+alias grep="grep --color=auto"
 alias open="xdg-open"
 alias pump="prime-run wine ~/.local/share/wineprefixes/default/drive_c/users/samuelhernandes/pumpsanity/Program64/PumpSanity.exe"
 alias tlupdate="sudo env PATH=$PATH tlmgr update --all"
@@ -57,6 +59,8 @@ eval "$(fzf --zsh)"
 
 if [ -z "$NVIM" ]; then
   fastfetch --logo-width 37 --logo-height 19
+else
+  $ZSH_DIR/scripts/squirtle
 fi
 
 if [ "$TERM" = "xterm-kitty" ]; then

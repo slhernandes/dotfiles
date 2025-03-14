@@ -137,7 +137,7 @@
     "format": "<span size=\"x-large\">  </span>",
     "tooltip": false,
     "on-click": "rofi -show drun &",
-    "on-click-right": "~/.local/bin/sddmenu &"
+    "on-click-right": "~/.config/waybar/scripts/sddmenu &"
   },
   "custom/weather": {
     "format": "· {} ",

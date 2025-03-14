@@ -1,0 +1,16 @@
+#!/bin/sh
+
+res=$(fd . $HOME -e pdf | sed "s|$HOME|~|" | rofi -dmenu -p "open: " -i -matching "fuzzy")
+res=$(echo $res | sed "s|~|$HOME|")
+
+if [ -z "$res" ]; then
+  echo "Empty filename."
+else
+  if [ -f "$res" ]; then
+    echo "Opening $res"
+    zathura $res &
+  else
+    echo $res
+    echo "Invalid filename."
+  fi
+fi

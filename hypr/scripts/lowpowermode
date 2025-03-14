@@ -4,7 +4,7 @@
 # 
 #     misc:vfr = true, since it’ll lower the amount of sent frames when nothing is happening on-screen.
 
-MODE_FILE=/tmp/lpmmode
+MODE_FILE=$XDG_CACHE_HOME/lpmmode
 icon_name=$XDG_CONFIG_HOME/hypr/icons/low-bat.png
 G14=1
 
@@ -16,7 +16,7 @@ on() {
   if [ $G14 -eq 1 ]; then
     asusctl anime -b Off
   fi
-  dunstify "Low Power Mode" "on" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test
+  dunstify "Low Power Mode" "on" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
   echo on > $MODE_FILE
 }
 
@@ -29,7 +29,7 @@ off() {
     asusctl anime -b Low
     asusctl anime gif -p $XDG_CONFIG_HOME/hypr/asus_anime/pikachu_running.gif -l 0 &
   fi
-  dunstify "Low Power Mode" "off" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test
+  dunstify "Low Power Mode" "off" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
   echo off > $MODE_FILE
 }
 
