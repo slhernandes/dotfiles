@@ -54,7 +54,7 @@ final_space = true
       style = 'agnoster_short'
       max_depth = 3
       hide_root_location = true
-      folder_icon = "…"
+      folder_icon = "·"
 
   [[blocks.segments]]
     type = 'git'
