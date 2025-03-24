@@ -60,7 +60,18 @@ eval "$(fzf --zsh)"
 if [ -z "$NVIM" ]; then
   fastfetch --logo-width 37 --logo-height 19
 else
-  $ZSH_DIR/scripts/squirtle
+  RNG=$(expr $RANDOM % 3)
+  case $RNG in
+    0)
+      $ZSH_DIR/scripts/squirtle
+      ;;
+    1)
+      $ZSH_DIR/scripts/charmander
+      ;;
+    2)
+      $ZSH_DIR/scripts/mage
+      ;;
+      esac
 fi
 
 if [ "$TERM" = "xterm-kitty" ]; then
