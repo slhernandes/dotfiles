@@ -6,7 +6,7 @@
 
 MODE_FILE=$XDG_CACHE_HOME/lpmmode
 icon_name=$XDG_CONFIG_HOME/hypr/icons/low-bat.png
-G14=1
+G14=0
 
 on() {
   hyprctl keyword decoration:blur:enabled false
@@ -16,7 +16,7 @@ on() {
   if [ $G14 -eq 1 ]; then
     asusctl anime -b Off
   fi
-  dunstify "Low Power Mode" "on" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
+  notify-send "Low Power Mode" "on" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
   echo on > $MODE_FILE
 }
 
@@ -29,11 +29,16 @@ off() {
     asusctl anime -b Low
     asusctl anime gif -p $XDG_CONFIG_HOME/hypr/asus_anime/pikachu_running.gif -l 0 &
   fi
-  dunstify "Low Power Mode" "off" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
+  notify-send "Low Power Mode" "off" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
   echo off > $MODE_FILE
 }
 
 case "$1" in
+  start)
+    if [ -f $MODE_FILE ] && [ -n "$(cat $MODE_FILE)" ]; then
+      $(cat $MODE_FILE)
+    fi
+    ;;
   on)
     on
     ;;

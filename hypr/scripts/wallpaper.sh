@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DEBUG_MODE=2
+DEBUG_MODE=0
 if [ $DEBUG_MODE -eq 0 ]; then
   LOG_FILE="/dev/null"
 elif [ $DEBUG_MODE -eq 1 ]; then
