@@ -122,15 +122,22 @@ export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
 export FZF_DEFAULT_OPTS="--tmux=center,70%,80% --multi -0 --no-preview --info=hidden --pointer → --color \"prompt:#7aa2f7,pointer:#7aa2f7\""
 # Preview file content using bat (https://github.com/sharkdp/bat)
 export FZF_CTRL_T_OPTS="
-  --tmux=center,70%,80%
-  --walker-skip .git,node_modules,target,plugins,plugin
-  --preview 'bat -n --color=always {}'
-  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+--tmux=center,70%,80%
+--walker-skip .git,node_modules,target,plugins,plugin
+--preview 'bat -n --color=always {}'
+--bind 'ctrl-/:change-preview-window(down|hidden|)'"
   # Print tree structure in the preview window
 export FZF_ALT_C_OPTS="
-  --tmux=center,70%,80%
-  --walker-skip .git,node_modules,target
-  --preview 'tree -C {}'"
+--tmux=center,70%,80%
+--walker-skip .git,node_modules,target
+--preview 'tree -C {}'"
 
 # java env
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
+
+# ocaml env
+export OPAMROOT="$XDG_DATA_HOME"/opam
+
+# readline env
+export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
+export RLWRAP_HOME="$XDG_DATA_HOME"/rlwrap

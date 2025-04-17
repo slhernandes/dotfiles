@@ -8,7 +8,7 @@ else
   HYPR_CONFIG="$XDG_CONFIG_HOME/hypr"
 fi
 
-WALL_LIST="city\nspace\nstreet\nwoods"
+WALL_LIST="city\nspace\nstreet\nwoods\nplains"
 NEW_WALL=$(echo -en $WALL_LIST | rofi -dmenu -p "select wallpaper: " --only-match)
 
 if [ -n "$NEW_WALL" ]; then

@@ -33,7 +33,7 @@ window#waybar {
 }
 
 #workspaces button.empty {
-  color: @color8;
+  color: alpha(@color8, 0.3);
 }
 
 #workspaces button.visible {
@@ -52,8 +52,8 @@ window#waybar {
 
 #workspaces button:hover {
   box-shadow: inherit;
-  border-top: 2px solid @color4;
-  border-bottom: 2px solid @color4;
+  /*border-top: 2px solid @color4;
+  border-bottom: 2px solid @color4;*/
   color: @color4;
   background: inherit; 
 }
@@ -65,12 +65,11 @@ window#waybar {
 }
 
 #workspaces button.focused:hover {
-  color: @color5;
+  color: @color4;
 }
 
 #workspaces button.active {
-  border-bottom: 2px solid @color5;
-  border-top: 2px solid @color5;
+  color: @color5;
 }
 
 #pulseaudio {

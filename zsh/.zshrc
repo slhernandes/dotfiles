@@ -19,7 +19,7 @@ alias glog="git log --graph --oneline"
 alias celar="fortune | cowsay | lolcat"
 
 # completion style (case-insensitive)
-# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 # New completion style
 fpath=($ZSH_DIR $fpath)
 zstyle ':completion:*' completer _expand _complete _correct _approximate
@@ -28,7 +28,6 @@ zstyle ':completion:*' menu select=2
 eval "$(dircolors -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r'
 zstyle ':completion:*:*:git:*' script /usr/share/git/completion/git-completion.bash
 autoload -Uz compinit && compinit
 
@@ -71,7 +70,7 @@ else
     2)
       $ZSH_DIR/scripts/mage
       ;;
-      esac
+  esac
 fi
 
 if [ "$TERM" = "xterm-kitty" ]; then
@@ -82,34 +81,35 @@ if [ "$XDG_SESSION_TYPE" = "x11" ]; then
   xset r rate 150 50
 fi
 
-if [ -f /etc/bash.command-not-found ]; then
-  . /etc/bash.command-not-found
-fi
+# print random stuff if command not found
+# if [ -f /etc/bash.command-not-found ]; then
+#   . /etc/bash.command-not-found
+# fi
 
 cdf(){
   input_path=$(find -maxdepth 6 -type d\
-    -not \( -path "./.nuget" -prune \)\
-    -not \( -path "./.dart-cli-completion" -prune \)\
-    -not \( -path "./.dart-tool" -prune \)\
-    -not \( -path "./.dotnet" -prune \)\
-    -not \( -path "./.eclipse" -prune \)\
-    -not \( -path "./.hoogle" -prune \)\
-    -not \( -path "./.klei" -prune \)\
-    -not \( -path "./.mono" -prune \)\
-    -not \( -path "./.mozilla" -prune \)\
-    -not \( -path "./.net" -prune \)\
-    -not \( -path "./.pki" -prune \)\
-    -not \( -path "./.pub-cache" -prune \)\
-    -not \( -path "./.pydev" -prune \)\
-    -not \( -path "./.pytest_cache" -prune \)\
-    -not \( -path "./.steam" -prune \)\
-    -not \( -path "./.steamCloud" -prune \)\
-    -not \( -path "./.steampid" -prune \)\
-    -not \( -path "./.swt" -prune \)\
-    -not \( -path "./.var" -prune \)\
-    -not \( -path "./.yarn" -prune \)\
-    -not \( -path "./.cache" -prune \)\
-    -not \( -name ".git" -prune \)\
+      -not \( -path "./.nuget" -prune \)\
+      -not \( -path "./.dart-cli-completion" -prune \)\
+      -not \( -path "./.dart-tool" -prune \)\
+      -not \( -path "./.dotnet" -prune \)\
+      -not \( -path "./.eclipse" -prune \)\
+      -not \( -path "./.hoogle" -prune \)\
+      -not \( -path "./.klei" -prune \)\
+      -not \( -path "./.mono" -prune \)\
+      -not \( -path "./.mozilla" -prune \)\
+      -not \( -path "./.net" -prune \)\
+      -not \( -path "./.pki" -prune \)\
+      -not \( -path "./.pub-cache" -prune \)\
+      -not \( -path "./.pydev" -prune \)\
+      -not \( -path "./.pytest_cache" -prune \)\
+      -not \( -path "./.steam" -prune \)\
+      -not \( -path "./.steamCloud" -prune \)\
+      -not \( -path "./.steampid" -prune \)\
+      -not \( -path "./.swt" -prune \)\
+      -not \( -path "./.var" -prune \)\
+      -not \( -path "./.yarn" -prune \)\
+      -not \( -path "./.cache" -prune \)\
+      -not \( -name ".git" -prune \)\
     | fzf --prompt "cd to: " --preview 'tree -L 1 {}' --preview-window=right,35%)
   if [ -n "$input_path" ]; then
     cd $input_path
@@ -153,7 +153,10 @@ function chtsh() {
 }
 
 # ghcup-env
-[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" 
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+
+[[ ! -r '/home/samuelhernandes/.local/share/opam/opam-init/init.zsh' ]] || source '/home/samuelhernandes/.local/share/opam/opam-init/init.zsh' &> /dev/null
+
 
 FORCE_STARSHIP=0
 
