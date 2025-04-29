@@ -161,7 +161,7 @@ function chtsh() {
 FORCE_STARSHIP=0
 
 ZSH_PROMPT="$ZSH_DIR/prompt"
-if [ -n "$NVIM" ] || [ $FORCE_STARSHIP -ge 1 ]; then
+if [ -n "$NVIM" ] || [ $FORCE_STARSHIP -ge 1 ] || [ "$TERM" = "eterm-color" ] || [ "$TERM" = "eterm" ]; then
   source "$ZSH_PROMPT/starship.zsh"
 else
   source "$ZSH_PROMPT/ohmyposh.zsh"
