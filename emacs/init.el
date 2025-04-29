@@ -18,8 +18,8 @@
  :family "FiraCode Nerd Font")
 
 ;; set transparency
-(set-frame-parameter nil 'alpha-background 85)
-(add-to-list 'default-frame-alist '(alpha-background . 85))
+(set-frame-parameter nil 'alpha-background 90)
+(add-to-list 'default-frame-alist '(alpha-background . 90))
 
 ;; Disable bars
 (tool-bar-mode 0)
