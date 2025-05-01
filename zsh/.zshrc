@@ -175,4 +175,8 @@ source $PLUG/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 # source $PLUG/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source $PLUG/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
+if [ -n "$GHOSTTY_RESOURCES_DIR" ]; then
+  source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
+fi
+
 typeset -aU path

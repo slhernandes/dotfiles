@@ -130,6 +130,13 @@
 (global-set-key (kbd "M-o") 'smart-open-line)
 (global-set-key (kbd "M-O") 'smart-open-line-above)
 
+(defun toggle-noob-mode ()
+  (interactive)
+  (toggle-tool-bar-mode-from-frame)
+  (toggle-menu-bar-mode-from-frame))
+
+(global-set-key (kbd "M-n") 'toggle-noob-mode)
+
 ;; Paste with C-S-v in *terminal*
 (add-hook 'term-load-hook
   (lambda () (define-key term-raw-map (kbd "C-S-v") 'term-paste)))

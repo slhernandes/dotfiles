@@ -12,7 +12,9 @@
     "format": "{title}",
     "rewrite": {
       "kitty - (.*)": "💻Kitty - $1",
+      "tmux - (.*)": "💻tmux - $1",
       ".*Mozilla Firefox": "🌏Firefox",
+      ".*Floorp": "🌏Floorp",
       ".*Discord.*": "📟Discord",
       ".*Ferdium.*": "📟Ferdium",
       ".*pdf": "📘Zathura",

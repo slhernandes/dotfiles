@@ -141,3 +141,6 @@ export OPAMROOT="$XDG_DATA_HOME"/opam
 # readline env
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 export RLWRAP_HOME="$XDG_DATA_HOME"/rlwrap
+
+# JLink env
+export PATH="$PATH:$HOME/Dokumente/srcs/JLink_Linux_V830_x86_64"

@@ -1,0 +1,27 @@
+theme = tokyonight-storm
+
+font-family = "Fira Code"
+font-family-italic = "JetBrains Mono NL"
+font-feature = +ss01 +ss02 +ss03 +ss04 +ss05 +ss06 +ss07 +ss08
+font-size = 14.4
+font-codepoint-map = U+F101-U+F25C=nonicons
+font-codepoint-map = U+E6B2-U+E6B2=Hasklug Nerd Font
+font-codepoint-map = U+1F000-U+1FFFF=Noto Color Emoji
+font-family = "FiraCode Nerd Font Mono"
+
+window-decoration = false
+window-padding-x = 0,0
+window-padding-y = 0,0
+confirm-close-surface = false
+
+shell-integration = zsh
+# shell-integration-features = no-cursor
+
+cursor-style = block
+# cursor-style-blink = true
+
+keybind = alt+r=reload_config
+keybind = ctrl+enter=unbind
+keybind = ctrl+comma=unbind
+
+# custom-shader="./shaders/pixels.glsl"
