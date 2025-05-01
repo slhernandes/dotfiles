@@ -131,6 +131,6 @@ for i in $MANIFEST; do
       ln -sf $src $tgt
       ;;
     *)
-      err "First column of the manifest should be either 'r' or 'd'"
+      err "First column of the manifest should be either 'c' or 'd'"
   esac
 done
