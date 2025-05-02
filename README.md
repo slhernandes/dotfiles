@@ -46,4 +46,5 @@ To install all the yazi plugins, enter ```ya pack -u``` command.
 
 ### emacs
 
-To initialize package, do ```M-x package-initialize RET```
+To initialize package, do ```M-x package-initialize RET M-x load-file <init-file> RET```,
+where ```<init-file>``` is the location of init.el (default: ~/.config/emacs/init.el)
