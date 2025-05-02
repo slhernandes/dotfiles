@@ -33,3 +33,17 @@ c|zsh
 c|emacs
 d|nvim
 ```
+
+## Caveats
+
+### tmux
+
+To install all the tpm plugins, do ```prefix+I```.
+
+### yazi
+
+To install all the yazi plugins, enter ```ya pack -u``` command.
+
+### emacs
+
+To initialize package, do ```M-x package-initialize RET```

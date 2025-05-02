@@ -107,6 +107,7 @@ for i in $MANIFEST; do
 
   case $mode in
     c)
+      setup_tgt "$tgt"
       mkdir $tgt &> /dev/null
       for j in $(ls -A $src); do
         skip=0
