@@ -108,7 +108,7 @@ for i in $MANIFEST; do
   case $mode in
     c)
       mkdir $tgt &> /dev/null
-      for j in $(ls $src); do
+      for j in $(ls -A $src); do
         skip=0
         if [ -f "$src/.gitignore" ]; then
           for k in $(cat "$src/.gitignore"); do
