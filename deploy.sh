@@ -77,7 +77,7 @@ else
   MANIFEST=$(cat $1)
 fi
 
-if [ -d "$2" ]; then
+if [ -n "$2" ] && [ -d "$2" ]; then
   if [ "$NOCONFIRM" -eq 0 ]; then
     echo -en "Deploy to $2? [y/N] "
     read confirm
@@ -85,8 +85,10 @@ if [ -d "$2" ]; then
     confirm="Y"
   fi
   if [[ "$confirm" == +(y|Y) ]]; then
-    TARGET_DIR="$2"
+    TARGET_DIR=$(realpath "$2")
   fi
+elif [ -n "$2" ]; then
+  err "$2 is not a existing directory."
 fi
 
 for i in $MANIFEST; do
@@ -116,13 +118,21 @@ for i in $MANIFEST; do
             fi
           done
         fi
-        if [ "$skip" -eq 1 ] || [ "$j" = ".gitignore" ]; then
+        if [ "$skip" -eq 1 ] || [ "$j" = ".gitignore" ] || [ "$j" = ".plugins" ]; then
           continue
         fi
 
         setup_tgt "$tgt/$j"
         info "linking $src/$j to $tgt/$j"
         ln -sf "$src/$j" "$tgt/$j"
+      done
+      if [ ! -f "$src/.plugins" ]; then
+        continue
+      fi
+      for j in $(cat "$src/.plugins"); do
+        plugin_dir=$(echo $j | awk -F'|' '{print $1}')
+        giturl=$(echo $j | awk -F'|' '{print $2}')
+        git clone --depth=1 --recursive $giturl "$tgt/$plugin_dir"
       done
       ;;
     d)
