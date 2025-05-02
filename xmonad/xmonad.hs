@@ -64,7 +64,7 @@ myConfig = def
     , workspaces         = myWorkspaces
     , focusedBorderColor = "#45e8ce"
     , normalBorderColor  = "#24283b"
-    , terminal           = "kitty"
+    , terminal           = "ghostty"
     , borderWidth        = 2
     }
   `additionalKeysP`
@@ -73,8 +73,8 @@ myConfig = def
     , ("M-S-n"   , spawn "notificationcenter"                                             )
 ----, ("M-d"     , spawn "$HOME/.local/bin/togglekeyboard"                                )
     , ("M-p"     , spawn "rofi -show drun"                                                )
-    , ("M-f"     , spawnOn "br:1" "firefox -P default-release"                            )
-    , ("M-t"     , spawnOn "term" "kitty -e $HOME/.config/tmux/bin/tmux-start"            )
+    , ("M-f"     , spawnOn "br:1" "floorp -P default-release"                             )
+    , ("M-t"     , spawnOn "term" "ghostty -e $HOME/.config/tmux/bin/tmux-start"          )
     , ("M-l"     , moveTo Next nonNSPEmpty                                                )
     , ("M-h"     , moveTo Prev nonNSPEmpty                                                )
     , ("M-S-l"   , shiftTo Next nonNSP >> moveTo Next nonNSP                              )

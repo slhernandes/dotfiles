@@ -1,0 +1,16 @@
+" System-wide defaults
+runtime! archlinux.vim
+
+syntax on
+set nu
+set rnu
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+set nowrap
+set viminfo+=n~/.config/vim/viminfo
+set bo=all
+set tm=0
+
+colorscheme palenight
