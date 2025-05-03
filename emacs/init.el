@@ -137,6 +137,10 @@
 
 (global-set-key (kbd "M-n") 'toggle-noob-mode)
 
+(global-unset-key (kbd "C-x m"))
+(global-set-key (kbd "C-x m m") 'compile)
+(global-set-key (kbd "C-x m r") 'recompile)
+
 ;; Paste with C-S-v in *terminal*
 (add-hook 'term-load-hook
   (lambda () (define-key term-raw-map (kbd "C-S-v") 'term-paste)))

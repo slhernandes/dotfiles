@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 print_help() {
-  echo './deploy.sh [-y|--noconfirm|-h|--help] <manifest_file> [target_dir]'
+  echo './deploy.sh [-y|--noconfirm|-h|--help|-r|--replace] <manifest_file> [target_dir]'
   echo '    -h / --help      : show this message'
+  echo '    -r / --replace   : do not skip when config exists in target_dir'
   echo '    -y / --noconfirm : skip all [y/N] questions'
   echo '    manifest_file    : location of the manifest file'
   echo '    target_dir       : link target location (default: $XDG_CONFIG_HOME or $HOME/.config)'
@@ -13,23 +14,38 @@ err() {
   exit 1
 }
 
+info() {
+  echo -en "[\033[32mINFO\033[0m] $1\n"
+}
+
 warn() {
   echo -en "[\033[33mWARNING\033[0m] $1\n"
 }
 
-info() {
-  echo -en "[\033[32mINFO\033[0m] $1\n"
+prompt() {
+  echo -en "[\033[34mPROMPT\033[0m] $1 "
 }
 
 setup_tgt() {
   if [ -d "$1" ]; then
     if [ -z "$(file "$1" | grep "link")" ]; then
-      info "moved $1 => $1.old"
-      rm -r "$1.old"
-      mv "$1" "$1.old"
-    else
+      confirm="N"
+      bn=$(echo $1 | xargs basename)
       if [ "$NOCONFIRM" -eq 0 ]; then
-        echo -en "Remove link to $1? [y/N] "
+        prompt "move $bn to ${bn}.old? [y/N]"
+        read confirm
+      else
+        confirm="Y"
+      fi
+      if [[ "$confirm" == +(y|Y) ]]; then
+        info "moved $bn => ${bn}.old"
+        rm -rf "$1.old"
+        mv "$1" "$1.old"
+      fi
+    else
+      confirm="N"
+      if [ "$NOCONFIRM" -eq 0 ]; then
+        prompt "Remove link to $1? [y/N]"
         read confirm
       else
         confirm="Y"
@@ -42,12 +58,13 @@ setup_tgt() {
 }
 
 SCRIPT_DIR="$(realpath $0 | xargs dirname)"
+NOCONFIRM=0
+REPLACE=0
 if [ -z "$XDG_CONFIG_HOME" ]; then
   TARGET_DIR="$HOME/.config"
 else
   TARGET_DIR="$XDG_CONFIG_HOME"
 fi
-NOCONFIRM=0
 
 if [ $# -eq 0 ]; then
   print_help
@@ -63,14 +80,19 @@ while [ $# -gt 0 ] && [[ $1 == +(-)* ]]; do
     "-y"|"--noconfirm")
       NOCONFIRM=1
       ;;
+    "-r"|"--replace")
+      REPLACE=1
+      ;;
   esac
   shift
 done
 
+if [ "$REPLACE" -eq 0 ]; then
+  warn "\033[31mexisting config will be skipped. Use -r flag to overwrite the existing config\033[0m"
+fi
 if [ -z "$1" ]; then
   err "No input manifest detected."
 fi
-
 if [ ! -f "$1" ]; then
   err "Manifest file \"$1\" not found."
 else
@@ -78,14 +100,18 @@ else
 fi
 
 if [ -n "$2" ] && [ -d "$2" ]; then
+  confirm="N"
   if [ "$NOCONFIRM" -eq 0 ]; then
-    echo -en "Deploy to $2? [y/N] "
+    prompt "Deploy to $2? [y/N]"
     read confirm
   else
     confirm="Y"
   fi
   if [[ "$confirm" == +(y|Y) ]]; then
     TARGET_DIR=$(realpath "$2")
+  else
+    info "cancelled config deployment to $2"
+    exit 0
   fi
 elif [ -n "$2" ]; then
   err "$2 is not a existing directory."
@@ -107,7 +133,26 @@ for i in $MANIFEST; do
 
   case $mode in
     c)
+      if [ "$REPLACE" -eq 0 ] && [ -d "$tgt" ]; then
+        info "skipping $tgt"
+        continue
+      fi
       setup_tgt "$tgt"
+      if [ -d "$tgt" ]; then
+        confirm="N"
+        if [ "$NOCONFIRM" -eq 0 ]; then
+          prompt "replace $tgt? [y/N]"
+          read confirm
+        else
+          confirm="Y"
+        fi
+        if [[ "$confirm" == +(y|Y) ]]; then
+          rm -rf "$tgt"
+        else
+          info "skipping $tgt"
+          continue
+        fi
+      fi
       mkdir $tgt &> /dev/null
       for j in $(ls -A $src); do
         skip=0
@@ -137,11 +182,20 @@ for i in $MANIFEST; do
       done
       ;;
     d)
+      if [ "$REPLACE" -eq 0 ] && [ -d "$tgt" ]; then
+        info "skipping $tgt"
+        continue
+      fi
       setup_tgt $tgt
+      if [ -d "$tgt" ]; then
+        info "skipping $tgt"
+        continue
+      fi
       info "linking $src to $tgt"
       ln -sf $src $tgt
       ;;
     *)
       err "First column of the manifest should be either 'c' or 'd'"
+      ;;
   esac
 done

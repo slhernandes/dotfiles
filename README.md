@@ -14,11 +14,12 @@ or use the ```deploy.sh``` script.
 
 Usage:
 ```
-./deploy.sh [-y|--noconfirm|-h|--help] <manifest_file> [target_dir]
-    -h / --help      : show this message
-    -y / --noconfirm : skip all [y/N] questions
-    manifest_file    : location of the manifest file
-    target_dir       : link target location (default: $XDG_CONFIG_HOME or $HOME/.config)
+ ./deploy.sh [-y|--noconfirm|-h|--help|-r|--replace] <manifest_file> [target_dir]
+     -h / --help      : show this message
+     -r / --replace   : do not skip when config exists in target_dir
+     -y / --noconfirm : skip all [y/N] questions
+     manifest_file    : location of the manifest file
+     target_dir       : link target location (default: $XDG_CONFIG_HOME or $HOME/.config)
 ```
 
 ### Manifest File
@@ -46,5 +47,10 @@ To install all the yazi plugins, enter ```ya pack -u``` command.
 
 ### emacs
 
-To initialize package, do ```M-x package-initialize RET M-x load-file <init-file> RET```,
-where ```<init-file>``` is the location of init.el (default: ~/.config/emacs/init.el)
+After opening emacs for the first time, do:
+```
+M-x package-initialize RET
+M-x load-file <init-file> RET
+M-x tree-sit-install-language-grammar RET cpp RET RET
+```
+, where ```<init-file>``` is the location of init.el (default: ~/.config/emacs/init.el)
