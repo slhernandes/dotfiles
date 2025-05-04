@@ -133,18 +133,18 @@ for i in $MANIFEST; do
   case $mode in
     c)
       if [ -f "$src/.plugins" ]; then
-        if [ "$UPDATE" -eq 1 ]; then
-          for j in $(cat "$src/.plugins"); do
-            plugin_dir=$(echo $j | awk -F'|' '{print $1}')
-            giturl=$(echo $j | awk -F'|' '{print $2}')
+        for j in $(cat "$src/.plugins"); do
+          plugin_dir=$(echo $j | awk -F'|' '{print $1}')
+          giturl=$(echo $j | awk -F'|' '{print $2}')
+          if [ "$UPDATE" -eq 1 ] || [ ! -d "$tgt/$plugin_dir" ]; then
             if [ -d "$tgt/$plugin_dir" ] && [ -n "$tgt" ]; then
               rm -rf "$tgt/$plugin_dir"
             fi
             git clone --depth=1 --recursive $giturl "$tgt/$plugin_dir"
-          done
-        else
-          info "skipping update $dir"
-        fi
+          elif [ "$UPDATE" -eq 0 ] && [ -d "$tgt/$plugin_dir" ]; then
+            info "skipping update $dir"
+          fi
+        done
       fi
       if [ "$REPLACE" -eq 0 ] && [ -d "$tgt" ]; then
         continue
