@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-
 print_help() {
-  echo './deploy.sh [-y|--noconfirm|-h|--help|-r|--replace] <manifest_file> [target_dir]'
+  echo './deploy.sh [-y|--noconfirm|-h|--help|-r|--replace|-u|--update] <manifest_file> [target_dir]'
   echo '    -h / --help      : show this message'
   echo '    -r / --replace   : do not skip when config exists in target_dir'
   echo '    -y / --noconfirm : skip all [y/N] questions'
+  echo '    -u / --update    : Sync the plugins'
   echo '    manifest_file    : location of the manifest file'
   echo '    target_dir       : link target location (default: $XDG_CONFIG_HOME or $HOME/.config)'
 }
@@ -27,7 +27,7 @@ prompt() {
 }
 
 setup_tgt() {
-  if [ -d "$1" ]; then
+  if [ -e "$1" ]; then
     if [ -z "$(file "$1" | grep "link")" ]; then
       confirm="N"
       bn=$(echo $1 | xargs basename)
@@ -60,6 +60,7 @@ setup_tgt() {
 SCRIPT_DIR="$(realpath $0 | xargs dirname)"
 NOCONFIRM=0
 REPLACE=0
+UPDATE=0
 if [ -z "$XDG_CONFIG_HOME" ]; then
   TARGET_DIR="$HOME/.config"
 else
@@ -83,10 +84,12 @@ while [ $# -gt 0 ] && [[ $1 == +(-)* ]]; do
     "-r"|"--replace")
       REPLACE=1
       ;;
+    "-u"|"--update")
+      UPDATE=1
+      ;;
   esac
   shift
 done
-
 if [ "$REPLACE" -eq 0 ]; then
   warn "\033[31mexisting config will be skipped. Use -r flag to overwrite the existing config\033[0m"
 fi
@@ -98,7 +101,6 @@ if [ ! -f "$1" ]; then
 else
   MANIFEST=$(cat $1)
 fi
-
 if [ -n "$2" ] && [ -d "$2" ]; then
   confirm="N"
   if [ "$NOCONFIRM" -eq 0 ]; then
@@ -116,7 +118,6 @@ if [ -n "$2" ] && [ -d "$2" ]; then
 elif [ -n "$2" ]; then
   err "$2 is not a existing directory."
 fi
-
 for i in $MANIFEST; do
   if [ -n "$(echo "$i" | xargs | grep -E "^#")" ]; then
     continue
@@ -125,35 +126,35 @@ for i in $MANIFEST; do
   dir=$(echo "$i" | awk -F'|' '{print $2}')
   src="$SCRIPT_DIR/$dir"
   tgt="$TARGET_DIR/$dir"
-
   if [ ! -d "$src" ]; then
     warn "$src is not a valid dir..."
     continue
   fi
-
   case $mode in
     c)
+      if [ -f "$src/.plugins" ]; then
+        if [ "$UPDATE" -eq 1 ]; then
+          for j in $(cat "$src/.plugins"); do
+            plugin_dir=$(echo $j | awk -F'|' '{print $1}')
+            giturl=$(echo $j | awk -F'|' '{print $2}')
+            if [ -d "$tgt/$plugin_dir" ] && [ -n "$tgt" ]; then
+              rm -rf "$tgt/$plugin_dir"
+            fi
+            git clone --depth=1 --recursive $giturl "$tgt/$plugin_dir"
+          done
+        else
+          info "skipping update $dir"
+        fi
+      fi
       if [ "$REPLACE" -eq 0 ] && [ -d "$tgt" ]; then
-        info "skipping $tgt"
         continue
       fi
-      setup_tgt "$tgt"
-      if [ -d "$tgt" ]; then
-        confirm="N"
-        if [ "$NOCONFIRM" -eq 0 ]; then
-          prompt "replace $tgt? [y/N]"
-          read confirm
-        else
-          confirm="Y"
-        fi
-        if [[ "$confirm" == +(y|Y) ]]; then
-          rm -rf "$tgt"
-        else
-          info "skipping $tgt"
-          continue
-        fi
+      if [ -n "$(file "$tgt" | grep "link")" ]; then
+        rm "$tgt"
       fi
-      mkdir $tgt &> /dev/null
+      if [ ! -d "$tgt" ]; then
+        mkdir "$tgt"
+      fi
       for j in $(ls -A $src); do
         skip=0
         if [ -f "$src/.gitignore" ]; then
@@ -167,28 +168,23 @@ for i in $MANIFEST; do
         if [ "$skip" -eq 1 ] || [ "$j" = ".gitignore" ] || [ "$j" = ".plugins" ]; then
           continue
         fi
-
         setup_tgt "$tgt/$j"
-        info "linking $src/$j to $tgt/$j"
-        ln -sf "$src/$j" "$tgt/$j"
-      done
-      if [ ! -f "$src/.plugins" ]; then
-        continue
-      fi
-      for j in $(cat "$src/.plugins"); do
-        plugin_dir=$(echo $j | awk -F'|' '{print $1}')
-        giturl=$(echo $j | awk -F'|' '{print $2}')
-        git clone --depth=1 --recursive $giturl "$tgt/$plugin_dir"
+        if [ ! -e "$tgt/$j" ]; then
+          info "linking $src/$j to $tgt/$j"
+          ln -sf "$src/$j" "$tgt/$j"
+        else
+          info "skipping $j"
+        fi
       done
       ;;
     d)
       if [ "$REPLACE" -eq 0 ] && [ -d "$tgt" ]; then
-        info "skipping $tgt"
+        info "skipping $dir"
         continue
       fi
       setup_tgt $tgt
       if [ -d "$tgt" ]; then
-        info "skipping $tgt"
+        info "skipping $dir"
         continue
       fi
       info "linking $src to $tgt"

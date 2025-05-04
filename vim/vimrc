@@ -13,4 +13,5 @@ set viminfo+=n~/.config/vim/viminfo
 set bo=all
 set tm=0
 
-colorscheme palenight
+"colorscheme palenight
+colorscheme nord
