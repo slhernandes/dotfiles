@@ -7,60 +7,62 @@ import json
 
 def send_waybar_update():
     _ = subprocess.run(
-            ["pkill", "-SIGRTMIN+8", "waybar"],
-            shell=False,
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-            )
+        ["pkill", "-SIGRTMIN+8", "waybar"],
+        shell=False,
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
 
 
 def get_cur_window_prop():
     output = subprocess.run(
-            ["hyprctl", "activewindow", "-j"],
-            shell=False,
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-            )
+        ["hyprctl", "activewindow", "-j"],
+        shell=False,
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
     return json.loads(output.stdout)
 
 
 def get_cur_workspace_prop():
     output = subprocess.run(
-            ["hyprctl", "activeworkspace", "-j"],
-            shell=False,
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-            )
+        ["hyprctl", "activeworkspace", "-j"],
+        shell=False,
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
     return json.loads(output.stdout)
 
 
 def move_window_to_special():
     _ = subprocess.run(
-            ["hyprctl", "dispatch",
-             "movetoworkspacesilent", "special:minimized"],
-            shell=False,
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-            )
+        ["hyprctl", "dispatch",
+         "movetoworkspacesilent", "special:minimized"],
+        shell=False,
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
 
 
 def screenshot_active(file):
+    prop = get_cur_window_prop()
+    bin_path = f"{os.path.dirname(__file__)}/fullscreenblast.sh"
     _ = subprocess.run(
-            ["grimblast", "save", "active", file],
-            shell=False,
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-            )
+        [bin_path, file, str(prop["fullscreen"])],
+        shell=False,
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
 
 
 def initiate_argparse():
     parser = argparse.ArgumentParser(
-            description="A script to minimize and restore hyprland window")
+        description="A script to minimize and restore hyprland window")
     subparsers = parser.add_subparsers(help="Subcommand help", dest="command")
 
     _ = subparsers.add_parser("minimize",
@@ -83,7 +85,7 @@ def initiate_argparse():
 
 def minimize():
     icons_dir = (os.getenv("XDG_CONFIG_HOME") + "/hypr/icons")\
-            or (os.getenv("HOME") + ".config/hypr/icons")
+        or (os.getenv("HOME") + ".config/hypr/icons")
     screenshot_dir = "/tmp/minimize"
     if not os.path.isdir(screenshot_dir):
         os.mkdir(screenshot_dir)
@@ -95,41 +97,41 @@ def minimize():
         send_waybar_update()
     else:
         _ = subprocess.run(
-                f"notify-send -r 818 -u low -i {icons_dir}/dialog-warning.svg \
+            f"notify-send -r 818 -u low -i {icons_dir}/dialog-warning.svg \
                         \"Minimizer\" \"No active window detected\"\
                         -h string:synchronous:test\
                         -h boolean:SWAYNC_BYPASS_DND:true",
-                shell=True,
-                encoding="utf-8",
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                )
+            shell=True,
+            encoding="utf-8",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
 
 
 def restore(address):
     prop = get_cur_workspace_prop()
     _ = subprocess.run(
-            ["hyprctl", "dispatch", "movetoworkspace",
-             f"{prop['id']},address:{address}"],
-            shell=False,
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            )
+        ["hyprctl", "dispatch", "movetoworkspace",
+         f"{prop['id']},address:{address}"],
+        shell=False,
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
     send_waybar_update()
 
 
 def restorerofi():
     icons_dir = (os.getenv("XDG_CONFIG_HOME") + "/hypr/icons")\
-            or (os.getenv("HOME") + ".config/hypr/icons")
+        or (os.getenv("HOME") + ".config/hypr/icons")
     screenshot_dir = "/tmp/minimize"
     fallback_thumbnail = f"{icons_dir}/hakase_no_img.jpg"
     minimized_wins = json.loads(subprocess.run(
-            ["hyprctl", "clients", "-j"],
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            ).stdout)
+        ["hyprctl", "clients", "-j"],
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ).stdout)
 
     address_title_map = {}
     title_address_map = {}
@@ -146,15 +148,15 @@ def restorerofi():
 
     if len(addresses) == 0:
         _ = subprocess.run(
-                f"notify-send -r 818 -u low -i {icons_dir}/dialog-warning.svg \
+            f"notify-send -r 818 -u low -i {icons_dir}/dialog-warning.svg \
                         \"Minimizer\" \"No minimized window\"\
                         -h string:synchronous:test\
                         -h boolean:SWAYNC_BYPASS_DND:true",
-                shell=True,
-                encoding="utf-8",
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                )
+            shell=True,
+            encoding="utf-8",
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
         exit(0)
     elif len(addresses) == 1:
         restore(addresses[0])
@@ -172,36 +174,36 @@ def restorerofi():
                 fr"\0icon\x1f{fallback_thumbnail}\n"
 
     output = subprocess.run(
-            # f"echo \'{"\n".join(titles)}\'\
-            #   | rofi -dmenu -l {min(8, len(titles))} -no-custom -p restore:",
-            fr'''echo -en "{rofi_string}" |\
+        # f"echo \'{"\n".join(titles)}\'\
+        #   | rofi -dmenu -l {min(8, len(titles))} -no-custom -p restore:",
+        fr'''echo -en "{rofi_string}" |\
               rofi -dmenu -theme "~/.config/rofi/themes/listview.rasi"''',
-            shell=True,
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            ).stdout.strip()
+        shell=True,
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ).stdout.strip()
     if len(output) > 0:
         restore(title_address_map[output])
     else:
         _ = subprocess.run(
-                f"dunstify -r 818 -u low -i {icons_dir}/dialog-error.svg \
+            f"dunstify -r 818 -u low -i {icons_dir}/dialog-error.svg \
                         \"Minimizer\" \"No window is chosen to be restored\"\
                         -h string:synchronous:test\
                         -h boolean:SWAYNC_BYPASS_DND:true",
-                shell=True,
-                encoding="utf-8",
-                )
+            shell=True,
+            encoding="utf-8",
+        )
         exit(1)
 
 
 def window_count():
     minimized_wins = json.loads(subprocess.run(
-            ["hyprctl", "clients", "-j"],
-            encoding="utf-8",
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            ).stdout)
+        ["hyprctl", "clients", "-j"],
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    ).stdout)
     return len([win for win in minimized_wins
                 if win['workspace']['name'] == "special:minimized"])
 

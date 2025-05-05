@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/zsh
 
 SCRIPT_DIR=$(realpath $0 | xargs dirname)
 
@@ -8,8 +8,9 @@ else
   HYPR_CONFIG="$XDG_CONFIG_HOME/hypr"
 fi
 
-WALL_LIST="city\nspace\nstreet\nwoods\nplains"
-NEW_WALL=$(echo -en $WALL_LIST | rofi -dmenu -p "select wallpaper: " --only-match)
+WALL_LIST=(city space street woods plains)
+JOINED_WALL_LIST=$(echo $WALL_LIST[@] | tr ' ' '\n')
+NEW_WALL=$(echo -en $JOINED_WALL_LIST | rofi -dmenu -p "select wallpaper: " --only-match -l ${#WALL_LIST[@]})
 
 if [ -n "$NEW_WALL" ]; then
   CH_WALL=$(grep "$NEW_WALL" $HYPR_CONFIG/.wallpaper)

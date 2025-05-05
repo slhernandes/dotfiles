@@ -30,7 +30,7 @@ fi
 
 themes=(pywal tokyonight catpuccin_macchiato)
 joined_themes=$(echo $themes[@] | tr ' ' '\n')
-picked_theme=$(echo $joined_themes | rofi -dmenu -p "choose theme:" --only-match)
+picked_theme=$(echo $joined_themes | rofi -dmenu -p "choose theme:" --only-match -l ${#themes[@]})
 
 if [ "$picked_theme" = "pywal" ]; then
   ln -sf ${pywal_css} ${waybar_dir}/colors.css

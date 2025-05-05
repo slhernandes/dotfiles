@@ -6,11 +6,11 @@
 
 
 configuration {
-    modi:                        "drun";
-    show-icons:                  true;
-  	drun-display-format:         "{name}";
-    hover-select:                true;
-    font:                        "Noto Sans CJK JP 12";
+  modi:                        "drun";
+  show-icons:                  true;
+  drun-display-format:         "{name}";
+  hover-select:                true;
+  font:                        "Noto Sans CJK JP 12";
 }
 /* Config and colors ----------------------------------------------- */
 
@@ -18,91 +18,108 @@ configuration {
 
 /* Main Window ------------------------------------------------ */
 window {
-    width:                       65%;
-    margin:                      0px;
-    padding:                     0px;
-    location:                    center;
-    anchor:                      center;
-    background-color:            transparent;
+  width:                       50%;
+  height:                      45%;
+  margin:                      0px;
+  padding:                     0px;
+  location:                    center;
+  anchor:                      center;
+  background-color:            transparent;
+}
+
+
+icon-current-entry {
+  expand:                      true;
+  size:                      40%;
+}
+
+dummy {
+  expand: true;
+  padding: 10px;
+}
+
+icon-box {
+  children: [icon-current-entry];
 }
 
 /* Main Box --------------------------------------------------- */
 mainbox {
-    children:                    [ "listview" ];
+  children:                    [listview-split];
 
-    spacing:                     0px;
-    margin:                      0px;
-    padding:                     0px;
-    background-color:            @bg;
-    text-color:                  transparent;
+  spacing:                     0px;
+  margin:                      0px;
+  padding:                     0px;
+  background-color:            @bg;
+  text-color:                  transparent;
+}
+
+listview-split {
+  children:                    [listview, icon-current-entry];
+  orientation:                 horizontal;
+  spacing:                     10px;
 }
 
 /* ---- List ---- */
 listview {
-    columns:                     3;
-    lines:                       2;
-    cycle:                       true;
-    dynamic:                     true;
-    scrollbar:                   false;
-    layout:                      vertical;
-    reverse:                     false;
-    fixed-height:                true;
-    fixed-columns:               false;
+  columns:                     1;
+  cycle:                       true;
+  dynamic:                     true;
+  scrollbar:                   false;
+  layout:                      vertical;
+  reverse:                     false;
+  fixed-height:                true;
+  fixed-columns:               true;
 
-    background-color:            @bg;
-    text-color:                  transparent;
+  background-color:            @bg;
+  text-color:                  transparent;
 
-    spacing:                     0px;
-    margin:                      0px;
-    padding:                     0px;
+  spacing:                     0px;
+  margin:                      0px;
+  padding:                     0px;
+  expand:                      true;
 }
 
 /* Elements --------------------------------------------------- */
 element {
-    cursor:                      pointer;
-    border-radius:               10px;
-    background-color:            transparent;
-    text-color:                  transparent;
-    orientation:                 vertical;
+  children:                    [element-text];
+  cursor:                      pointer;
+  border-radius:               10px;
+  background-color:            transparent;
+  text-color:                  transparent;
+  orientation:                 vertical;
 
-    spacing:                     0px;
-    margin:                      0px;
-    padding:                     2px;
+  spacing:                     0px;
+  margin:                      0px;
+  padding:                     2px;
 }
 
 element.selected {
-    cursor:                      pointer;
-    border-radius:               10px;
-    background-color:            @bg-alt;
-    text-color:                  @fg-alt;
-    orientation:                 vertical;
-    text-outline:                transparent;
+  cursor:                      pointer;
+  border-radius:               10px;
+  background-color:            @bg-alt;
+  text-color:                  @fg-alt;
+  orientation:                 vertical;
+  text-outline:                transparent;
 
-    spacing:                     0px;
-    margin:                      0px;
-    padding:                     0px;
-}
-
-element-icon {
-    expand:                      false;
-    background-color:            transparent;
-    text-color:                  @bg;
-    size:                        35%;
-    cursor:                      pointer;
-}
-
-element-icon.selected {
-    expand:                      false;
-    background-color:            transparent;
-    text-color:                  @bg;
-    size:                        35%;
-    cursor:                      pointer;
+  spacing:                     0px;
+  margin:                      0px;
+  padding:                     0px;
 }
 
 element-text {
-    vertical-align:              0.5;
-    horizontal-align:            0.5;
-    background-color:            transparent;
-    text-color:                  @fg;
-    text-outline:                transparent;
+  vertical-align:              0.5;
+  horizontal-align:            0.5;
+  background-color:            transparent;
+  text-color:                  @fg;
+  text-outline:                transparent;
+  border-radius:               10px 10px 10px 10px;
+}
+
+element-text.selected {
+  vertical-align:              0.5;
+  horizontal-align:            0.5;
+  background-color:            transparent;
+  text-color:                  @fg;
+  text-outline:                transparent;
+  border-radius:               10px 10px 10px 10px;
 }

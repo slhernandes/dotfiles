@@ -1,0 +1,81 @@
+/* config - Wallpaper select */
+
+* {
+  background-color: transparent;
+}
+
+
+configuration {
+  modi:                        "drun";
+  show-icons:                  false;
+  drun-display-format:         "{name}";
+  hover-select:                true;
+  font:                        "Noto Sans CJK JP 16";
+}
+/* Config and colors ----------------------------------------------- */
+@import "tokyonight2.rasi"
+
+/* Main Window ------------------------------------------------ */
+window {
+  width:                       15%;
+  margin:                      0px;
+  padding:                     6px 0px 0px 6px;
+  location:                    northwest;
+  anchor:                      northwest;
+  background-color:            transparent;
+}
+
+/* Main Box --------------------------------------------------- */
+mainbox {
+  children:                    [ "listview" ];
+
+  spacing:                     0px;
+  margin:                      0px;
+  padding:                     0px;
+  background-color:            @bg;
+  text-color:                  transparent;
+}
+
+/* ---- List ---- */
+listview {
+  columns:                     1;
+  cycle:                       true;
+  dynamic:                     true;
+  scrollbar:                   false;
+  layout:                      vertical;
+  reverse:                     false;
+  fixed-height:                false;
+  fixed-columns:               false;
+
+  background-color:            @bg-alt;
+  text-color:                  @fg;
+
+  spacing:                     2;
+  margin:                      0;
+  padding:                     2;
+}
+
+/* Elements --------------------------------------------------- */
+element {
+  children: [element-text];
+  cursor:                      pointer;
+  border-radius:               10px;
+  background-color:            @bg;
+  text-color:                  @fg;
+
+  spacing:                     0px;
+  margin:                      0px;
+  padding:                     0px;
+}
+
+element.selected {
+  cursor:                      pointer;
+  border-radius:               10px;
+  background-color:            @bg-alt;
+  text-color:                  @fg-alt;
+  orientation:                 vertical;
+  text-outline:                @bg-alt;
+  spacing:                     0px;
+  margin:                      0px;
+  padding:                     0px;
+}

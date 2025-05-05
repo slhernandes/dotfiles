@@ -1,7 +1,14 @@
 #!/bin/sh
 
-res=$(fd . $HOME -e pdf | sed "s|$HOME|~|" | rofi -dmenu -p "open: " -i -matching "fuzzy")
-res=$(echo $res | sed "s|~|$HOME|")
+ROFI_THEME="$XDG_CONFIG_HOME/rofi/themes/pdf-view.rasi"
+
+res=$(fd . $HOME -e pdf | xargs -I{} basename "{}" | rofi -dmenu -p "open: " -i -theme $ROFI_THEME)
+res=$(fd "$res" $HOME | sed "s|$HOME|~|" | sed "s| |\n|")
+
+if [ $(echo "$res" | wc -l) -gt 1 ]; then
+  res=$(echo -en "$res" | rofi -dmenu -p "Choose path: " -i -theme $ROFI_THEME)
+fi
+res=$(echo $res | awk '{print $1}' | sed "s|~|$HOME|")
 
 if [ -z "$res" ]; then
   echo "Empty filename."
