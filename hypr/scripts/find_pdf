@@ -3,6 +3,10 @@
 ROFI_THEME="$XDG_CONFIG_HOME/rofi/themes/pdf-view.rasi"
 
 res=$(fd . $HOME -e pdf | xargs -I{} basename "{}" | rofi -dmenu -p "open: " -i -theme $ROFI_THEME)
+if [ -z "$res" ]; then
+  exit 0
+fi
+
 res=$(fd "$res" $HOME | sed "s|$HOME|~|" | sed "s| |\n|")
 
 if [ $(echo "$res" | wc -l) -gt 1 ]; then
