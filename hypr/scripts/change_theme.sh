@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+ROFI_THEME=$XDG_CONFIG_HOME/rofi/themes/no-icon.rasi
+
 if [ -z "$XDG_CONFIG_HOME" ]; then
   waybar_dir="$HOME/.config/waybar"
 else
@@ -30,7 +32,7 @@ fi
 
 themes=(pywal tokyonight catpuccin_macchiato)
 joined_themes=$(echo $themes[@] | tr ' ' '\n')
-picked_theme=$(echo $joined_themes | rofi -dmenu -p "choose theme:" --only-match -l ${#themes[@]})
+picked_theme=$(echo $joined_themes | rofi -dmenu -p "🎨 " --only-match -l ${#themes[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;}")
 
 if [ "$picked_theme" = "pywal" ]; then
   ln -sf ${pywal_css} ${waybar_dir}/colors.css

@@ -13,11 +13,13 @@ Usage:
 """
 
 GROUP_DELIMITER = " ├─"
-ITEM_DELIMITER  = " │  "
+ITEM_DELIMITER = " │  "
 ACCEPTED_GROUPS = set(["Sinks:", "Sources:"])
 
+
 def clean_line(line: str):
-    line = line.replace(GROUP_DELIMITER, "").replace(ITEM_DELIMITER, "").replace(":", "")
+    line = line.replace(GROUP_DELIMITER, "").replace(
+        ITEM_DELIMITER, "").replace(":", "")
     vol_index = line.find("[")
     if vol_index > 0:
         line = line[:vol_index]
@@ -27,6 +29,7 @@ def clean_line(line: str):
         splitted[1] = f"<b>{splitted[1].strip()} *</b>"
         line = ". ".join(splitted)
     return line.strip()
+
 
 def parse_wpctl_status():
     found_audio_tab = False
@@ -60,9 +63,15 @@ def parse_wpctl_status():
                 continue
     return processed_data
 
+
 def pipe_into_dmenu(output):
+    rofi_theme = "~/.config/rofi/themes/no-icon.rasi"
+    print(str(len(output.split("\n"))))
     output = subprocess.run(
-        f"echo '{output}' | rofi -dmenu -markup-rows -p \"{sys.argv[1].lower()}:\"",
+        f"echo '{output}' | rofi -dmenu -markup-rows\
+        -l {str(len(output.split("\n")))} -p\
+        \"{sys.argv[1].lower()}:\" -theme {
+            rofi_theme} -theme-str \"window {{width: 13%;}}\"",
         shell=True,
         encoding="utf-8",
         stdout=subprocess.PIPE,
@@ -73,7 +82,9 @@ def pipe_into_dmenu(output):
         return None
     return output.stdout
 
+
 output = parse_wpctl_status()
+print(output)
 sink = pipe_into_dmenu("\n".join(output[sys.argv[1]]))
 
 if sink:
@@ -82,4 +93,3 @@ if sink:
         f"wpctl set-default {sink_id}",
         shell=True
     )
-

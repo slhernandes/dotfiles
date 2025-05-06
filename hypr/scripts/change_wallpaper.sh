@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+ROFI_THEME=$XDG_CONFIG_HOME/rofi/themes/no-icon.rasi
+
 SCRIPT_DIR=$(realpath $0 | xargs dirname)
 
 if [ -z "$XDG_CONFIG_HOME" ]; then
@@ -10,7 +12,7 @@ fi
 
 WALL_LIST=(city space street woods plains)
 JOINED_WALL_LIST=$(echo $WALL_LIST[@] | tr ' ' '\n')
-NEW_WALL=$(echo -en $JOINED_WALL_LIST | rofi -dmenu -p "select wallpaper: " --only-match -l ${#WALL_LIST[@]})
+NEW_WALL=$(echo -en $JOINED_WALL_LIST | rofi -dmenu -p "🖼️ " --only-match -l ${#WALL_LIST[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;}")
 
 if [ -n "$NEW_WALL" ]; then
   CH_WALL=$(grep "$NEW_WALL" $HYPR_CONFIG/.wallpaper)

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ROFI_THEME="$XDG_CONFIG_HOME/rofi/themes/pdf-view.rasi"
+ROFI_THEME="$XDG_CONFIG_HOME/rofi/themes/no-icon.rasi"
 
 res=$(fd . $HOME -e pdf | xargs -I{} basename "{}" | rofi -dmenu -p "open: " -i -theme $ROFI_THEME)
 if [ -z "$res" ]; then
