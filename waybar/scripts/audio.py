@@ -70,8 +70,10 @@ def pipe_into_dmenu(output):
     output = subprocess.run(
         f"echo '{output}' | rofi -dmenu -markup-rows\
         -l {str(len(output.split("\n")))} -p\
-        \"{sys.argv[1].lower()}:\" -theme {
-            rofi_theme} -theme-str \"window {{width: 13%;}}\"",
+        \"{sys.argv[1].lower()}:\" -theme\
+        {rofi_theme} -theme-str \"window\
+        {{location: northeast;anchor: northeast;width: 13%;x-offset: -280;}}\
+        \"",
         shell=True,
         encoding="utf-8",
         stdout=subprocess.PIPE,

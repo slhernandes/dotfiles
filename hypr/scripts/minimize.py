@@ -177,7 +177,7 @@ def restorerofi():
         # f"echo \'{"\n".join(titles)}\'\
         #   | rofi -dmenu -l {min(8, len(titles))} -no-custom -p restore:",
         fr'''echo -en "{rofi_string}" |\
-              rofi -dmenu -theme "~/.config/rofi/themes/listview.rasi"''',
+              rofi -dmenu -theme "~/.config/rofi/themes/minimizer.rasi"''',
         shell=True,
         encoding="utf-8",
         stdout=subprocess.PIPE,

@@ -1,5 +1,3 @@
-/* config - Wallpaper select */
-
 * {
   background-color: transparent;
 }
@@ -10,7 +8,10 @@ configuration {
   show-icons:                  false;
   drun-display-format:         "{name}";
   hover-select:                true;
-  font:                        "Noto Sans CJK JP 16";
+  font:                        "Noto Sans CJK JP 14";
+  hover-select: true;
+  me-select-entry: "";
+  me-accept-entry: [ MousePrimary, MouseDPrimary ];
 }
 /* Config and colors ----------------------------------------------- */
 @import "tokyonight2.rasi"
@@ -20,8 +21,8 @@ window {
   width:                       15%;
   margin:                      0px;
   padding:                     6px 0px 0px 6px;
-  location:                    northwest;
-  anchor:                      northwest;
+  location:                    north;
+  anchor:                      north;
   background-color:            transparent;
 }
 

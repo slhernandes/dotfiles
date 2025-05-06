@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 ROFI_THEME="$XDG_CONFIG_HOME/rofi/themes/no-icon.rasi"
-THEME_STR="window {width: 13%;}"
+THEME_STR="window {location: northeast;anchor: northeast;width: 13%;x-offset: -150;}"
 LOCATION_FILE="/tmp/weather_loc"
 DEFAULT_LOCATIONS=(Auto Berlin Munich Jakarta Singapore Tokyo)
 COUNT=${#DEFAULT_LOCATIONS[@]}

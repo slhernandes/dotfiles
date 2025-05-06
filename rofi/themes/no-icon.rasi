@@ -1,7 +1,7 @@
 @import "./colors/colors.rasi"
 
 configuration {
-  font:                        "Noto Sans CJK JP 12";
+  font:                        "Noto Sans CJK JP 14";
 
   drun {
     display-name:              "";
@@ -39,8 +39,8 @@ configuration {
 window {
   transparency:                "real";
   width:                       30%;
-  location:                    northwest;
-  anchor:                      northwest;
+  location:                    north;
+  anchor:                      north;
   padding:                     6px;
   background-color:            transparent;
 }
@@ -57,13 +57,20 @@ inputbar {
 }
 
 entry {
-  background-color:            inherit;
-  padding:                     12px 3px;
+  background-color:            @fg-alt;
+  text-color:                  @bg;
+  margin:                      0px 0px 2px 0px;
+  padding:                     12px 12px 10px 12px;
+  border-radius:               0px 10px 0px 0px;
 }
 
 prompt {
-  background-color:            inherit;
-  padding:                     12px;
+  background-color:            @fg-alt;
+  text-color:                  @bg;
+  margin:                      0px 0px 2px 0px;
+  padding:                     12px 12px 10px 12px;
+  border-radius:               10px 0px 0px 0px;
+  vertical-align:              1.0;
 }
 
 listview {

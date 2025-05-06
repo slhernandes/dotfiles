@@ -81,10 +81,11 @@
     "interval": 1
   },
   "custom/date": {
-    "format": " · {}",
+    "format": " · {text}",
+    "return-type": "json",
     "exec": "~/.config/waybar/scripts/date.sh",
-    "tooltip": false,
-    "restart-interval": 1
+    "tooltip": true,
+    "interval": 1,
   },
   "cpu": {
     "format": "{usage}% "
@@ -138,7 +139,7 @@
   "custom/logo": {
     "format": "<span size=\"x-large\">  </span>",
     "tooltip": false,
-    "on-click": "rofi -show drun &",
+    "on-click": "rofi -show drun -theme-str \"window {location: northwest; anchor: northwest;}\"&",
     "on-click-right": "~/.config/waybar/scripts/sddmenu &"
   },
   "custom/weather": {

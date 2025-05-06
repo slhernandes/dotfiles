@@ -10,7 +10,7 @@ configuration {
   show-icons:                  true;
   drun-display-format:         "{name}";
   hover-select:                true;
-  font:                        "Noto Sans CJK JP 12";
+  font:                        "Noto Sans CJK JP 14";
 }
 /* Config and colors ----------------------------------------------- */
 
