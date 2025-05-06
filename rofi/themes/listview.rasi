@@ -19,7 +19,7 @@ configuration {
 /* Main Window ------------------------------------------------ */
 window {
   width:                       50%;
-  height:                      45%;
+  height:                      26%;
   margin:                      0px;
   padding:                     0px;
   location:                    center;
@@ -30,16 +30,8 @@ window {
 
 icon-current-entry {
   expand:                      true;
-  size:                      40%;
-}
-
-dummy {
-  expand: true;
-  padding: 10px;
-}
-
-icon-box {
-  children: [icon-current-entry];
+  size:                        43%;
+  background-color:            @bg-alt;
 }
 
 /* Main Box --------------------------------------------------- */
@@ -54,9 +46,9 @@ mainbox {
 }
 
 listview-split {
-  children:                    [listview, icon-current-entry];
+  children:                    [icon-current-entry, listview];
   orientation:                 horizontal;
-  spacing:                     10px;
+  spacing:                     0px;
 }
 
 /* ---- List ---- */
@@ -70,12 +62,12 @@ listview {
   fixed-height:                true;
   fixed-columns:               true;
 
-  background-color:            @bg;
-  text-color:                  transparent;
+  background-color:            @bg-alt;
+  text-color:                  @fg;
 
-  spacing:                     0px;
+  spacing:                     2px;
   margin:                      0px;
-  padding:                     0px;
+  padding:                     2px;
   expand:                      true;
 }
 
@@ -84,8 +76,8 @@ element {
   children:                    [element-text];
   cursor:                      pointer;
   border-radius:               10px;
-  background-color:            transparent;
-  text-color:                  transparent;
+  background-color:            @bg-alt;
+  text-color:                  @fg;
   orientation:                 vertical;
 
   spacing:                     0px;
@@ -97,7 +89,7 @@ element.selected {
   cursor:                      pointer;
   border-radius:               10px;
   background-color:            @bg-alt;
-  text-color:                  @fg-alt;
+  text-color:                  @fg;
   orientation:                 vertical;
   text-outline:                transparent;
 
@@ -109,17 +101,15 @@ element.selected {
 element-text {
   vertical-align:              0.5;
   horizontal-align:            0.5;
-  background-color:            transparent;
+  background-color:            @bg-alt;
   text-color:                  @fg;
-  text-outline:                transparent;
   border-radius:               10px 10px 10px 10px;
 }
 
 element-text.selected {
   vertical-align:              0.5;
   horizontal-align:            0.5;
-  background-color:            transparent;
-  text-color:                  @fg;
-  text-outline:                transparent;
+  background-color:            @fg-alt;
+  text-color:                  @bg;
   border-radius:               10px 10px 10px 10px;
 }
