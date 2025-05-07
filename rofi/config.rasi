@@ -2,7 +2,7 @@ configuration{
     modi: ["drun", "window", "run","ssh"];
     icon-theme: "Papirus-Dark";
     show-icons: true;
-    terminal: "kitty";
+    terminal: "ghostty";
     drun-display-format: "{icon} {name}";
     location: 0;
     disable-history: false;
@@ -10,7 +10,7 @@ configuration{
     display-drun: " ";
     display-run: " ";
     display-window: " ";
-    
+
     //adding vim keybindings
     kb-row-up: "Up,Control+k,Control+p";
     kb-row-left: "Left,Control+h";

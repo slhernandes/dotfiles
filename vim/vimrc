@@ -8,10 +8,14 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set expandtab
+set smartindent
+set hidden
 set nowrap
 set viminfo+=n~/.config/vim/viminfo
 set bo=all
 set tm=0
+set go-=m
+set go-=T
 
 "colorscheme palenight
 colorscheme nord
