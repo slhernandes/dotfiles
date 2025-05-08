@@ -7,7 +7,7 @@
   // Choose the order of the modules
   "modules-left": ["group/left"],
   "modules-center": ["group/center"],
-  "modules-right": ["group/right"],
+  "modules-right": ["tray", "group/right"],
   "group/left": {
     "orientation": "horizontal",
     "modules": [
@@ -51,7 +51,7 @@
     "all-outputs": false,
     "show-special": true,
     "special-visible-only": true,
-    "format": "{icon}",
+    "format": "<span size=\"large\">{icon}</span>",
     "format-icons": {
       "1": "",
       "2": "",
@@ -100,12 +100,12 @@
       "spacing": 10
   },
   "clock": {
-    "format": " · {:%H:%M:%S }",
+    "format": "·{:%H:%M:%S }",
     "tooltip": false,
     "interval": 1
   },
   "custom/date": {
-    "format": " · {text}",
+    "format": "·{text}",
     "return-type": "json",
     "exec": "~/.config/waybar/scripts/date.sh",
     "tooltip": true,
@@ -164,7 +164,7 @@
     "on-click-right": "~/.config/waybar/scripts/sddmenu &"
   },
   "custom/weather": {
-    "format": " · {} <span size=\"x-large\" rise=\"-2pt\"></span>",
+    "format": "·{} <span size=\"x-large\" rise=\"-2pt\"></span>",
     "return-type": "json",
     "exec": "~/.config/waybar/scripts/weather.sh",
     "exec-on-event": true,
@@ -173,7 +173,7 @@
     "interval": 900
   },
   "custom/minimize": {
-    "format": "· {}  ",
+    "format": "·{}  ",
     "return-type": "json",
     "exec": "~/.config/hypr/scripts/minimize.py info",
     "on-click": "~/.config/hypr/scripts/minimize.py restorerofi",
@@ -200,11 +200,11 @@
     "on-click": "activate"
   },
   "battery": {
-    "format": " · {capacity}% <span size=\"x-large\" rise=\"-3pt\">{icon}</span>",
-    "format-plugged": " · {capacity}% <span size=\"x-large\" rise=\"-2pt\"></span>",
-    "format-charging": " · {capacity}% <span siz=\"xx-large\" rise=\"-3pt\"></span>",
-    "format-discharging": " · {capacity}% <span size=\"large\" rise=\"0pt\">{icon}</span>",
-    "format-full": " · Charged ",
+    "format": "·{capacity}% <span size=\"x-large\" rise=\"-3pt\">{icon}</span>",
+    "format-plugged": "·{capacity}% <span size=\"x-large\" rise=\"-2pt\"></span>",
+    "format-charging": "·{capacity}% <span siz=\"xx-large\" rise=\"-3pt\"></span>",
+    "format-discharging": "·{capacity}% <span size=\"large\" rise=\"0pt\">{icon}</span>",
+    "format-full": "·Charged ",
     "format-icons": {
       "charging": [
         "󰢜",
