@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-ROFI_THEME=$XDG_CONFIG_HOME/rofi/themes/no-icon.rasi
+ROFI_THEME=$XDG_CONFIG_HOME/rofi/themes/power-menu.rasi
 
 if [ -z "$XDG_CONFIG_HOME" ]; then
   waybar_dir="$HOME/.config/waybar"
@@ -32,7 +32,7 @@ fi
 
 themes=(pywal tokyonight catpuccin_macchiato)
 joined_themes=$(echo $themes[@] | tr ' ' '\n')
-picked_theme=$(echo $joined_themes | rofi -dmenu -p "🎨 " --only-match -l ${#themes[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;}")
+picked_theme=$(echo $joined_themes | rofi -dmenu --only-match -l ${#themes[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;}")
 
 if [ "$picked_theme" = "pywal" ]; then
   ln -sf ${pywal_css} ${waybar_dir}/colors.css
@@ -44,5 +44,14 @@ else
   exit 1
 fi
 
-$hypr_dir/scripts/restart_waybar
+configs=$(ls ${waybar_dir}/configs)
+joined_configs=$(echo $configs[@] | tr ' ' '\n')
+picked_configs=$(echo $joined_configs | rofi -dmenu --only-match -l ${#configs[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;}")
+if [ -n "$picked_configs" ]; then
+  ln -sf ${waybar_dir}/configs/${picked_configs}/style.css ${waybar_dir}/style.css
+  ln -sf ${waybar_dir}/configs/${picked_configs}/config.jsonc ${waybar_dir}/config.jsonc
+fi
+
+${hypr_dir}/scripts/restart_waybar
+
 swaync-client -rs

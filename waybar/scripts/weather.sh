@@ -23,7 +23,8 @@ if [ -f "$LOCATION_FILE" ]; then
   LOCATION=$(cat /tmp/weather_loc)
 fi
 
-WEATHER_TMP=$(timeout 5s curl wttr.in/$LOCATION\?format="%t+%w|%c\n")
+# WEATHER_TMP=$(timeout 5s curl wttr.in/$LOCATION\?format="%t+%w|%c\n")
+WEATHER_TMP=$(timeout 5s curl wttr.in/$LOCATION\?format="%t|%c\n")
 EXIT_STATUS=$?
 
 if [ -n "$LOCATION" ]; then

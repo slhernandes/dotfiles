@@ -32,6 +32,7 @@ zstyle ':completion:*:*:git:*' script /usr/share/git/completion/git-completion.b
 autoload -Uz compinit && compinit
 
 # bindkeys
+KEYTIMEOUT=1
 bindkey -v
 bindkey "^?" backward-delete-char
 bindkey "^p" history-search-backward
