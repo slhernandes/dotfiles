@@ -190,8 +190,21 @@ for i in $MANIFEST; do
       info "linking $src to $tgt"
       ln -sf $src $tgt
       ;;
+    cp)
+      if [ "$REPLACE" -eq 0 ] && [ -d "$tgt" ]; then
+        info "skipping $dir"
+        continue
+      fi
+      setup_tgt $tgt
+      if [ -d "$tgt" ]; then
+        info "skipping $dir"
+        continue
+      fi
+      info "copying $src to $tgt"
+      cp -r $src $tgt
+      ;;
     *)
-      err "First column of the manifest should be either 'c' or 'd'"
+      err "First column of the manifest should be either 'c' or 'd' or 'cp'"
       ;;
   esac
 done

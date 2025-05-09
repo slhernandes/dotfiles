@@ -2,7 +2,7 @@
 ## Download
 
 ```sh
-git clone https://github.com/slhernandes/dotfiles.git --depth=1 --recurse-submodules
+git clone https://github.com/slhernandes/dotfiles.git --depth=1
 ```
 
 ## Usage
@@ -54,3 +54,11 @@ M-x load-file <init-file> RET
 M-x tree-sit-install-language-grammar RET cpp RET RET
 ```
 , where ```<init-file>``` is the location of init.el (default: ~/.config/emacs/init.el)
+
+### neovim
+
+If nvim is not cloned yet, do:
+```sh
+rmdir nvim
+git clone https://github.com/slhernandes/nvim_config ./nvim
+```
