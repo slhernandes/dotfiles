@@ -202,6 +202,20 @@ for i in $MANIFEST; do
       fi
       info "copying $src to $tgt"
       cp -r $src $tgt
+      if [ -f "$src/.plugins" ]; then
+        for j in $(cat "$src/.plugins"); do
+          plugin_dir=$(echo $j | awk -F'|' '{print $1}')
+          giturl=$(echo $j | awk -F'|' '{print $2}')
+          if [ "$UPDATE" -eq 1 ] || [ ! -d "$tgt/$plugin_dir" ]; then
+            if [ -d "$tgt/$plugin_dir" ] && [ -n "$tgt" ]; then
+              rm -rf "$tgt/$plugin_dir"
+            fi
+            git clone --depth=1 --recursive $giturl "$tgt/$plugin_dir"
+          elif [ "$UPDATE" -eq 0 ] && [ -d "$tgt/$plugin_dir" ]; then
+            info "skipping update $dir"
+          fi
+        done
+      fi
       ;;
     *)
       err "First column of the manifest should be either 'c' or 'd' or 'cp'"
