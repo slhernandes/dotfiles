@@ -5,8 +5,10 @@ NOTIF_COUNT=$(swaync-client -c)
 
 if [ "$DND_STATUS" = "true" ]; then
   STATUS="󰽧"
+  CLASS="on"
 else
   STATUS=""
+  CLASS="off"
 fi
 
-printf '{"text": "%s", "tooltip": "%s notifications"}' "$STATUS" "$NOTIF_COUNT"
+printf '{"text": "%s", "tooltip": "%s notifications", "class": "%s"}' "$STATUS" "$NOTIF_COUNT" "$CLASS"

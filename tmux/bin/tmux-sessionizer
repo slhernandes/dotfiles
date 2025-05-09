@@ -16,7 +16,11 @@ if [[ -z $selected ]]; then
   exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
+prefix="$(dirname "$selected" | xargs basename | cut -c -2)/"
+if [ "$prefix" = "./" ]; then
+  prefix=""
+fi
+selected_name="$(echo "${prefix}$(basename "$selected")" | tr '.' '_')"
 tmux_running=$(pgrep tmux)
 app_running=0
 

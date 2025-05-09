@@ -90,11 +90,6 @@
           //"default":[] 
     }
   },
-  "hyprland/submap": {
-    "format": "✌️ {}",
-    "max-length": 8,
-    "tooltip": false
-  },
   "tray": {
       // "icon-size": 25,
       "spacing": 10
@@ -111,20 +106,6 @@
     "tooltip": true,
     "interval": 1,
   },
-  "cpu": {
-    "format": "{usage}% "
-  },
-  "memory": {
-    "format": "{}% "
-  },
-
-  "network": {
-    "interface": "londonpvpn", // (Optional) To force the use of this interface
-    "format-wifi": "{essid} ({signalStrength}%) ",
-    "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
-    "format-disconnected": "Disconnected ⚠"
-  },
-
   "pulseaudio": {
       //"scroll-step": 1,
       "format": " {volume}% <span size=\"x-large\" rise=\"-2pt\">{icon}</span>",
@@ -143,19 +124,6 @@
       },
       "on-click": "~/.config/waybar/scripts/audio.py Sinks",
       "on-click-right": "~/.config/waybar/scripts/audio.py Sources"
-  },
-  "wireplumber": {
-    "format": "{icon}",
-    "format-bluetooth": "󰂰",
-    "nospacing": 1,
-    "tooltip-format": "Volume : {volume}%",
-    "format-muted": "󰝟",
-    "format-icons": {
-      "headphone": "",
-      "default": ["󰖀","󰕾",""]
-    },
-    "on-click": "pamixer -t",
-    "scroll-step": 1
   },
   "custom/logo": {
     "format": "<span size=\"large\">  </span>",

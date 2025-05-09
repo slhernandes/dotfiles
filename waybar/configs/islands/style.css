@@ -30,7 +30,7 @@ window#waybar {
 #left,
 #right {
   border: 2px solid @color8;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: none;
   text-shadow: none;
   transition-duration: 0s;
@@ -143,8 +143,12 @@ window#waybar {
 #custom-date {
   color:  @color3;
 }
-#custom-notif {
-  color:  @color3;
+#custom-notif.on {
+  color:  @color5;
+}
+
+#custom-notif.off {
+  color:  @color2;
 }
 #custom-mail,
 #custom-media {
