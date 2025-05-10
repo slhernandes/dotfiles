@@ -24,15 +24,16 @@ Usage:
 
 ### Manifest File
 
-Each line of the manifest file consists of mode (c/d), and source directory name, separated by '|'.
-'c' mode links all the content in the file to the target_dir, whereas 'd' mode links the directory
-to the target_dir
+Each line of the manifest file consists of mode (c/d/cp), and source directory name, separated by '|'.
+'c' mode links all the content in the file to the target_dir, 'd' mode links the directory
+to the target_dir, and 'cp' mode copies all the files to the target_dir
 example:
 ```
 # test.manifest
 c|zsh
 c|emacs
 d|nvim
+cp|vim
 ```
 
 ## Caveats
