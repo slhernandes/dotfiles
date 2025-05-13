@@ -75,7 +75,7 @@ listview {
 element {
   children:                    [element-text];
   cursor:                      pointer;
-  border-radius:               10px;
+  border-radius:               @radius;
   background-color:            @bg-alt;
   text-color:                  @fg;
   orientation:                 vertical;
@@ -87,7 +87,7 @@ element {
 
 element.selected {
   cursor:                      pointer;
-  border-radius:               10px;
+  border-radius:               @radius;
   background-color:            @bg-alt;
   text-color:                  @fg;
   orientation:                 vertical;
@@ -103,7 +103,7 @@ element-text {
   horizontal-align:            0.5;
   background-color:            @bg-alt;
   text-color:                  @fg;
-  border-radius:               10px 10px 10px 10px;
+  border-radius:               @radius;
 }
 
 element-text.selected {
@@ -111,5 +111,5 @@ element-text.selected {
   horizontal-align:            0.5;
   background-color:            @fg-alt;
   text-color:                  @bg;
-  border-radius:               10px 10px 10px 10px;
+  border-radius:               @radius;
 }

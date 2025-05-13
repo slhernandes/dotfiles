@@ -25,4 +25,6 @@ keybind = alt+r=reload_config
 keybind = ctrl+enter=unbind
 keybind = ctrl+comma=unbind
 
-# custom-shader="./shaders/pixels.glsl"
+# custom-shader="./shaders/retro.glsl"
+# custom-shader="./shaders/drunk.glsl"
+# custom-shader="./shaders/test.glsl"

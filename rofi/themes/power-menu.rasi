@@ -60,7 +60,7 @@ listview {
 element {
   children: [element-text];
   cursor:                      pointer;
-  border-radius:               10px;
+  border-radius:               @radius;
   background-color:            @bg;
   text-color:                  @fg;
 
@@ -71,7 +71,7 @@ element {
 
 element.selected {
   cursor:                      pointer;
-  border-radius:               10px;
+  border-radius:               @radius;
   background-color:            @bg-alt;
   text-color:                  @fg-alt;
   orientation:                 vertical;

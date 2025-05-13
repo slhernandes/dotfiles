@@ -37,6 +37,8 @@ configuration {
 
   background-color:            @bg;
   text-color:                  @fg;
+
+  radius:                      5px;
 }
 
 window {
@@ -50,7 +52,7 @@ window {
 
 mainbox {
   children:                    [inputbar, listview];
-  border-radius:               10px;
+  border-radius:               @radius;
   background:                  @bg;
 }
 
@@ -64,7 +66,7 @@ entry {
   text-color:                  @bg;
   margin:                      0px 0px 2px 0px;
   padding:                     12px 12px 10px 12px;
-  border-radius:               0px 10px 0px 0px;
+  border-radius-right:         @radius;
 }
 
 prompt {
@@ -72,7 +74,7 @@ prompt {
   text-color:                  @bg;
   margin:                      0px 0px 2px 0px;
   padding:                     12px 12px 10px 12px;
-  border-radius:               10px 0px 0px 0px;
+  border-radius-top:           @radius;
   vertical-align:              1.0;
 }
 
@@ -88,7 +90,7 @@ listview {
 
 element {
   children:                    [element-icon, element-text];
-  border-radius:               10px;
+  border-radius:               @radius;
   vertical-align:              0.5;
   background-color:            @bg-alt;
   text-color:                  @fg;
@@ -98,7 +100,8 @@ element {
 element-icon {
   padding: 10px 10px;
   size: 20px;
-  border-radius:               10px;
+  border-radius-top:           @radius;
+  border-radius-left:          @radius;
   vertical-align:              0.5;
   background-color:            @bg-alt;
   text-color:                  @fg;
@@ -108,7 +111,8 @@ element-icon {
 element-icon.selected {
   padding:                     0;
   size:                        20px;
-  border-radius:               10px 0 0 10px;
+  border-radius-top:           @radius;
+  border-radius-left:          @radius;
   vertical-align:              0.5;
   background-color:            @fg-alt;
   text-color:                  @bg;
@@ -123,7 +127,8 @@ element-text {
 }
 
 element-text.selected {
-  border-radius:               0 10px 10px 0;
+  border-radius-right:         @radius;
+  border-radius-bottom:        @radius;
   vertical-align:              0.5;
   background-color:            @fg-alt;
   text-color:                  @bg;

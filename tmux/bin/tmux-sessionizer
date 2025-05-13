@@ -3,7 +3,7 @@
 directories+=(.config .config/nvim dotfiles)
 directories+=(.local)
 # directories+=(Dokumente/ba Dokumente/ba/cqf-fp-simulation Dokumente/ba/cqf-fp-simulation/inet/src Dokumente/ba/workspace)
-directories+=(Dokumente Dokumente/advent Dokumente/notes Dokumente/cf Dokumente/msei)
+directories+=(Dokumente Dokumente/advent Dokumente/notes Dokumente/cf Dokumente/msei Dokumente/projects)
 apps=(termusic btop neomutt bluetuith yazi)
 
 if [[ $# -eq 1 ]]; then

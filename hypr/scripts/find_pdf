@@ -1,8 +1,17 @@
 #!/bin/sh
 
 ROFI_THEME="$XDG_CONFIG_HOME/rofi/themes/no-icon.rasi"
+EMPTY_WIN=$(hyprctl activewindow | grep -i "invalid")
 
-res=$(fd . $HOME -e pdf | xargs -I{} basename "{}" | sort -u | rofi -dmenu -p "open: " -i -theme $ROFI_THEME)
+if [ -n "$EMPTY_WIN" ]; then
+  EXTRA_ARGS="window { y-offset: -36px; }"
+fi
+
+if [ -n "$EXTRA_ARGS" ]; then
+  res=$(fd . $HOME -e pdf | xargs -I{} basename "{}" | sort -u | rofi -dmenu -p "open: " -i -theme $ROFI_THEME -theme-str "$EXTRA_ARGS")
+else
+  res=$(fd . $HOME -e pdf | xargs -I{} basename "{}" | sort -u | rofi -dmenu -p "open: " -i -theme $ROFI_THEME)
+fi
 if [ -z "$res" ]; then
   exit 0
 fi
