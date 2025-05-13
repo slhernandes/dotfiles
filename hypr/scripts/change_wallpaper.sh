@@ -10,9 +10,15 @@ else
   HYPR_CONFIG="$XDG_CONFIG_HOME/hypr"
 fi
 
+EMPTY_WIN=$(hyprctl activewindow | grep -i "invalid")
+
+if [ -n "$EMPTY_WIN" ]; then
+  OFFSET="y-offset: -36px;"
+fi
+
 WALL_LIST=(city space street woods plains)
 JOINED_WALL_LIST=$(echo $WALL_LIST[@] | tr ' ' '\n')
-NEW_WALL=$(echo -en $JOINED_WALL_LIST | rofi -dmenu -p "🖼️ " --only-match -l ${#WALL_LIST[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;}")
+NEW_WALL=$(echo -en $JOINED_WALL_LIST | rofi -dmenu -p "🖼️ " --only-match -l ${#WALL_LIST[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;$OFFSET}")
 
 if [ -n "$NEW_WALL" ]; then
   CH_WALL=$(grep "$NEW_WALL" $HYPR_CONFIG/.wallpaper)

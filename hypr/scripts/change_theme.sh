@@ -30,9 +30,15 @@ if [ ! -d "$waybar_dir" ] || [ -z "$waybar_dir" ] || [ ! -f "$pywal_css" ] || [ 
   exit 1
 fi
 
+EMPTY_WIN=$(hyprctl activewindow | grep -i "invalid")
+
+if [ -n "$EMPTY_WIN" ]; then
+  OFFSET="y-offset: -36px;"
+fi
+
 themes=(pywal tokyonight catpuccin_macchiato)
 joined_themes=$(echo $themes[@] | tr ' ' '\n')
-picked_theme=$(echo $joined_themes | rofi -dmenu --only-match -l ${#themes[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;}")
+picked_theme=$(echo $joined_themes | rofi -dmenu --only-match -l ${#themes[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;$OFFSET}")
 
 if [ "$picked_theme" = "pywal" ]; then
   ln -sf ${pywal_css} ${waybar_dir}/colors.css
@@ -46,7 +52,7 @@ fi
 
 configs=$(ls ${waybar_dir}/configs)
 joined_configs=$(echo $configs[@] | tr ' ' '\n')
-picked_configs=$(echo $joined_configs | rofi -dmenu --only-match -l ${#configs[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;}")
+picked_configs=$(echo $joined_configs | rofi -dmenu --only-match -l ${#configs[@]} -theme $ROFI_THEME -theme-str "window {width: 13%;$OFFSET}")
 if [ -n "$picked_configs" ]; then
   ln -sf ${waybar_dir}/configs/${picked_configs}/style.css ${waybar_dir}/style.css
   ln -sf ${waybar_dir}/configs/${picked_configs}/config.jsonc ${waybar_dir}/config.jsonc
