@@ -25,7 +25,7 @@ case "$result" in
       echo $bname
       continue=$(echo "CONTINUE\nCANCEL" | rofi -dmenu -l 2 -p "Boot to $bname?: " -theme $ROFI_THEME -theme-str "window {$OFFSET}")
       if [ "$continue" = "CONTINUE" ]; then
-        systemctl reboot --boot-loader-entry=$entry
+        systemctl reboot --boot-loader-entry=$entry --boot-loader-menu=1
       else
         notify-send -r 820 -u low -i ~/.config/waybar/icons/dialog-warning.svg\
           "Power menu" "Reboot canceled"\

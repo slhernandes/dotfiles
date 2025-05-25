@@ -11,19 +11,19 @@ configuration{
     display-run: " ";
     display-window: " ";
 
-    //adding vim keybindings
-    kb-row-up: "Up,Control+k,Control+p";
-    kb-row-left: "Left,Control+h";
-    kb-row-right: "Right,Control+l";
-    kb-row-down: "Down,Control+j,Control+n";
+    kb-row-up: "Up,Control+p";
+    // kb-row-left: "Left,Control+h";
+    // kb-row-right: "Right,Control+l";
+    kb-row-down: "Down,Control+n";
 
     kb-accept-entry: "Control+z,Control+y,Return,KP_Enter";
 
     //fixing up
-    kb-remove-to-eol: "";
-    kb-move-char-back: "Control+b";
+    kb-move-char-back: "Left,Control+b";
+    kb-remove-word-forward: "Alt+d";
     kb-remove-char-back: "BackSpace";
-    kb-move-char-forward: "Control+f";
+    kb-remove-word-back: "Alt+BackSpace";
+    kb-move-char-forward: "Right,Control+f";
     kb-mode-complete: "Control+o";
 }
 

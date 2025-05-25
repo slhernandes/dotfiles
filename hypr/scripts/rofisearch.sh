@@ -13,6 +13,20 @@ if [ -z "$content" ]; then
   search=""
 fi
 
+# replace colliding special chars with ascii
+content=$(echo "$content" | sed "s|%|%25|g")
+content=$(echo "$content" | sed "s|#|%23|g")
+content=$(echo "$content" | sed "s|\\$|%24|g")
+content=$(echo "$content" | sed "s|&|%26|g")
+content=$(echo "$content" | sed "s|+|%2B|g")
+content=$(echo "$content" | sed "s|,|%2C|g")
+content=$(echo "$content" | sed "s|/|%2F|g")
+content=$(echo "$content" | sed "s|:|%3A|g")
+content=$(echo "$content" | sed "s|;|%3B|g")
+content=$(echo "$content" | sed "s|=|%3D|g")
+content=$(echo "$content" | sed "s|?|%3F|g")
+content=$(echo "$content" | sed "s|@|%40|g")
+
 case $search in
   w)
     content=$(echo "$content" | tr " " "+")
@@ -28,6 +42,11 @@ case $search in
   yt)
     content=$(echo "$content" | tr " " "+")
     site=$(printf "https://www.youtube.com/results?search_query=%s" "$content")
+    ;;
+  wa)
+    content=$(echo "$content" | tr " " "+")
+    site=$(printf "https://www.wolframalpha.com/input?i=%s" "$content")
+    echo "$site"
     ;;
   *)
     if [ -n "$search" ]; then
