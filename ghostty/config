@@ -26,5 +26,4 @@ keybind = ctrl+enter=unbind
 keybind = ctrl+comma=unbind
 
 # custom-shader="./shaders/retro.glsl"
-# custom-shader="./shaders/drunk.glsl"
 # custom-shader="./shaders/test.glsl"

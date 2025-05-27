@@ -1,12 +1,14 @@
 #!/bin/sh
 
+SHADER_PATH=$HOME/.config/ghostty/shaders/retro.glsl
+
 case $1 in
   btop)
     workspace_name=$(hyprctl workspaces | grep "special:btop")
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "btop"
     else
-      hyprctl dispatch exec '[workspace special:btop]' 'wezterm start --class=btop_sp -e btop'
+      hyprctl dispatch exec '[workspace special:btop]' "ghostty --custom-shader=$SHADER_PATH -e btop"
     fi
     ;;
   firefox)
@@ -25,12 +27,20 @@ case $1 in
       hyprctl dispatch exec '[workspace special:wezterm]' 'wezterm start --class=wezterm_sp'
     fi
     ;;
+  ghostty)
+    workspace_name=$(hyprctl workspaces | grep "special:ghostty")
+    if [ -n "$workspace_name" ]; then
+      hyprctl dispatch togglespecialworkspace "ghostty"
+    else
+      hyprctl dispatch exec '[workspace special:ghostty]' "ghostty --custom-shader=$SHADER_PATH"
+    fi
+    ;;
   neomutt)
     workspace_name=$(hyprctl workspaces | grep "special:neomutt")
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "neomutt"
     else
-      hyprctl dispatch exec '[workspace special:neomutt]' 'wezterm start --class=neomutt_sp -e neomutt'
+      hyprctl dispatch exec '[workspace special:neomutt]' "ghostty --custom-shader=$SHADER_PATH -e neomutt"
     fi
     ;;
   ytermusic)
@@ -38,7 +48,7 @@ case $1 in
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "ytermusic"
     else
-      hyprctl dispatch exec '[workspace special:ytermusic]' 'wezterm start --class=ytermusic_sp -e ytermusic'
+      hyprctl dispatch exec '[workspace special:ytermusic]' "ghostty --custom-shader=$SHADER_PATH -e ytermusic"
     fi
     ;;
   yazi)
@@ -46,7 +56,7 @@ case $1 in
     if [ -n "$workspace_name" ]; then
       hyprctl dispatch togglespecialworkspace "yazi"
     else
-      hyprctl dispatch exec '[workspace special:yazi]' 'wezterm start --class=yazi_sp -e yazi'
+      hyprctl dispatch exec '[workspace special:yazi]' "ghostty --custom-shader=$SHADER_PATH -e yazi"
     fi
     ;;
   ferdium)
@@ -63,6 +73,7 @@ case $1 in
       hyprctl dispatch togglespecialworkspace "music"
     else
       hyprctl dispatch exec '[workspace special:music]' 'wezterm start --class=music_sp -e termusic'
+      hyprctl dispatch exec '[workspace special:termusic]' "ghostty --custom-shader=$SHADER_PATH -e termusic"
     fi
     ;;
   *)

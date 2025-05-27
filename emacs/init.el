@@ -98,7 +98,28 @@
 ;; Misc packages
 (rc/require 'mood-line
 	    'magit
+	    'elfeed
 	    'evil)
+
+;; elfeed config
+(setq elfeed-feeds
+      '(("https://archlinux.org/feeds/news/" linux)
+        ("https://ctftime.org/writeups/rss/" ctf)
+	("https://nedroid.com/feed/" comic)
+	("https://xkcd.com/rss.xml" comic)
+  ("https://www.phoronix.com/rss.php" linux)
+))
+
+(global-set-key (kbd "C-x w") 'elfeed)
+(setq browse-url-browser-function 'eww-browse-url)
+
+(setq-default elfeed-search-filter "")
+
+;; Entries older than 2 weeks are marked as read
+;; (add-hook 'elfeed-new-entry-hook
+;;           (elfeed-make-tagger :before "2 weeks ago"
+;;                               :remove 'unread))
+
 ;; Mode line config
 (mood-line-mode)
 (setq mood-line-glyph-alist mood-line-glyphs-fira-code)
