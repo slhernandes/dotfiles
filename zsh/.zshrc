@@ -31,6 +31,14 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*:*:git:*' script /usr/share/git/completion/git-completion.bash
 autoload -Uz compinit && compinit
 
+autoload -U select-quoted
+zle -N select-quoted
+for m in visual viopp; do
+    for c in {a,i}{\',\",\`}; do
+        bindkey -M $m $c select-quoted
+    done
+done
+
 # bindkeys
 KEYTIMEOUT=1
 bindkey -v

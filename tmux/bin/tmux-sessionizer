@@ -4,7 +4,7 @@ directories+=(.config .config/nvim dotfiles)
 directories+=(.local)
 # directories+=(Dokumente/ba Dokumente/ba/cqf-fp-simulation Dokumente/ba/cqf-fp-simulation/inet/src Dokumente/ba/workspace)
 directories+=(Dokumente Dokumente/advent Dokumente/notes Dokumente/cf Dokumente/msei Dokumente/projects)
-apps=(termusic btop neomutt bluetuith yazi)
+apps=(ncmpcpp btop neomutt bluetuith yazi)
 
 if [[ $# -eq 1 ]]; then
   selected=$1
@@ -33,9 +33,9 @@ if ! tmux has-session -t=$selected_name 2> /dev/null; then
   fi
 fi
 
-if [ "$selected_name" = "termusic" ] && [ $app_running -eq 1 ]; then
-  tmux new-window -d "pause_at_start"
-fi
+# if [ "$selected_name" = "termusic" ] && [ $app_running -eq 1 ]; then
+#   tmux new-window -d "pause_at_start"
+# fi
 
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
   tmux attach -t $selected_name

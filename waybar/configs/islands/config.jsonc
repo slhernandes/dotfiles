@@ -64,7 +64,7 @@
       "9": "󰙯",
       "magic": "",
       "minimized": "",
-      "btop": "",
+      "btop": "",
       "neomutt": "",
       "wezterm": "",
       "firefox": "",
@@ -73,6 +73,7 @@
       "yazi": "󰇥",
       // "ghostty": " ",
       "ghostty": "󰊠",
+      "ncmpcpp": "",
 
           // "urgent": "",
           // "focused": "",
@@ -111,7 +112,7 @@
   },
   "pulseaudio": {
       //"scroll-step": 1,
-      "format": " {volume}% <span size=\"x-large\" rise=\"-2pt\">{icon}</span>",
+      "format": " {volume}% <span size=\"large\" rise=\"0pt\">{icon}</span>",
       "format-bluetooth": " {volume}% 󰂯",
       "format-muted": " <span size=\"x-large\" rise=\"-1pt\">󰝟</span>",
       "ingored-sinks": "Easy Effects Sink",
@@ -123,7 +124,7 @@
         "phone": "",
         "portable": "",
         "car": "",
-        "default": ["", ""]
+        "default": ["󰖀"]
       },
       "on-click": "~/.config/waybar/scripts/audio.py Sinks",
       "on-click-right": "~/.config/waybar/scripts/audio.py Sources"
@@ -135,7 +136,7 @@
     "on-click-right": "~/.config/waybar/scripts/sddmenu &"
   },
   "custom/weather": {
-    "format": "·{} <span size=\"x-large\" rise=\"-2pt\"></span>",
+    "format": "·{} <span size=\"medium\" rise=\"2pt\"></span>",
     "return-type": "json",
     "exec": "~/.config/waybar/scripts/weather.sh",
     "exec-on-event": true,
@@ -172,8 +173,8 @@
   },
   "battery": {
     "format": "·{capacity}% <span size=\"x-large\" rise=\"-3pt\">{icon}</span>",
-    "format-plugged": "·{capacity}% <span size=\"x-large\" rise=\"-2pt\"></span>",
-    "format-charging": "·{capacity}% <span siz=\"xx-large\" rise=\"-3pt\"></span>",
+    "format-plugged": "·{capacity}% <span size=\"x-large\" rise=\"-1pt\"></span>",
+    "format-charging": "·{capacity}% <span siz=\"xx-large\" rise=\"-2pt\"></span>",
     "format-discharging": "·{capacity}% <span size=\"large\" rise=\"0pt\">{icon}</span>",
     "format-full": "·Charged ",
     "format-icons": {

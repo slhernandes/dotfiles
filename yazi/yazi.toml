@@ -1,4 +1,4 @@
-[manager]
+[mgr]
 ratio = [2, 7, 7]
 sort_by = "natural"
 sort_sensitive = true

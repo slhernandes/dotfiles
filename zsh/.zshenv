@@ -141,3 +141,9 @@ export OPAMROOT="$XDG_DATA_HOME"/opam
 # readline env
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 export RLWRAP_HOME="$XDG_DATA_HOME"/rlwrap
+
+# dotnet env
+export DOTNET_CLI_HOME="$XDG_DATA_HOME"/dotnet
+
+# nuget env
+export NUGET_PACKAGES="$XDG_CACHE_HOME"/NuGetPackages

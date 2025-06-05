@@ -110,7 +110,9 @@
   ("https://www.phoronix.com/rss.php" linux)
 ))
 
-(global-set-key (kbd "C-x w") 'elfeed)
+(setq elfeed-db-directory "~/.cache/elfeed/")
+
+(global-set-key (kbd "C-x r") 'elfeed)
 (setq browse-url-browser-function 'eww-browse-url)
 
 (setq-default elfeed-search-filter "")

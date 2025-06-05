@@ -1,8 +1,8 @@
 @import "./colors.css";
 #waybar {
   /* font-family: "SF Pro Display", Cantarell, Noto Sans, sans-serif; */
-  font-family: "Noto Sans Mono";
-  font-size: 15.5px;
+  font-family: "Noto Sans Mono, FiraCode Nerd Font Mono";
+  font-size: 15.8px;
 }
 
 window#waybar.empty #window {

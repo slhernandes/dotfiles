@@ -57,7 +57,7 @@ SUNSET_EPOCH=$(date -d $SUNSET +%s)
 WALL_TYPE="night"
 
 # remove previous scheduled process(es)
-atq -q w | awk '{print $1}' | xargs atrm;
+atq -q w | awk '{print $1}' | xargs atrm
 
 if [ $NOW_EPOCH -ge $SUNRISE_EPOCH ] && [ $NOW_EPOCH -lt $SUNSET_EPOCH ]; then
   WALL_TYPE="day"

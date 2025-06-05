@@ -68,12 +68,19 @@ case $1 in
     fi
     ;;
   termusic)
-    workspace_name=$(hyprctl workspaces | grep "special:music")
+    workspace_name=$(hyprctl workspaces | grep "special:termusic")
     if [ -n "$workspace_name" ]; then
-      hyprctl dispatch togglespecialworkspace "music"
+      hyprctl dispatch togglespecialworkspace "termusic"
     else
-      hyprctl dispatch exec '[workspace special:music]' 'wezterm start --class=music_sp -e termusic'
       hyprctl dispatch exec '[workspace special:termusic]' "ghostty --custom-shader=$SHADER_PATH -e termusic"
+    fi
+    ;;
+  ncmpcpp)
+    workspace_name=$(hyprctl workspaces | grep "special:ncmpcpp")
+    if [ -n "$workspace_name" ]; then
+      hyprctl dispatch togglespecialworkspace "ncmpcpp"
+    else
+      hyprctl dispatch exec '[workspace special:ncmpcpp]' "ghostty --custom-shader=$SHADER_PATH -e ncmpcpp"
     fi
     ;;
   *)
