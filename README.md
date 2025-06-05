@@ -12,14 +12,31 @@ or use the ```deploy.sh``` script.
 
 ### deploy.sh Script
 
-Usage:
+#### Usage
 ```
  ./deploy.sh [-y|--noconfirm|-h|--help|-r|--replace] <manifest_file> [target_dir]
      -h / --help      : show this message
      -r / --replace   : do not skip when config exists in target_dir
+     -u / --update    : Sync the plugins
      -y / --noconfirm : skip all [y/N] questions
      manifest_file    : location of the manifest file
      target_dir       : link target location (default: $XDG_CONFIG_HOME or $HOME/.config)
+```
+
+#### Examples
+Automatically deploy and update:
+```
+./deploy.sh -r -u -y linux.manifest
+```
+
+Deploy (and ask for confirmation for every existing file) and update:
+```
+./deploy.sh -r -u linux.manifest
+```
+
+Update all the plugins:
+```
+./deploy.sh -u linux.manifest
 ```
 
 ### Manifest File
@@ -44,7 +61,7 @@ To install all the tpm plugins, do ```prefix+I```.
 
 ### yazi
 
-To install all the yazi plugins, enter ```ya pack -u``` command.
+To install all the yazi plugins, enter ```ya pkg -u``` command.
 
 ### emacs
 
