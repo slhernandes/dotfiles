@@ -18,11 +18,17 @@ else
 fi
 
 prefix=${PASSWORD_STORE_DIR-~/.password-store}
-password_files=( "$prefix"/**/*.gpg )
-password_files=( "${password_files[@]#"$prefix"/}" )
-password_files=( "${password_files[@]%.gpg}" )
+password_files=("$prefix"/**/*.gpg)
+password_files=("${password_files[@]#"$prefix"/}")
+password_files=("${password_files[@]%.gpg}")
 
-password=$(printf '%s\n' "${password_files[@]}" | rofi -dmenu "$@" -p "🔑 " -theme "$XDG_CONFIG_HOME/rofi/themes/no-icon.rasi" -theme-str "window {width: 13%;}")
+EMPTY_WIN=$(hyprctl activewindow | grep -i "invalid")
+
+if [ -n "$EMPTY_WIN" ]; then
+  EXTRA_ARGS="y-offset: -36px;"
+fi
+
+password=$(printf '%s\n' "${password_files[@]}" | rofi -dmenu "$@" -p "🔑 " -theme "$XDG_CONFIG_HOME/rofi/themes/no-icon.rasi" -theme-str "window {width: 13%; $EXTRA_ARGS}")
 
 [[ -n $password ]] || exit
 
@@ -30,11 +36,14 @@ copyq disable
 if [[ $typeit -eq 0 ]]; then
   if [ $(echo "$password" | awk -F"/" '{print tolower($NF)}') = "otp" ]; then
     # requires OTP plugin for pass
-    pass otp -c "$password" 2>/dev/null
+    pass otp -c "$password" 2> /dev/null
   else
-    pass show -c "$password" 2>/dev/null
+    pass show -c "$password" 2> /dev/null
   fi
 else
-  pass show "$password" | { IFS= read -r pass; printf %s "$pass"; } | $xdotool
+  pass show "$password" | {
+    IFS= read -r pass
+    printf %s "$pass"
+  } | $xdotool
 fi
 copyq enable

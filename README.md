@@ -13,7 +13,7 @@ or use the ```deploy.sh``` script.
 ### deploy.sh Script
 
 #### Usage
-```
+```console
  ./deploy.sh [-y|--noconfirm|-h|--help|-r|--replace] <manifest_file> [target_dir]
      -h / --help      : show this message
      -r / --replace   : do not skip when config exists in target_dir
@@ -25,17 +25,17 @@ or use the ```deploy.sh``` script.
 
 #### Examples
 Automatically deploy and update:
-```
+```bash
 ./deploy.sh -r -u -y linux.manifest
 ```
 
 Deploy (and ask for confirmation for every existing file) and update:
-```
+```bash
 ./deploy.sh -r -u linux.manifest
 ```
 
 Update all the plugins:
-```
+```bash
 ./deploy.sh -u linux.manifest
 ```
 

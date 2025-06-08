@@ -8,4 +8,5 @@ if [ -n "$(pgrep launch_waybar)" ]; then
   pgrep launch_waybar | xargs kill
 fi
 
+nohup $SCRIPT_DIR/wallpaper.sh &
 nohup $SCRIPT_DIR/launch_waybar &
