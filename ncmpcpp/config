@@ -56,4 +56,4 @@ color2 = "blue"
 # UI APPEARANCE
 now_playing_prefix = "$b"
 now_playing_suffix = "$/b"
-song_list_format = "{%30a | }{%30b | }{%t}|{$8%f$9}$R{$3%l$9}"
+song_list_format = "{%30a | }{%30b | }{%30t}|{$8%f$9}$R{$3%l$9}"

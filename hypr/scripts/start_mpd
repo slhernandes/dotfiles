@@ -1,0 +1,9 @@
+#!/bin/sh
+
+mpd &
+
+[ 0 -eq 1 ]
+while [ "$?" -ne 0 ]; do
+  mpd-mpris -port 7777
+  sleep 1
+done
