@@ -13,7 +13,7 @@ def_key "l"
   enter_directory
 def_key "l"
   add_item_to_playlist
-  run_external_command "playerctl play"
+  run_external_command "playerctl play --player=mpd"
 
 def_key "ctrl-u"
   page_up

@@ -1,9 +1,8 @@
 #!/bin/sh
 
-mpd &
-
-[ 0 -eq 1 ]
-while [ "$?" -ne 0 ]; do
+loop=1
+while [ "$loop" -ne 0 ]; do
   mpd-mpris -port 7777
+  loop="$?"
   sleep 1
 done
