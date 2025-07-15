@@ -45,6 +45,8 @@
       "rofi.*": "🔍Rofi",
       "Steam": "🎮Steam"
     },
+    "on-click": "hyprctl dispatch cyclenext next",
+    "on-click-right": "hyprctl dispatch cyclenext prev",
   },
   "hyprland/workspaces": {
     "disable-scroll": true,
@@ -55,10 +57,10 @@
     "format-icons": {
       "1": "",
       "2": "",
-      "3": "󱔘",
+      "3": "",
       "4": "󱔘",
       "5": "",
-      "6": "",
+      "6": "󱔘",
       "7": "󰓓",
       "8": "󰊗",
       "9": "󰙯",

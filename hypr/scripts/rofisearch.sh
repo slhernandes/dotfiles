@@ -1,6 +1,7 @@
 #!/bin/zsh
 
 ROFI_THEME="$XDG_CONFIG_HOME/rofi/themes/no-icon.rasi"
+BROWSER="firefox"
 
 result=":"
 result+=$(echo "" | rofi -dmenu -l 0 -p "🌐" -theme $ROFI_THEME)
@@ -57,8 +58,7 @@ case $search in
       fi
       icons_dir+="/hypr/icons"
       notify-send -r 80085 -u low -i ${icons_dir}/dialog-warning.svg \
-        \"rofisearch\" \"$search is not available. Searching from default search engine\"\
-        -h string:synchronous:test
+        \"rofisearch\" \"$search is not available. Searching from default search engine\" -h string:synchronous:test
     fi
     content=$(echo "$content" | tr " " "+")
     site=$(printf "https://duckduckgo.com/?t=ftsa&q=%s&ia=web" "$content")
@@ -66,5 +66,5 @@ case $search in
 esac
 
 if [ -n "$content" ]; then
-  floorp --new-tab "$site"
+  $BROWSER --new-tab "$site"
 fi

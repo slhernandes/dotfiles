@@ -107,6 +107,7 @@
         ("https://ctftime.org/writeups/rss/" ctf)
 	("https://nedroid.com/feed/" comic)
 	("https://xkcd.com/rss.xml" comic)
+	("https://ladybird.org/posts.rss" linux browser)
   ("https://www.phoronix.com/rss.php" linux)
 ))
 
