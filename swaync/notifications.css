@@ -16,7 +16,7 @@
 
   all: unset;
   font-size: 14px;
-  font-family: "FiraCode Nerd Font 12";
+  font-family: "FiraCode Nerd Font 14";
   transition: 200ms;
 
 }
@@ -100,10 +100,7 @@
   color: @background;
 }
 
-.notification.critical progress {
-  background-color: @selected;
-}
-
+.notification.critical progress,
 .notification.low progress,
 .notification.normal progress {
   background-color: @selected;

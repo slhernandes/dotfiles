@@ -15,13 +15,37 @@ function is_mute {
 }
 
 function send_notification {
-  volume=`get_volume`
-  bar=$(seq -s "─" 0 $(($volume / 5)) | sed 's/[0-9]//g')
+  volume=$(get_volume)
+  # bar=$(seq -s "—" 0 $(python -c "print(round($volume / 5))") | sed 's/[0-9]//g')
+  # rest=$(seq -s "＿" 0 $(python -c "print(round((100 - $volume) / 5))") | sed 's/[0-9]//g')
+
+  #new bar
+  bar=$(seq -s "" 0 $(python -c "print(round($volume / 5))") | sed 's/[0-9]//g')
+  rest=$(seq -s "" 0 $(python -c "print(round((100 - $volume) / 5))") | sed 's/[0-9]//g')
+
+  start_cnt=$(echo $bar | wc -c)
+  if [ -n "$start_cnt" ] && [ "$start_cnt" -gt 1 ]; then
+    start=""
+    bar=$(echo $bar | cut -b 4-)
+  else
+    start=""
+    rest=$(echo $rest | cut -b 4-)
+  fi
+
+  end_cnt=$(echo $rest | wc -c)
+  if [ -n "$end_cnt" ] && [ "$end_cnt" -gt 1 ]; then
+    fin=""
+    rest=$(echo $rest | cut -b 4-)
+  else
+    fin=""
+    bar=$(echo $bar | cut -b 4-)
+  fi
+
   if [ "$volume" = "0" ]; then
     icon_name="$DIR/icons/input-muted.svg"
     bar=""
   else
-    if [  "$volume" -lt "10" ]; then
+    if [ "$volume" -lt "10" ]; then
       icon_name="$DIR/icons/volume-low.svg"
     else
       if [ "$volume" -lt "30" ]; then
@@ -34,10 +58,11 @@ function send_notification {
         fi
       fi
     fi
-  fi 
+  fi
   # Send the notification
   # dunstify " Volume " "$bar" -i $icon_name -r 5555 -u normal
-  notify-send "Mic volume $volume% " -i $icon_name -r 5555 -u normal -h int:value:$(($volume)) -h string:synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
+  # notify-send "Mic volume $volume%" "$bar$rest" -i $icon_name -r 5555 -u normal -h int:value:$(($volume)) -h string:synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
+  notify-send "Mic volume $volume%" "$start$bar$rest$fin" -i $icon_name -r 5555 -u normal -h int:value:$(($volume)) -h string:synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
   # notify-send.sh "Volume : $volume" -i "$icon_name" -t 2000 --replace=555
 }
 
@@ -59,7 +84,7 @@ case $1 in
   mute)
     # Toggle mute
     amixer -D pulse set Capture 1+ toggle > /dev/null
-    if is_mute ; then
+    if is_mute; then
       icon_name="$DIR/icons/input-muted.svg"
       notify-send "Mic muted" -i $icon_name -r 5555 -u normal -h int:value:0 -h string:synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
     else
@@ -69,4 +94,5 @@ case $1 in
   *)
     echo """Usage: ./volume_input [up|down|mute]
     """
+    ;;
 esac

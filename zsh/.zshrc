@@ -66,7 +66,7 @@ setopt HIST_FIND_NO_DUPS
 eval "$(fzf --zsh)"
 
 if [ -z "$NVIM" ]; then
-  fastfetch --logo-width 37 --logo-height 19
+  fastfetch # --logo-width 37 --logo-height 19
 else
   RNG=$(expr $RANDOM % 3)
   case $RNG in

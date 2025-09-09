@@ -12,6 +12,7 @@ if [ -n "$EXTRA_ARGS" ]; then
 else
   res=$(fd . $HOME -e pdf -IH | xargs -I{} basename "{}" | sort -u | rofi -dmenu -p "open: " -i -theme $ROFI_THEME)
 fi
+
 if [ -z "$res" ]; then
   exit 0
 fi
