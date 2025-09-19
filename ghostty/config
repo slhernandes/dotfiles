@@ -1,5 +1,5 @@
 # theme = gruber-darker
-theme = tokyonight-storm
+theme = "TokyoNight Storm"
 
 font-family = "Fira Code"
 font-family-italic = "JetBrains Mono NL"

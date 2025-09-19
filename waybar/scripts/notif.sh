@@ -4,10 +4,10 @@ DND_STATUS=$(swaync-client -D)
 NOTIF_COUNT=$(swaync-client -c)
 
 if [ "$DND_STATUS" = "true" ]; then
-  STATUS="󰽧"
+  STATUS="󰽥"
   CLASS="on"
 else
-  STATUS=""
+  STATUS="󰽢"
   CLASS="off"
 fi
 

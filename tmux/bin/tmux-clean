@@ -1,0 +1,4 @@
+#!/bin/dash
+
+$XDG_CONFIG_HOME/tmux/bin/tmux-start
+tmux ls | awk 'BEGIN{FS=":"}!/attached/{print $1}' | xargs -n 1 tmux kill-ses -t
