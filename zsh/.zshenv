@@ -1,4 +1,3 @@
-
 # XDG BASE DIRS
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_CONFIG_HOME=$HOME/.config
@@ -126,7 +125,7 @@ export FZF_CTRL_T_OPTS="
 --walker-skip .git,node_modules,target,plugins,plugin
 --preview 'bat -n --color=always {}'
 --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-  # Print tree structure in the preview window
+# Print tree structure in the preview window
 export FZF_ALT_C_OPTS="
 --tmux=center,70%,80%
 --walker-skip .git,node_modules,target
@@ -147,3 +146,6 @@ export DOTNET_CLI_HOME="$XDG_DATA_HOME"/dotnet
 
 # nuget env
 export NUGET_PACKAGES="$XDG_CACHE_HOME"/NuGetPackages
+
+# QT env
+export QML_IMPORT_PATH="/usr/lib/qt6/qml"
