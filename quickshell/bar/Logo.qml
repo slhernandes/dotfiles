@@ -1,5 +1,6 @@
 import QtQuick.Layouts
 import Quickshell.Hyprland
+import Quickshell.Io
 import QtQuick
 import "root:/"
 
@@ -28,10 +29,40 @@ RowLayout {
       color: Theme.get.logoColour
       font.pointSize: 18
     }
-    // MouseArea {
-    //   id: mouseArea
-    //   anchors.fill: parent
-    //   hoverEnabled: true
+
+    Process {
+      id: rofiDrun
+      command: ["rofi", "-show", "drun", "-theme-str", "window {location: northwest; anchor: northwest;}"]
+      running: false
+    }
+
+    Process {
+      id: rofiPower
+      command: ["../scripts/sddmenu"]
+      running: false
+    }
+
+    // Timer {
+    //   interval: 1000
+    //   running: true
+    //   repeat: true
+    //   onTriggered: dateProc.running = true
     // }
+
+    MouseArea {
+      id: mouseAreaLeft
+      acceptedButtons: Qt.LeftButton
+      anchors.fill: parent
+      hoverEnabled: true
+      onClicked: rofiDrun.running = true
+    }
+
+    MouseArea {
+      id: mouseAreaRight
+      acceptedButtons: Qt.RightButton
+      anchors.fill: parent
+      hoverEnabled: true
+      onClicked: rofiPower.running = true
+    }
   }
 }

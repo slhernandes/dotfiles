@@ -1,0 +1,49 @@
+#!/bin/dash
+
+ROFI_THEME="$XDG_CONFIG_HOME/rofi/themes/power-menu.rasi"
+ROFI_THEME_STR="window {location: northwest; anchor: northwest;}"
+
+actions="󰐥 poweroff\n reboot\n reboot (choose boot entry)\n lock\n󰍃 logout"
+
+result=$(echo "$actions" | rofi -dmenu -l 5 -p "󰐦: " -theme $ROFI_THEME -theme-str "$ROFI_THEME_STR")
+
+
+case "$result" in
+  "󰐥 poweroff")
+    poweroff
+    ;;
+  " reboot")
+    reboot
+    ;;
+  " reboot (choose boot entry)")
+    entry=$(ls /boot/loader/entries/ | rofi -dmenu -l 4 -p "Next entry: " -theme $ROFI_THEME -theme-str "$ROFI_THEME_STR")
+    if [ -n "$entry" ]; then
+      bname=$(echo $entry | awk -F. '{print $1}')
+      echo $bname
+      continue=$(echo "CONTINUE\nCANCEL" | rofi -dmenu -l 2 -p "Boot to $bname?: " -theme $ROFI_THEME -theme-str "$ROFI_THEME_STR")
+      if [ "$continue" = "CONTINUE" ]; then
+        systemctl reboot --boot-loader-entry=$entry
+      else
+        notify-send -r 820 -u low -i ~/.config/waybar/icons/dialog-warning.svg\
+          "Power menu" "Reboot canceled"\
+          -h string:synchronous:test\
+          -h boolean:SWAYNC_BYPASS_DND:true
+      fi
+    else
+      echo test
+      notify-send -r 820 -u low -i ~/.config/waybar/icons/dialog-error.svg\
+        "Power menu" "No boot entry selected"\
+        -h string:synchronous:test\
+        -h boolean:SWAYNC_BYPASS_DND:true
+    fi
+    ;;
+  " lock")
+    hyprlock
+    ;;
+  "󰍃 logout")
+    pkill -u $USER
+    ;;
+  *)
+    :
+    ;;
+esac

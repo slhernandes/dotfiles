@@ -71,7 +71,7 @@ Singleton {
 
   function workspaceIsFocused(index): bool {
     if (hyprland.currentSpecialWorkspaceName.length === 0) {
-      return Hyprland.focusedWorkspace.id === index + 1;
+      return Hyprland.focusedWorkspace?.id === index + 1;
     }
     return index < 0;
   }

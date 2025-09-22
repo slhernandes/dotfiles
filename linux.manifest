@@ -7,7 +7,8 @@ c|ghostty
 c|yazi
 d|swaync
 d|hypr
-d|waybar
+# d|waybar
+d|quickshell
 d|rofi
 c|tmux
 c|mpd
