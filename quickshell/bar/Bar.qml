@@ -2,6 +2,7 @@ import Quickshell
 import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
+import "modules"
 
 Scope {
 
@@ -38,6 +39,7 @@ Scope {
 
       RowLayout {
         id: allBlocks
+        anchors.fill: parent
         spacing: 0
         RowLayout {
           id: leftBlocks
@@ -45,8 +47,20 @@ Scope {
           Layout.alignment: Qt.AlignLeft
           Layout.fillWidth: true
 
-          Logo {}
-          Workspaces {}
+          LogoModule {}
+          WorkspacesModule {}
+        }
+        // Item {
+        //   Layout.fillWidth: true
+        // }
+        RowLayout {
+          id: rightBlocks
+          spacing: 4
+          Layout.alignment: Qt.AlignRight
+          Layout.fillWidth: true
+
+          // SystemTrayModule {}
+          InfoBlockModule {}
         }
       }
     }

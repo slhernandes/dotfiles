@@ -2,7 +2,7 @@ import QtQuick.Layouts
 import Quickshell.Hyprland
 import Quickshell.Io
 import QtQuick
-import "root:/"
+import "../../"
 
 RowLayout {
   property HyprlandMonitor monitor: Hyprland.monitorFor(screen)
@@ -27,7 +27,7 @@ RowLayout {
       padding: 12
       text: ""
       color: Theme.get.logoColour
-      font.pointSize: 18
+      font.pointSize: Variables.fontSizeLogo
     }
 
     Process {
@@ -38,7 +38,7 @@ RowLayout {
 
     Process {
       id: rofiPower
-      command: ["../scripts/sddmenu"]
+      command: [Variables.configDir + "/scripts/sddmenu"]
       running: false
     }
 

@@ -3,7 +3,7 @@ pragma Singleton
 import Quickshell
 import Quickshell.Hyprland
 import QtQuick
-import "root:/"
+import "../"
 
 Singleton {
   id: hyprland

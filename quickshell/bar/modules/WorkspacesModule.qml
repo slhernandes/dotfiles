@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Hyprland
-import "root:/"
+import "./items"
+import "../../"
 
 RowLayout {
   property HyprlandMonitor monitor: Hyprland.monitorFor(screen)
@@ -31,7 +32,7 @@ RowLayout {
       Repeater {
         id: normalWs
         model: 9
-        WorkspaceElement {
+        WorkspaceItem {
           id: wsElem
         }
 
@@ -40,7 +41,7 @@ RowLayout {
         }
       }
 
-      WorkspaceElement {
+      WorkspaceItem {
         id: specialWs
         index: -1
         onTextChanged: function () {

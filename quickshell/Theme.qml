@@ -15,5 +15,8 @@ Singleton {
     property string workspaceEmpty: "#5b6078"
     property string workspaceHovered: "#8aadf4"
     property string logoColour: "#1793d0"
+    property string timeColour: "#8aadf4"
+    property string dateColour: "#eed49f"
+    property string borderColour: "#5b6078"
   }
 }

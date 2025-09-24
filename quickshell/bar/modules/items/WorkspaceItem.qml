@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell.Hyprland
-import "root:/"
+import "../../"
+import "../../../"
 
 Item {
   id: root
@@ -18,7 +19,7 @@ Item {
     padding: this.text.length > 0 ? 12 : 0
     text: root.index >= 0 ? root.workspaceNames[root.index] : ""
     color: mouseArea.containsMouse ? Theme.get.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.index)
-    font.pointSize: 15.8
+    font.pointSize: Variables.fontSizeIcon
   }
 
   MouseArea {
