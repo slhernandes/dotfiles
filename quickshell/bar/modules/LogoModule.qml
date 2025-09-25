@@ -1,24 +1,14 @@
-import QtQuick.Layouts
-import Quickshell.Hyprland
 import Quickshell.Io
 import QtQuick
-import "../../"
 
-RowLayout {
-  property HyprlandMonitor monitor: Hyprland.monitorFor(screen)
-  Rectangle {
-    id: logo
+import qs
+import qs.bar.widgets
 
-    Layout.preferredWidth: logoText.width
-    Layout.preferredHeight: 32
-    radius: 5
-    color: Theme.get.barBgColour
-    border {
-      color: "#5b6078"
-      width: 2
-    }
-    opacity: 0.85
-
+ModuleBlock {
+  extraWidth: 0
+  Item {
+    width: Math.ceil(logoText.width)
+    height: parent.height
     Text {
       id: logoText
       anchors.centerIn: parent
@@ -38,31 +28,26 @@ RowLayout {
 
     Process {
       id: rofiPower
-      command: [Variables.configDir + "/scripts/sddmenu"]
+      command: [Variables.configDir + "/scripts/powermenu"]
       running: false
     }
 
-    // Timer {
-    //   interval: 1000
-    //   running: true
-    //   repeat: true
-    //   onTriggered: dateProc.running = true
-    // }
-
     MouseArea {
-      id: mouseAreaLeft
-      acceptedButtons: Qt.LeftButton
+      id: mouseArea
+      acceptedButtons: Qt.LeftButton | Qt.RightButton
       anchors.fill: parent
       hoverEnabled: true
-      onClicked: rofiDrun.running = true
-    }
-
-    MouseArea {
-      id: mouseAreaRight
-      acceptedButtons: Qt.RightButton
-      anchors.fill: parent
-      hoverEnabled: true
-      onClicked: rofiPower.running = true
+      onClicked: function (event) {
+        // console.log(event.button);
+        switch (event.button) {
+        case Qt.LeftButton:
+          rofiDrun.running = true;
+          break;
+        case Qt.RightButton:
+          rofiPower.running = true;
+          break;
+        }
+      }
     }
   }
 }

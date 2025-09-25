@@ -1,35 +1,51 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell.Hyprland
-import "../../"
-import "../../../"
+
+import qs
+import qs.bar
 
 Item {
   id: root
 
+  visible: workspaceText.text.length > 0 ? true : false
+
   required property int index
   property list<string> workspaceNames: ["", "", "", "󱔘", "", "󱔘", "󰓓", "󰊗", "󰙯"]
 
-  width: workspaceText.width
-  height: workspaceText.height
+  // width: Math.ceil(workspaceText.width)
+  width: {
+    // console.log(workspaceText.text, workspaceText.width);
+    return Math.ceil(workspaceText.width);
+  }
+  Layout.alignment: Qt.AlignLeft
 
   Text {
     id: workspaceText
 
-    horizontalAlignment: Text.AlignHCenter
-    padding: this.text.length > 0 ? 12 : 0
+    verticalAlignment: Text.AlignVCenter
+    anchors.centerIn: parent
+    padding: this.text.length > 0 ? 8 : 0
     text: root.index >= 0 ? root.workspaceNames[root.index] : ""
     color: mouseArea.containsMouse ? Theme.get.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.index)
-    font.pointSize: Variables.fontSizeIcon
+    font.pixelSize: 23
   }
 
   MouseArea {
     id: mouseArea
-    anchors.fill: parent
+    width: workspaceText.width
+    height: workspaceText.height
+    anchors.centerIn: parent
     hoverEnabled: true
     onClicked: {
       HyprlandUtils.switchWorkspace(index + 1);
     }
   }
+
+  // Rectangle {
+  //   width: workspaceText.width
+  //   height: 10
+  // }
 
   Connections {
     target: Hyprland
@@ -43,7 +59,8 @@ Item {
             const wsName = event.data.split(",")[1];
             root.index = isNaN(wsIndex) ? -1 : wsIndex;
             workspaceText.text = HyprlandUtils.getSpecialWorkspaceIcon(wsName);
-            workspaceText.padding = workspaceText.text.length > 0 ? 12 : 0;
+            workspaceText.padding = workspaceText.text.length > 0 ? 6 : 0;
+            root.visible = workspaceText.text.length > 0 ? true : false;
             root.width = workspaceText.width;
             root.textChanged();
           }

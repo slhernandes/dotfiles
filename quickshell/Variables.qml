@@ -11,4 +11,5 @@ Singleton {
   property real fontSizeIcon: 15.8
   property real fontSizeLogo: 18
   property real fontSizeText: 13
+  property real fontSizeSmall: 9.5
 }

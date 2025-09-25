@@ -1,5 +1,5 @@
 import Quickshell
-import "bar"
+import qs.bar
 
 Scope {
   Bar {}

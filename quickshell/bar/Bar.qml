@@ -1,8 +1,9 @@
 import Quickshell
-import Quickshell.Hyprland
+import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
-import "modules"
+
+import qs.bar.modules
 
 Scope {
 
@@ -60,7 +61,13 @@ Scope {
           Layout.fillWidth: true
 
           // SystemTrayModule {}
+          UtilityModule {}
           InfoBlockModule {}
+        }
+      }
+      Component.onCompleted: {
+        if (this.WlrLayershell != null) {
+          this.WlrLayershell.layer = WlrLayer.Bottom;
         }
       }
     }

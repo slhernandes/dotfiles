@@ -1,30 +1,39 @@
 import Quickshell
 import QtQuick
-import "../../../"
+import QtQuick.Layouts
+
+import qs
 
 Item {
   id: root
-  height: dateTimeRow.height
-  width: dateTimeRow.width
+  width: dateTimeRow.width + anchors.rightMargin
 
   SystemClock {
     id: clock
     precision: SystemClock.Seconds
   }
 
-  Row {
+  RowLayout {
     id: dateTimeRow
-    height: dateText.height
-    width: dateText.width + timeText.width
+    height: parent.height
+    anchors.centerIn: parent
+    spacing: 0
     Text {
       id: dateText
-      text: Qt.locale("de_DE").toString(clock.date, "ddd dd.MM.yy")
+      Layout.alignment: Qt.AlignVCenter
+      text: {
+        const locale = Qt.locale("de_DE");
+        const dayName = locale.toString(clock.date, "ddd");
+        const date = locale.toString(clock.date, "dd.MM.yy");
+        return dayName + date;
+      }
       color: Theme.get.dateColour
       font.pointSize: Variables.fontSizeText
       font.family: Variables.fontFamilyText
     }
     Text {
       id: timeText
+      Layout.alignment: Qt.AlignVCenter
       text: Qt.formatDateTime(clock.date, "·hh:mm:ss")
       color: Theme.get.timeColour
       font.pointSize: Variables.fontSizeText

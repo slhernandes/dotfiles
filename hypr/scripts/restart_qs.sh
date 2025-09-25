@@ -1,4 +1,3 @@
 #!/bin/dash
 
-killall qs
-qs &
+qs -nd

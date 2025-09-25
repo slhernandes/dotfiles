@@ -5,8 +5,8 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
-import "../../"
-import "./items"
+import qs
+import qs.bar.modules.items
 
 RowLayout {
   property HyprlandMonitor monitor: Hyprland.monitorFor(screen)
@@ -47,7 +47,7 @@ RowLayout {
           hoverEnabled: true
 
           onClicked: event => {
-            print("Hello");
+            // print("Hello");
             if (event.button == Qt.LeftButton) {
               item.activate();
             } else if (event.button == Qt.MiddleButton) {

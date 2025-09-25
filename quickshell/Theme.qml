@@ -10,13 +10,22 @@ Singleton {
     id: test
 
     property string barBgColour: "#24273a"
+    property string borderColour: "#5b6078"
+
     property string workspaceActive: "#f5bde6"
     property string workspaceFilled: "#cad3f5"
     property string workspaceEmpty: "#5b6078"
     property string workspaceHovered: "#8aadf4"
+
     property string logoColour: "#1793d0"
     property string timeColour: "#8aadf4"
     property string dateColour: "#eed49f"
-    property string borderColour: "#5b6078"
+
+    property string inactiveElement: "#5b6078"
+    property string activeElement: "#8aadf4"
+
+    property string batteryIndicatorCharging: "#a6da95"
+    property string batteryIndicatorNormal: "#8aadf4"
+    property string batteryIndicatorLow: "#ed8796"
   }
 }

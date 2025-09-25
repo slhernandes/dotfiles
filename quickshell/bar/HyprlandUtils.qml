@@ -3,14 +3,14 @@ pragma Singleton
 import Quickshell
 import Quickshell.Hyprland
 import QtQuick
-import "../"
+
+import qs
 
 Singleton {
   id: hyprland
 
   property string currentSpecialWorkspaceName: ""
   property list<HyprlandWorkspace> workspaces: sortWorkspaces(Hyprland.workspaces.values)
-  property list<HyprlandToplevel> windows: Hyprland.toplevels.values
   property int maxWorkspace: findMaxId()
 
   function sortWorkspaces(ws) {
@@ -91,7 +91,7 @@ Singleton {
       let eventName = event.name;
       // console.log("Hyprland event received:", eventName);
 
-      console.log(eventName, event.data);
+      // console.log(eventName, event.data);
       switch (eventName) {
       case "createworkspacev2":
         {
