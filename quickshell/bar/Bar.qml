@@ -49,6 +49,7 @@ Scope {
 
         LogoModule {}
         WorkspacesModule {}
+        CurrentWorkspaceWindowsModule {}
       }
       RowLayout {
         id: centerBlocks

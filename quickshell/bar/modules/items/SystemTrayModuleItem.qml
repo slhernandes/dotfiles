@@ -16,7 +16,6 @@ MouseArea {
   hoverEnabled: true
 
   onClicked: event => {
-    // print("Hello");
     if (event.button == Qt.LeftButton) {
       item.activate();
     } else if (event.button == Qt.MiddleButton) {
