@@ -1,8 +1,15 @@
 pragma Singleton
+import QtQuick
 import Quickshell
+import Quickshell.Io
 
 Singleton {
-  property ThemeColour theme: tokyoNightStorm
+  id: root
+  property Loader themeLoader: Loader {
+    id: themeLoader
+    source: "themes/CatppuccinMacchiato.qml"
+  }
+  property ThemeItem theme: themeLoader.item as ThemeItem
 
   property string barBgColour: theme.background
   property string borderColour: theme.brightBlack
@@ -25,49 +32,19 @@ Singleton {
   property string batteryIndicatorNormal: theme.blue
   property string batteryIndicatorLow: theme.red
 
-  ThemeColour {
-    id: catppuccinMacchiato
-    foreground: "#cad3f5"
-    background: "#24273a"
-    cursor: "#f4dbd6"
-    black: "#494d64"
-    red: "#ed8796"
-    green: "#a6da95"
-    yellow: "#eed49f"
-    blue: "#8aadf4"
-    magenta: "#f5bde6"
-    cyan: "#8bd5ca"
-    white: "#b8c0e0"
-    brightBlack: "#5b6078"
-    brightRed: "#ed8796"
-    brightGreen: "#a6da95"
-    brightYellow: "#eed49f"
-    brightBlue: "#8aadf4"
-    brightMagenta: "#f5bde6"
-    brightCyan: "#8bd5ca"
-    brightWhite: "#a5adcb"
-  }
-
-  ThemeColour {
-    id: tokyoNightStorm
-    foreground: "#f8f8f2"
-    background: "#24283b"
-    cursor: "#c0caf5"
-    black: "#1d202f"
-    red: "#f7768e"
-    green: "#9ece6a"
-    yellow: "#e0af68"
-    blue: "#7aa2f7"
-    magenta: "#bb9af7"
-    cyan: "#7dcfff"
-    white: "#a9b1d6"
-    brightBlack: "#414868"
-    brightRed: "#f7768e"
-    brightGreen: "#9ece6a"
-    brightYellow: "#e0af68"
-    brightBlue: "#7aa2f7"
-    brightMagenta: "#bb9af7"
-    brightCyan: "#7dcfff"
-    brightWhite: "#c0caf5"
+  IpcHandler {
+    target: "themeLoader"
+    function getTheme(): string {
+      return themeLoader.source;
+    }
+    function setTheme(s: string): bool {
+      const old_theme = themeLoader.source;
+      themeLoader.source = s;
+      if (themeLoader.status === Loader.Null || themeLoader.status === Loader.Error) {
+        themeLoader.source = old_theme;
+        return false;
+      }
+      return true;
+    }
   }
 }
