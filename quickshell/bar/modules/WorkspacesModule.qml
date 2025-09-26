@@ -19,7 +19,7 @@ ModuleBlock {
 
   WorkspaceItem {
     id: specialWs
-    index: -1
+    modelData: -1
     visible: false
   }
 }

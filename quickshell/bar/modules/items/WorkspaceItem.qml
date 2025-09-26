@@ -10,7 +10,7 @@ Item {
 
   visible: workspaceText.text.length > 0 ? true : false
 
-  required property int index
+  required property int modelData
   property list<string> workspaceNames: ["", "", "", "󱔘", "", "󱔘", "󰓓", "󰊗", "󰙯"]
 
   // width: Math.ceil(workspaceText.width)
@@ -26,8 +26,8 @@ Item {
     verticalAlignment: Text.AlignVCenter
     anchors.centerIn: parent
     padding: this.text.length > 0 ? 8 : 0
-    text: root.index >= 0 ? root.workspaceNames[root.index] : ""
-    color: mouseArea.containsMouse ? Theme.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.index)
+    text: root.modelData >= 0 ? root.workspaceNames[root.modelData] : ""
+    color: mouseArea.containsMouse ? Theme.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.modelData)
     font.pixelSize: 23
   }
 
@@ -38,14 +38,9 @@ Item {
     anchors.centerIn: parent
     hoverEnabled: true
     onClicked: {
-      HyprlandUtils.switchWorkspace(index + 1);
+      HyprlandUtils.switchWorkspace(modelData + 1);
     }
   }
-
-  // Rectangle {
-  //   width: workspaceText.width
-  //   height: 10
-  // }
 
   Connections {
     target: Hyprland
@@ -54,10 +49,10 @@ Item {
       switch (eventName) {
       case "activespecialv2":
         {
-          if (root.index < 0) {
-            const wsIndex = parseInt(event.data.split(",")[0]);
+          if (root.modelData < 0) {
+            const wsmodelData = parseInt(event.data.split(",")[0]);
             const wsName = event.data.split(",")[1];
-            root.index = isNaN(wsIndex) ? -1 : wsIndex;
+            root.modelData = isNaN(wsmodelData) ? -1 : wsmodelData;
             workspaceText.text = HyprlandUtils.getSpecialWorkspaceIcon(wsName);
             workspaceText.padding = workspaceText.text.length > 0 ? 6 : 0;
             root.visible = workspaceText.text.length > 0 ? true : false;
