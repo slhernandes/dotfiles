@@ -71,6 +71,7 @@ Scope {
           right: parent.right
         }
 
+        SystemTrayModule {}
         UtilityModule {}
         InfoBlockModule {}
       }

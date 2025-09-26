@@ -25,7 +25,13 @@ Item {
       id: audioOutputIndicator
       anchors.centerIn: parent
       width: audioInputRow.width
-      value: Pipewire.defaultAudioSink?.audio.volume
+      value: {
+        const volume = Pipewire.defaultAudioSink?.audio.volume;
+        if (!volume) {
+          return 0.0;
+        }
+        return volume;
+      }
       RowLayout {
         id: audioInputRow
         width: icon.implicitWidth + content.width + 8
@@ -38,15 +44,17 @@ Item {
           source: {
             const default_sink = Pipewire.defaultAudioSink;
             let icon_name = "volume_low.svg";
-            if (default_sink?.audio.muted) {
-              icon_name = "volume_mute.svg";
-            } else {
-              if (default_sink?.audio.volume >= .5) {
-                icon_name = "volume_high.svg";
-              } else if (default_sink.audio.volume == 0) {
+            if (!!default_sink) {
+              if (default_sink?.audio.muted) {
                 icon_name = "volume_mute.svg";
               } else {
-                icon_name = "volume_low.svg";
+                if (default_sink?.audio.volume >= .5) {
+                  icon_name = "volume_high.svg";
+                } else if (default_sink.audio.volume == 0) {
+                  icon_name = "volume_mute.svg";
+                } else {
+                  icon_name = "volume_low.svg";
+                }
               }
             }
             return `file://${Variables.configDir}/icons/${icon_name}`;
