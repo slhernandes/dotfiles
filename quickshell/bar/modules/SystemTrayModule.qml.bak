@@ -17,7 +17,7 @@ RowLayout {
     Layout.preferredWidth: 100
     Layout.preferredHeight: 32
     radius: 5
-    color: Theme.get.barBgColour
+    color: Theme.barBgColour
     border {
       color: "#5b6078"
       width: 2

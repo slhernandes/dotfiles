@@ -27,7 +27,7 @@ Item {
         const date = locale.toString(clock.date, "dd.MM.yy");
         return dayName + date;
       }
-      color: Theme.get.dateColour
+      color: Theme.dateColour
       font.pointSize: Variables.fontSizeText
       font.family: Variables.fontFamilyText
     }
@@ -35,7 +35,7 @@ Item {
       id: timeText
       Layout.alignment: Qt.AlignVCenter
       text: Qt.formatDateTime(clock.date, "·hh:mm:ss")
-      color: Theme.get.timeColour
+      color: Theme.timeColour
       font.pointSize: Variables.fontSizeText
       font.family: Variables.fontFamilyText
     }

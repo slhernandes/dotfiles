@@ -16,7 +16,7 @@ ModuleBlock {
       verticalAlignment: Text.AlignVCenter
       padding: 12
       text: ""
-      color: Theme.get.logoColour
+      color: Theme.logoColour
       font.pointSize: Variables.fontSizeLogo
     }
 

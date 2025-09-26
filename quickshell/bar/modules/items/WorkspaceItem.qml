@@ -27,7 +27,7 @@ Item {
     anchors.centerIn: parent
     padding: this.text.length > 0 ? 8 : 0
     text: root.index >= 0 ? root.workspaceNames[root.index] : ""
-    color: mouseArea.containsMouse ? Theme.get.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.index)
+    color: mouseArea.containsMouse ? Theme.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.index)
     font.pixelSize: 23
   }
 

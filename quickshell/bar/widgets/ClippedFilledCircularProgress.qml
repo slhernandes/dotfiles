@@ -10,8 +10,8 @@ Item {
   property int implicitSize: 18
   property int lineWidth: 2
   property real value: 0
-  property color colPrimary: Theme.get.activeElement
-  property color colSecondary: Theme.get.inactiveElement
+  property color colPrimary: Theme.activeElement
+  property color colSecondary: Theme.inactiveElement
   property real gapAngle: 360 / 18
   property bool fill: true
   property int fillOverflow: 2

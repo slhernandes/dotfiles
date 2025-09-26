@@ -21,8 +21,5 @@ ModuleBlock {
     id: specialWs
     index: -1
     visible: false
-    onTextChanged: function () {
-      root.specialWidthChanged();
-    }
   }
 }

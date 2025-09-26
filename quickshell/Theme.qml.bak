@@ -2,7 +2,7 @@ pragma Singleton
 import Quickshell
 
 Singleton {
-  property ThemeColour theme: tokyoNightStorm
+  property ThemeColour theme: catppuccinMacchiato
 
   property string barBgColour: theme.background
   property string borderColour: theme.brightBlack
@@ -16,7 +16,6 @@ Singleton {
   property string logoColour: theme.blue
   property string timeColour: theme.blue
   property string dateColour: theme.yellow
-  property string windowTitleColour: theme.foreground
 
   property string inactiveElement: theme.brightBlack
   property string activeElement: theme.blue

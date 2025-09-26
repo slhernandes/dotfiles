@@ -1,6 +1,7 @@
 pragma Singleton
 
 import Quickshell
+import Quickshell.Io
 import Quickshell.Hyprland
 import QtQuick
 
@@ -12,6 +13,7 @@ Singleton {
   property string currentSpecialWorkspaceName: ""
   property list<HyprlandWorkspace> workspaces: sortWorkspaces(Hyprland.workspaces.values)
   property int maxWorkspace: findMaxId()
+  property string currentActiveWindow
 
   function sortWorkspaces(ws) {
     return [...ws].sort((a, b) => a?.id - b?.id);
@@ -78,11 +80,26 @@ Singleton {
 
   function getWorkspaceColour(index): string {
     if (workspaceIsFocused(index)) {
-      return Theme.get.workspaceActive;
+      return Theme.workspaceActive;
     } else if (workspaceIsEmpty(index)) {
-      return Theme.get.workspaceEmpty;
+      return Theme.workspaceEmpty;
     }
-    return Theme.get.workspaceFilled;
+    return Theme.workspaceFilled;
+  }
+
+  Process {
+    id: updateActiveWindow
+    running: false
+    command: ["sh", "-c", "hyprctl activewindow -j | jq '.title'"]
+    stdout: StdioCollector {
+      onStreamFinished: {
+        if (this.text.trim() === "null") {
+          hyprland.currentActiveWindow = "";
+        } else {
+          hyprland.currentActiveWindow = this.text.replace(/\"/g, "").trim();
+        }
+      }
+    }
   }
 
   Connections {
@@ -112,7 +129,12 @@ Singleton {
           hyprland.currentSpecialWorkspaceName = event.data.split(",")[1];
           break;
         }
+      case "workspacev2":
+        {
+          break;
+        }
       }
+      updateActiveWindow.running = true;
     }
   }
 }

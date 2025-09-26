@@ -30,40 +30,49 @@ Scope {
 
       implicitHeight: 32
 
-      // Rectangle {
-      //     id: highlight
-      //     anchors.fill: parent
-      //     color: "#24273a"
-      // }
+      Rectangle {
+        id: highlight
+        anchors.fill: parent
+        color: "transparent"
+      }
 
       visible: true
 
       RowLayout {
-        id: allBlocks
-        anchors.fill: parent
-        spacing: 0
-        RowLayout {
-          id: leftBlocks
-          spacing: 4
-          Layout.alignment: Qt.AlignLeft
-          Layout.fillWidth: true
+        id: leftBlocks
+        spacing: 4
 
-          LogoModule {}
-          WorkspacesModule {}
+        anchors {
+          left: parent.left
+          top: parent.top
         }
-        // Item {
-        //   Layout.fillWidth: true
-        // }
-        RowLayout {
-          id: rightBlocks
-          spacing: 4
-          Layout.alignment: Qt.AlignRight
-          Layout.fillWidth: true
 
-          // SystemTrayModule {}
-          UtilityModule {}
-          InfoBlockModule {}
+        LogoModule {}
+        WorkspacesModule {}
+      }
+      RowLayout {
+        id: centerBlocks
+        spacing: 4
+
+        anchors {
+          top: parent.top
+          horizontalCenter: parent.horizontalCenter
         }
+
+        CurrentWindowModule {}
+      }
+
+      RowLayout {
+        id: rightBlocks
+        spacing: 4
+
+        anchors {
+          top: parent.top
+          right: parent.right
+        }
+
+        UtilityModule {}
+        InfoBlockModule {}
       }
       Component.onCompleted: {
         if (this.WlrLayershell != null) {

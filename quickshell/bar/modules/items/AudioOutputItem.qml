@@ -1,7 +1,9 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell.Services.Pipewire
-import Quickshell.Io
+import Quickshell.Widgets
 
+import qs
 import qs.bar.widgets
 
 Item {
@@ -22,17 +24,51 @@ Item {
     ClippedProgressBar {
       id: audioOutputIndicator
       anchors.centerIn: parent
-      text: {
-        const default_sink = Pipewire.defaultAudioSink;
-        const volume = default_sink.audio.volume;
-        const is_muted = default_sink.audio.muted;
-        let icon = is_muted ? "󰝟" : "󰖀";
-        let volume_text = Math.round(volume * 100).toString();
-        console.log(volume_text);
-        volume_text = " ".repeat(Math.max(0, 3 - volume_text.length)) + volume_text;
-        return `${icon}${volume_text}`;
+      width: audioInputRow.width
+      value: Pipewire.defaultAudioSink?.audio.volume
+      RowLayout {
+        id: audioInputRow
+        width: icon.implicitWidth + content.width + 8
+        spacing: 0
+        IconImage {
+          id: icon
+          implicitHeight: content.height
+          implicitWidth: content.height * 0.75
+          Layout.alignment: Qt.AlignRight
+          source: {
+            const default_sink = Pipewire.defaultAudioSink;
+            let icon_name = "volume_low.svg";
+            if (default_sink?.audio.muted) {
+              icon_name = "volume_mute.svg";
+            } else {
+              if (default_sink?.audio.volume >= .5) {
+                icon_name = "volume_high.svg";
+              } else if (default_sink.audio.volume == 0) {
+                icon_name = "volume_mute.svg";
+              } else {
+                icon_name = "volume_low.svg";
+              }
+            }
+            return `file://${Variables.configDir}/icons/${icon_name}`;
+          }
+        }
+        Text {
+          id: content
+          font {
+            family: Variables.fontFamilyText
+            pointSize: Variables.fontSizeSmall
+          }
+          Layout.alignment: Qt.AlignLeft
+          text: {
+            const default_sink = Pipewire.defaultAudioSink;
+            const volume = default_sink?.audio.volume;
+            const is_muted = default_sink?.audio.muted;
+            let volume_text = Math.round(volume * 100).toString();
+            volume_text = " ".repeat(Math.max(0, 3 - volume_text.length)) + volume_text;
+            return `${volume_text}`;
+          }
+        }
       }
-      value: Pipewire.defaultAudioSink.audio.volume
     }
   }
 

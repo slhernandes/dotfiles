@@ -12,10 +12,10 @@ ProgressBar {
   property bool vertical: false
   property real valueBarWidth: content.width
   property real valueBarHeight: content.height
-  property color highlightColor: Theme.get.activeElement
-  property color trackColor: Theme.get.inactiveElement
+  property color highlightColor: Theme.activeElement
+  property color trackColor: Theme.inactiveElement
   property alias radius: contentItem.radius
-  required property string text
+  property string text
   default property Item textMask: Item {
     width: Math.round(content.width)
     height: Math.round(content.height)
