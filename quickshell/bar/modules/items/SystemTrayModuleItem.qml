@@ -4,6 +4,8 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 
+import qs
+
 MouseArea {
   id: delegate
   required property SystemTrayItem modelData
@@ -42,7 +44,7 @@ MouseArea {
       }
       return icon;
     }
-    implicitSize: 16
+    implicitSize: Variables.iconSize
   }
 
   QsMenuAnchor {

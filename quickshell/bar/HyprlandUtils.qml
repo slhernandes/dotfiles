@@ -13,7 +13,8 @@ Singleton {
   property string currentSpecialWorkspaceName: ""
   property list<HyprlandWorkspace> workspaces: sortWorkspaces(Hyprland.workspaces.values)
   property int maxWorkspace: findMaxId()
-  property string currentActiveWindow
+  property string currentActiveWindowTitle
+  property string currentActiveWindowClass
 
   function sortWorkspaces(ws) {
     return [...ws].sort((a, b) => a?.id - b?.id);
@@ -88,15 +89,30 @@ Singleton {
   }
 
   Process {
-    id: updateActiveWindow
+    id: updateActiveWindowClass
+    running: false
+    command: ["sh", "-c", "hyprctl activewindow -j | jq '.class'"]
+    stdout: StdioCollector {
+      onStreamFinished: {
+        if (this.text.trim() === "null") {
+          hyprland.currentActiveWindowClass = "";
+        } else {
+          hyprland.currentActiveWindowClass = this.text.replace(/\"/g, "").trim();
+        }
+      }
+    }
+  }
+
+  Process {
+    id: updateActiveWindowTitle
     running: false
     command: ["sh", "-c", "hyprctl activewindow -j | jq '.title'"]
     stdout: StdioCollector {
       onStreamFinished: {
         if (this.text.trim() === "null") {
-          hyprland.currentActiveWindow = "";
+          hyprland.currentActiveWindowTitle = "";
         } else {
-          hyprland.currentActiveWindow = this.text.replace(/\"/g, "").trim();
+          hyprland.currentActiveWindowTitle = this.text.replace(/\"/g, "").trim();
         }
       }
     }
@@ -134,7 +150,8 @@ Singleton {
           break;
         }
       }
-      updateActiveWindow.running = true;
+      updateActiveWindowTitle.running = true;
+      updateActiveWindowClass.running = true;
     }
   }
 }

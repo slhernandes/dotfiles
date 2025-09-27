@@ -4,12 +4,13 @@ import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 
+import qs
 import qs.bar
 import qs.bar.modules.items
 import qs.bar.widgets
 
 ModuleBlock {
-  visible: windowIcons.model.length === 0 ? false : true
+  visible: !windowIcons.model?.length ? false : true
   RowLayout {
     id: windowRow
     spacing: 8
@@ -32,15 +33,20 @@ ModuleBlock {
           }
         }
         getWindows.exec(["sh", "-c", `hyprctl clients -j | jq 'map(select(.workspace.name == "${currentWorkspace.name}"))'`]);
-        let windows = JSON.parse(getWindows.windowInfo);
+        let windows = JSON.parse(getWindows.windowInfo.trim());
         let m = [];
         for (const w of windows) {
           let temp;
           if (w.class != "steam") {
+            let icon = Quickshell.iconPath(w.class, true);
+            if (icon === "") {
+              icon = `file://${Variables.configDir}/icons/unknown.png`;
+            }
             temp = {
-              icon: Quickshell.iconPath(w.class),
+              icon: icon,
               address: w.address
             };
+            console.log(temp.icon);
           } else {
             temp = {
               icon: `file://${Variables.configDir}/icons/steam.png`,
@@ -58,7 +64,11 @@ ModuleBlock {
       }
 
       onWindowAdded: function (windowClass, windowAddress) {
-        let icon = Quickshell.iconPath(windowClass);
+        // let icon = Quickshell.iconPath(windowClass, `file://${Variables.configDir}/icons/unknown.png`);
+        let icon = Quickshell.iconPath(windowClass, true);
+        if (icon === "") {
+          icon = `file://${Variables.configDir}/icons/unknown.png`;
+        }
         if (windowClass == "steam") {
           icon = `file://${Variables.configDir}/icons/steam.png`;
         }

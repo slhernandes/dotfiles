@@ -1,0 +1,1 @@
+/home/samuelhernandes/.cache/wal/ColorsQuickshell.qml
