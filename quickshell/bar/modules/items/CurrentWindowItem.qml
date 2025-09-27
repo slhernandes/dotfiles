@@ -21,13 +21,13 @@ Item {
       icon: Quickshell.iconPath("tmux")
     },
     {
-      regex: /(.*) – Mozilla Firefox/g,
+      regex: /(.*) [–—] Mozilla Firefox/g,
       to: "1$",
       clip: 20,
       icon: Quickshell.iconPath("firefox")
     },
     {
-      regex: /(.*) — Floorp/g,
+      regex: /(.*) [–—] Floorp/g,
       to: "1$",
       clip: 20,
       icon: Quickshell.iconPath("floorp")
@@ -54,7 +54,7 @@ Item {
     spacing: 8
     height: parent.height
     width: {
-      let totalWidth = windowIcon.implicitWidth + windowTitle.width;
+      let totalWidth = windowIcon.implicitWidth + windowTitle.implicitWidth;
       if (totalWidth > 0) {
         totalWidth += 8;
       }

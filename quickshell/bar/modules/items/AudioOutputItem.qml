@@ -25,13 +25,7 @@ Item {
       id: audioOutputIndicator
       anchors.centerIn: parent
       width: audioInputRow.width
-      value: {
-        const volume = Pipewire.defaultAudioSink?.audio.volume;
-        if (!volume) {
-          return 0.0;
-        }
-        return volume;
-      }
+      value: Pipewire.defaultAudioSink?.audio.volume || 0.0
       RowLayout {
         id: audioInputRow
         width: icon.implicitWidth + content.width + 8
@@ -71,6 +65,14 @@ Item {
             const default_sink = Pipewire.defaultAudioSink;
             const volume = default_sink?.audio.volume;
             const is_muted = default_sink?.audio.muted;
+            if (!volume || (!is_muted && is_muted !== false)) {
+              console.log("==========");
+              console.log("default_sink:", default_sink);
+              console.log("audio:", default_sink?.audio);
+              console.log("volume:", default_sink?.audio.volume);
+              console.log("is_muted:", default_sink?.audio.muted);
+              console.log("==========");
+            }
             let volume_text = Math.round(volume * 100).toString();
             volume_text = " ".repeat(Math.max(0, 3 - volume_text.length)) + volume_text;
             return `${volume_text}`;

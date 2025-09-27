@@ -16,8 +16,10 @@ echo script_dir: $SCRIPT_DIR >> $LOG_FILE
 
 if [ -z "$XDG_CONFIG_HOME" ]; then
   HYPR_CONFIG="$HOME/.config/hypr"
+  QS_CONFIG="$HOME/.config/quickshell"
 else
   HYPR_CONFIG="$XDG_CONFIG_HOME/hypr"
+  QS_CONFIG="$XDG_CONFIG_HOME/quickshell"
 fi
 
 WALL_DIR="$HYPR_CONFIG/wallpapers"
@@ -28,16 +30,17 @@ echo wall_dir: $WALL_DIR >> $LOG_FILE
 SUNRISE="0600"
 SUNSET="1800"
 
-TMP=$(timeout 1s curl wttr.in/\?format='%S')
+LOC=$(timeout 0.2s curl ipinfo.io/$(dig +short google.com) \
+  | jq -r ".loc" | awk -F',' '{print $1"N",$2"E"}')
 if [ "$?" -eq 0 ]; then
-  SUNRISE=$(echo $TMP | awk -F":" '{print $1$2}')
-else
-  DEFAULT_TIME=1
+  TMP=$(sunwait list $LOC)
 fi
+echo LOC: $LOC >> $LOG_FILE
+echo TMP: $TMP >> $LOG_FILE
 
-TMP=$(timeout 1s curl wttr.in/\?format='%s')
 if [ "$?" -eq 0 ]; then
-  SUNSET=$(echo $TMP | awk -F":" '{print $1$2}')
+  SUNRISE=$(echo $TMP | awk -F',' '{print $1}' | xargs)
+  SUNSET=$(echo $TMP | awk -F',' '{print $2}' | xargs)
 else
   DEFAULT_TIME=1
 fi
@@ -57,7 +60,7 @@ SUNSET_EPOCH=$(date -d $SUNSET +%s)
 WALL_TYPE="night"
 
 # remove previous scheduled process(es)
-atq -q w | awk '{print $1}' | xargs atrm;
+atq -q w | awk '{print $1}' | xargs atrm
 
 if [ $NOW_EPOCH -ge $SUNRISE_EPOCH ] && [ $NOW_EPOCH -lt $SUNSET_EPOCH ]; then
   WALL_TYPE="day"
@@ -78,13 +81,8 @@ echo sunrise_epoch: $SUNRISE_EPOCH >> $LOG_FILE
 echo sunset_epoch: $SUNSET_EPOCH >> $LOG_FILE
 echo wall: $WALL >> $LOG_FILE
 
-if [ -n "$(hyprctl hyprpaper listactive | grep $WALL)" ]; then
-  exit 0
-fi
-
 hyprctl hyprpaper reload ,$WALL
 ctr=1
-echo ctr: $ctr >> $LOG_FILE
 while [ "$(hyprctl hyprpaper listactive)" = "no wallpapers active" ] && [ $ctr -lt 100 ]; do
   hyprctl hyprpaper reload ,$WALL
   ctr=$(expr $ctr + 1)
@@ -92,6 +90,11 @@ while [ "$(hyprctl hyprpaper listactive)" = "no wallpapers active" ] && [ $ctr -
   sleep 0.1
 done
 
-# hyprctl hyprpaper reload eDP-1,$WALL
 wal -i $WALL -s -t
 swaync-client -rs
+if [ -f "${QS_CONFIG}/.current_theme" ]; then
+  QS_THEME=$(cat "${QS_CONFIG}/.current_theme" | xargs)
+  if [ -n "${QS_THEME}" ]; then
+    qs ipc call themeLoader setTheme themes/${QS_THEME}
+  fi
+fi

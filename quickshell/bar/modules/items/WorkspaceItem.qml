@@ -38,7 +38,7 @@ Item {
     anchors.centerIn: parent
     hoverEnabled: true
     onClicked: {
-      HyprlandUtils.switchWorkspace(modelData + 1);
+      HyprlandUtils.switchWorkspace(root.modelData + 1);
     }
   }
 
@@ -55,7 +55,7 @@ Item {
             root.modelData = isNaN(wsmodelData) ? -1 : wsmodelData;
             workspaceText.text = HyprlandUtils.getSpecialWorkspaceIcon(wsName);
             workspaceText.padding = workspaceText.text.length > 0 ? 6 : 0;
-            root.visible = workspaceText.text.length > 0 ? true : false;
+            root.visible = workspaceText.text.length > 0;
             root.width = workspaceText.width;
             root.textChanged();
           }

@@ -44,6 +44,7 @@ picked_theme=$(echo ${themes} | rofi -dmenu --only-match -l $(echo ${themes} | w
 if [ -n "$picked_theme" ]; then
   ln -sf ${swaync_dir}/themes/${picked_theme}/colors.css ${swaync_dir}/colors.css
   qs ipc call themeLoader setTheme themes/${picked_theme}.qml
+  echo "${picked_theme}.qml" > ${qs_dir}/.current_theme
 else
   exit 1
 fi

@@ -18,12 +18,30 @@ MouseArea {
   hoverEnabled: true
 
   onClicked: event => {
-    if (event.button == Qt.LeftButton) {
-      item.activate();
-    } else if (event.button == Qt.MiddleButton) {
-      item.secondaryActivate();
-    } else if (event.button == Qt.RightButton) {
-      menuAnchor.open();
+    switch (event.button) {
+    case Qt.LeftButton:
+      {
+        if (item.onlyMenu) {
+          menuAnchor.open();
+        } else {
+          item.activate();
+        }
+      }
+      break;
+    case Qt.MiddleButton:
+      {
+        item.secondaryActivate();
+      }
+      break;
+    case Qt.RightButton:
+      {
+        if (item.hasMenu) {
+          menuAnchor.open();
+        } else {
+          item.activate();
+        }
+      }
+      break;
     }
   }
 

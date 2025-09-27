@@ -14,7 +14,10 @@ MouseArea {
     id: iconImage
     anchors.centerIn: parent
     source: {
-      return root.modelData.icon;
+      if (!root.modelData) {
+        return `${Variables.configDir}/icons/unknown.png`;
+      }
+      return root.modelData?.icon;
     }
     implicitSize: Variables.iconSize
   }

@@ -22,9 +22,9 @@ NEW_WALL=$(echo -en $JOINED_WALL_LIST | rofi -dmenu -p "🖼️ " --only-match -
 
 if [ -n "$NEW_WALL" ]; then
   CH_WALL=$(grep "$NEW_WALL" $HYPR_CONFIG/.wallpaper)
-  if [ -n "$CH_WALL" ]; then
-    exit 0
-  fi
+  # if [ -n "$CH_WALL" ]; then
+  #   exit 0
+  # fi
   echo $NEW_WALL > $HYPR_CONFIG/.wallpaper
   $SCRIPT_DIR/wallpaper.sh
   # $SCRIPT_DIR/restart_waybar

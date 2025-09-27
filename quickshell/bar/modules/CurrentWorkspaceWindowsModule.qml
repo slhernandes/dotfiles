@@ -32,8 +32,8 @@ ModuleBlock {
             return [];
           }
         }
-        getWindows.exec(["sh", "-c", `hyprctl clients -j | jq 'map(select(.workspace.name == "${currentWorkspace.name}"))'`]);
-        let windows = JSON.parse(getWindows.windowInfo.trim());
+        getWindows.exec(["sh", "-c", `hyprctl clients -j | jq -r 'map(select(.workspace.name == "${currentWorkspace?.name || ""}"))'`]);
+        let windows = JSON.parse(getWindows.windowInfo.trim() || "[]");
         let m = [];
         for (const w of windows) {
           let temp;
@@ -46,7 +46,7 @@ ModuleBlock {
               icon: icon,
               address: w.address
             };
-            console.log(temp.icon);
+            // console.log(temp.icon);
           } else {
             temp = {
               icon: `file://${Variables.configDir}/icons/steam.png`,
@@ -64,12 +64,8 @@ ModuleBlock {
       }
 
       onWindowAdded: function (windowClass, windowAddress) {
-        // let icon = Quickshell.iconPath(windowClass, `file://${Variables.configDir}/icons/unknown.png`);
-        let icon = Quickshell.iconPath(windowClass, true);
-        if (icon === "") {
-          icon = `file://${Variables.configDir}/icons/unknown.png`;
-        }
-        if (windowClass == "steam") {
+        let icon = Quickshell.iconPath(windowClass, true) || `file://${Variables.configDir}/icons/unknown.png`;
+        if (windowClass === "steam") {
           icon = `file://${Variables.configDir}/icons/steam.png`;
         }
         this.model.push({

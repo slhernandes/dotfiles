@@ -5,9 +5,13 @@ import Quickshell.Io
 
 Singleton {
   id: root
+  property string currentTheme
   property Loader themeLoader: Loader {
     id: themeLoader
-    source: "themes/CatppuccinMacchiato.qml"
+    source: {
+      getLastTheme.running = true;
+      return root.currentTheme || "themes/CatppuccinMacchiato.qml";
+    }
   }
   property ThemeItem theme: themeLoader.item as ThemeItem
 
@@ -32,6 +36,17 @@ Singleton {
   property string batteryIndicatorNormal: theme.blue
   property string batteryIndicatorLow: theme.red
 
+  Process {
+    id: getLastTheme
+    command: ["cat", `${Variables.configDir}/.current_theme`]
+    running: false
+    stdout: StdioCollector {
+      onStreamFinished: function () {
+        root.currentTheme = `themes/${this.text.trim()}?${Math.random()}`;
+      }
+    }
+  }
+
   IpcHandler {
     target: "themeLoader"
     function getTheme(): string {
@@ -39,7 +54,7 @@ Singleton {
     }
     function setTheme(s: string): bool {
       const old_theme = themeLoader.source;
-      themeLoader.source = s;
+      themeLoader.source = s + `?${Math.random()}`;
       if (themeLoader.status === Loader.Null || themeLoader.status === Loader.Error) {
         themeLoader.source = old_theme;
         return false;
