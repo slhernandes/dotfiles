@@ -36,6 +36,8 @@ Singleton {
   property string batteryIndicatorNormal: theme.blue
   property string batteryIndicatorLow: theme.red
 
+  property string tooltipColour: theme.white
+
   Process {
     id: getLastTheme
     command: ["cat", `${Variables.configDir}/.current_theme`]

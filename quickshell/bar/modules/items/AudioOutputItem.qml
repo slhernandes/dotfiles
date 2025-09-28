@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Pipewire
@@ -8,6 +9,7 @@ import qs.bar.widgets
 
 Item {
   id: root
+
   width: audioOutputIndicator.width
 
   PwObjectTracker {
@@ -17,9 +19,9 @@ Item {
   }
 
   Rectangle {
-    id: audioOuputBox
+    id: audioOutputBox
     width: audioOutputIndicator.width
-    height: root.height
+    height: root.implicitHeight
     color: "transparent"
     ClippedProgressBar {
       id: audioOutputIndicator
@@ -65,14 +67,14 @@ Item {
             const default_sink = Pipewire.defaultAudioSink;
             const volume = default_sink?.audio.volume;
             const is_muted = default_sink?.audio.muted;
-            if (!volume || (!is_muted && is_muted !== false)) {
-              console.log("==========");
-              console.log("default_sink:", default_sink);
-              console.log("audio:", default_sink?.audio);
-              console.log("volume:", default_sink?.audio.volume);
-              console.log("is_muted:", default_sink?.audio.muted);
-              console.log("==========");
-            }
+            // if (!volume || (!is_muted && is_muted !== false)) {
+            //   console.log("==========");
+            //   console.log("default_sink:", default_sink);
+            //   console.log("audio:", default_sink?.audio);
+            //   console.log("volume:", default_sink?.audio.volume);
+            //   console.log("is_muted:", default_sink?.audio.muted);
+            //   console.log("==========");
+            // }
             let volume_text = Math.round(volume * 100).toString();
             volume_text = " ".repeat(Math.max(0, 3 - volume_text.length)) + volume_text;
             return `${volume_text}`;
@@ -83,16 +85,50 @@ Item {
   }
 
   MouseArea {
-    width: audioOuputBox.width
-    height: root.height
+    width: audioOutputBox.width
+    height: root.implicitHeight
+    hoverEnabled: true
     onWheel: function (event) {
       const default_sink = Pipewire.defaultAudioSink;
+      if (!default_sink) {
+        return;
+      }
       if (event.angleDelta.y > 0) {
         default_sink.audio.muted = false;
         default_sink.audio.volume += 0.01;
       } else if (event.angleDelta.y < 0) {
         default_sink.audio.muted = false;
         default_sink.audio.volume -= 0.01;
+      }
+    }
+    onEntered: function () {
+      audioTooltip.activateTooltip();
+    }
+    onExited: function () {
+      audioTooltip.deactivateTooltip();
+    }
+  }
+  Tooltip {
+    id: audioTooltip
+    parentItem: audioOutputBox
+    Component {
+      Rectangle {
+        id: audioTooltipBox
+        color: Theme.barBgColour
+        opacity: Variables.barOpacity
+        radius: Variables.radius
+        border.width: Variables.borderWidth
+        border.color: Theme.borderColour
+        width: audioTooltipText.width
+        height: audioTooltipText.height
+        Text {
+          id: audioTooltipText
+          anchors.centerIn: parent
+          text: Pipewire?.defaultAudioSink.nickname || "No audio output detected"
+          font.pointSize: Variables.fontSizeTooltip
+          padding: Variables.paddingTooltip
+          color: Theme.tooltipColour
+        }
       }
     }
   }

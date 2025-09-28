@@ -18,13 +18,13 @@ RowLayout {
     Layout.preferredWidth: moduleRow.width + root.extraWidth
     Layout.preferredHeight: 32
     implicitHeight: 32
-    radius: 5
+    radius: Variables.radius
     color: Theme.barBgColour
     border {
       color: Theme.borderColour
-      width: 2
+      width: Variables.borderWidth
     }
-    opacity: 0.85
+    opacity: Variables.barOpacity
 
     RowLayout {
       id: moduleRow

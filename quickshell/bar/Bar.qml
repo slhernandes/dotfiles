@@ -11,7 +11,7 @@ Scope {
     model: Quickshell.screens
 
     PanelWindow {
-      id: toplevel
+      id: bar
       required property var modelData
       screen: modelData
 
@@ -32,31 +32,6 @@ Scope {
       implicitHeight: 32
 
       visible: true
-
-      // PopupWindow {
-      //   anchor.window: toplevel
-      //   anchor.rect.x: toplevel.width / 2 - width / 2
-      //   anchor.rect.y: toplevel.height + 4
-      //   width: 500
-      //   height: 500
-      //   visible: false
-      //   color: "blue"
-      //   MouseArea {
-      //     id: mouse
-      //     width: parent.width
-      //     height: parent.height
-      //     hoverEnabled: true
-      //   }
-      //   Rectangle {
-      //     // anchors.centerIn: parent
-      //     color: "red"
-      //     width: 10
-      //     height: 10
-      //     radius: 5
-      //     x: mouse.mouseX
-      //     y: mouse.mouseY
-      //   }
-      // }
 
       RowLayout {
         id: leftBlocks
