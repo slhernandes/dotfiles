@@ -5,12 +5,12 @@ import Quickshell.Io
 
 Singleton {
   id: root
-  property string currentTheme
+  property string currentTheme: "themes/TokyoNightStorm.qml"
   property Loader themeLoader: Loader {
     id: themeLoader
     source: {
-      getLastTheme.running = true;
-      return root.currentTheme || "themes/CatppuccinMacchiato.qml";
+      root.currentTheme = `themes/${currentThemeFile.text().trim()}`;
+      return root.currentTheme;
     }
   }
   property ThemeItem theme: themeLoader.item as ThemeItem
@@ -38,17 +38,11 @@ Singleton {
 
   property string tooltipColour: theme.white
 
-  Process {
-    id: getLastTheme
-    command: ["cat", `${Variables.configDir}/.current_theme`]
-    running: false
-    stdout: StdioCollector {
-      onStreamFinished: function () {
-        root.currentTheme = `themes/${this.text.trim()}?${Math.random()}`;
-      }
-    }
+  FileView {
+    id: currentThemeFile
+    path: `file://${Variables.configDir}/.current_theme`
+    blockLoading: true
   }
-
   IpcHandler {
     target: "themeLoader"
     function getTheme(): string {
@@ -61,6 +55,7 @@ Singleton {
         themeLoader.source = old_theme;
         return false;
       }
+      console.log(themeLoader.source);
       return true;
     }
   }
