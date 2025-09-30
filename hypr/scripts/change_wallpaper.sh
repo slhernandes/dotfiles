@@ -26,7 +26,7 @@ if [ -n "$NEW_WALL" ]; then
   #   exit 0
   # fi
   echo $NEW_WALL > $HYPR_CONFIG/.wallpaper
-  $SCRIPT_DIR/wallpaper.sh
+  $SCRIPT_DIR/wallpaper.sh -f
   # $SCRIPT_DIR/restart_waybar
   swaync-client -rs
 fi
