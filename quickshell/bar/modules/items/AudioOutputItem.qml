@@ -115,7 +115,7 @@ Item {
       Rectangle {
         id: audioTooltipBox
         color: Theme.barBgColour
-        opacity: Variables.barOpacity
+        opacity: 0
         radius: Variables.radius
         border.width: Variables.borderWidth
         border.color: Theme.borderColour
@@ -128,6 +128,11 @@ Item {
           font.pointSize: Variables.fontSizeTooltip
           padding: Variables.paddingTooltip
           color: Theme.tooltipColour
+        }
+        Behavior on opacity {
+          NumberAnimation {
+            duration: 150
+          }
         }
       }
     }

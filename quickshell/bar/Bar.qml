@@ -3,6 +3,7 @@ import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 
+import qs
 import qs.bar.modules
 
 Scope {
@@ -29,7 +30,7 @@ Scope {
         right: 4
       }
 
-      implicitHeight: 32
+      implicitHeight: Variables.barHeight
 
       visible: true
 

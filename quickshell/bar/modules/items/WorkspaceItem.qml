@@ -29,6 +29,12 @@ Item {
     text: root.modelData >= 0 ? root.workspaceNames[root.modelData] : ""
     color: mouseArea.containsMouse ? Theme.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.modelData)
     font.pixelSize: 23
+
+    Behavior on color {
+      ColorAnimation {
+        duration: 200
+      }
+    }
   }
 
   MouseArea {

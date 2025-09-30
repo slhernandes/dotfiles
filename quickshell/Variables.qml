@@ -15,6 +15,7 @@ Singleton {
   property real fontSizeIcon: 15.8
   property real iconSize: 16
 
+  property real barHeight: 32
   property real barOpacity: 0.85
   property int borderWidth: 2
   property int radius: 5

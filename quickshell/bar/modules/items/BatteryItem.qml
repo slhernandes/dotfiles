@@ -59,7 +59,7 @@ Item {
           Layout.alignment: Qt.AlignLeft
           text: {
             const device = UPower.displayDevice;
-            const value = device.percentage * 100;
+            const value = Math.round(device.percentage * 100);
             let value_string = value.toString();
             value_string = " ".repeat(Math.max(0, 3 - value_string.length)) + value_string;
             return `${value_string}`;

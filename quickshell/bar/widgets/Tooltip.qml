@@ -3,6 +3,8 @@ import Quickshell
 import QtQuick
 import QtQml
 
+import qs
+
 Scope {
   id: root
   required property Item parentItem
@@ -29,12 +31,15 @@ Scope {
           sourceComponent: root.tooltipContent
           active: true
         }
+        onVisibleChanged: function () {
+          content.item.opacity = visible ? Variables.barOpacity : 0;
+        }
       }
     }
   }
   Timer {
     id: showTooltipTimer
-    interval: 500
+    interval: 300
     repeat: false
     running: false
     triggeredOnStart: false

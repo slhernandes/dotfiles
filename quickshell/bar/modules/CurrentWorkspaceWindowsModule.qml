@@ -94,7 +94,9 @@ ModuleBlock {
         switch (event.name) {
         case "openwindow":
           {
-            windowIcons.windowAdded(args[2], `0x${args[0]}`);
+            if (HyprlandUtils.currentSpecialWorkspaceName === args[1] || Hyprland.focusedWorkspace?.name === args[1]) {
+              windowIcons.windowAdded(args[2], `0x${args[0]}`);
+            }
             break;
           }
         case "closewindow":

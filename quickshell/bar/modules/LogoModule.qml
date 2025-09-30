@@ -26,25 +26,22 @@ ModuleBlock {
       running: false
     }
 
-    Process {
-      id: rofiPower
-      command: [Variables.configDir + "/scripts/powermenu"]
-      running: false
-    }
-
     MouseArea {
       id: mouseArea
       acceptedButtons: Qt.LeftButton | Qt.RightButton
       anchors.fill: parent
       hoverEnabled: true
       onClicked: function (event) {
-        // console.log(event.button);
         switch (event.button) {
         case Qt.LeftButton:
-          rofiDrun.running = true;
+          {
+            GlobalStates.controlCentreVisible = !GlobalStates.controlCentreVisible;
+          }
           break;
         case Qt.RightButton:
-          rofiPower.running = true;
+          {
+            rofiDrun.running = true;
+          }
           break;
         }
       }

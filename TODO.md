@@ -1,7 +1,6 @@
 # TODO
 ## Quickshell
 - Finish quickshell bar
-  - ‼️ Fix CurrentWorkspaceWindowsModule.qml bug
-  - ❗ Control Centre
+  - ❗ Control Centre (WIP)
   - ❕ Notification Centre
   - ❕ MPRIS controller
