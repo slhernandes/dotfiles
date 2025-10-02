@@ -8,6 +8,7 @@ ModuleBlock {
   RowLayout {
     id: systrayRow
     spacing: 0
+    visible: SystemTray.items.values.length > 0
     Repeater {
       model: SystemTray.items.values
       SystemTrayModuleItem {}

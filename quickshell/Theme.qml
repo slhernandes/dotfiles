@@ -36,6 +36,7 @@ Singleton {
   property string batteryIndicatorNormal: theme.blue
   property string batteryIndicatorLow: theme.red
 
+  property string ccTextColour: theme.white
   property string tooltipColour: theme.white
 
   FileView {

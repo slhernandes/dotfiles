@@ -1,5 +1,7 @@
 //@ pragma UseQApplication
+//@ pragma IconTheme breeze-dark
 import Quickshell
+import QtQuick
 import qs.bar
 import qs.controlCentre
 

@@ -149,3 +149,7 @@ export NUGET_PACKAGES="$XDG_CACHE_HOME"/NuGetPackages
 
 # QT env
 export QML_IMPORT_PATH="/usr/lib/qt6/qml"
+export QT_QPA_PLATFORMTHEME=gtk3
+
+# Quickshell env
+# export QS_ICON_THEME=breeze

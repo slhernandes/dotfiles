@@ -70,7 +70,8 @@ MouseArea {
     menu: delegate.item.menu
 
     anchor.window: delegate.QsWindow.window
-    anchor.adjustment: PopupAdjustment.Flip
+    anchor.adjustment: PopupAdjustment.Flip | PopupAdjustment.Resize
+    anchor.margins.top: 4
 
     anchor.onAnchoring: {
       const window = delegate.QsWindow.window;

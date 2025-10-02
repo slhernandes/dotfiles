@@ -7,6 +7,7 @@ Singleton {
   property string configDir: "/home/samuelhernandes/.config/quickshell"
 
   property string fontFamilyText: "Noto Sans Mono"
+  property string fontFamilyTextCC: "Noto Sans CJK"
   // property string fontFamilyText: "FiraCode Nerd Font Mono"
   property real fontSizeLogo: 18
   property real fontSizeText: 13
@@ -16,6 +17,7 @@ Singleton {
   property real iconSize: 16
 
   property real barHeight: 32
+  property real ccBgOpacity: 0.5
   property real barOpacity: 0.85
   property int borderWidth: 2
   property int radius: 5
