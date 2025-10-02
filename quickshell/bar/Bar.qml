@@ -75,6 +75,7 @@ Scope {
       Component.onCompleted: {
         if (this.WlrLayershell != null) {
           this.WlrLayershell.layer = WlrLayer.Bottom;
+          this.WlrLayershell.namespace = "qsBar";
         }
       }
     }

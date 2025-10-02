@@ -1,10 +1,10 @@
 pragma ComponentBehavior: Bound
 import Quickshell
+import Quickshell.Widgets
 import Quickshell.Wayland
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Qt5Compat.GraphicalEffects
 
 import qs
 import qs.controlCentre.widgets
@@ -80,53 +80,17 @@ Scope {
                 cellSize: controlCentre.cellSize
                 moduleGap: controlCentre.moduleGap
               }
-              CCModuleBlock {
+              Weather {
                 implicitWidth: controlCentre.cellSize * 3 + controlCentre.moduleGap * 2
                 implicitHeight: controlCentre.cellSize
-                Item {}
+                cellSize: controlCentre.cellSize
+                moduleGap: controlCentre.moduleGap
               }
-              CCModuleBlock {
+              Calendar {
                 implicitWidth: controlCentre.cellSize * 3 + controlCentre.moduleGap * 2
                 implicitHeight: controlCentre.cellSize * 2 + controlCentre.moduleGap
-                ColumnLayout {
-                  anchors.centerIn: parent
-                  SystemClock {
-                    id: clock
-                    precision: SystemClock.Hours
-                  }
-                  Text {
-                    Layout.alignment: Qt.AlignHCenter
-                    text: {
-                      const locale = Qt.locale("de_DE");
-                      const date = locale.toString(clock.date, "MMMM yyyy");
-                      return date;
-                    }
-                  }
-                  DayOfWeekRow {
-                    locale: Qt.locale("de_DE")
-                    Layout.fillWidth: true
-                    implicitHeight: 20
-                  }
-                  MonthGrid {
-                    id: monthGrid
-                    Layout.fillWidth: true
-                    delegate: Text {
-                      required property var model
-                      text: "    " + monthGrid.locale.toString(model.date, "d") + "    "
-                      horizontalAlignment: Text.AlignHCenter
-                      verticalAlignment: Text.AlignVCenter
-                      font.pointSize: 9.5
-                      color: {
-                        if (model.month !== monthGrid.month) {
-                          return "grey";
-                        } else if (model.day === parseInt(Qt.formatDate(clock.date, "d"))) {
-                          return "red";
-                        }
-                        return "black";
-                      }
-                    }
-                  }
-                }
+                cellSize: controlCentre.cellSize
+                moduleGap: controlCentre.moduleGap
               }
             }
             CCModuleBlock {
@@ -136,33 +100,11 @@ Scope {
               Item {}
             }
           }
-          RowLayout {
-            spacing: 8
-            CCModuleBlock {
-              implicitWidth: controlCentre.cellSize
-              implicitHeight: controlCentre.cellSize
-              Item {}
-            }
-            CCModuleBlock {
-              implicitWidth: controlCentre.cellSize
-              implicitHeight: controlCentre.cellSize
-              Item {}
-            }
-            CCModuleBlock {
-              implicitWidth: controlCentre.cellSize
-              implicitHeight: controlCentre.cellSize
-              Item {}
-            }
-            CCModuleBlock {
-              implicitWidth: controlCentre.cellSize
-              implicitHeight: controlCentre.cellSize
-              Item {}
-            }
-            CCModuleBlock {
-              implicitWidth: controlCentre.cellSize
-              implicitHeight: controlCentre.cellSize
-              Item {}
-            }
+          PowerMenu {
+            implicitWidth: controlCentre.cellSize * 5 + controlCentre.moduleGap * 4
+            implicitHeight: controlCentre.cellSize
+            cellSize: controlCentre.cellSize
+            moduleGap: controlCentre.moduleGap
           }
         }
       }

@@ -8,11 +8,6 @@ Item {
   id: root
   width: dateTimeRow.width + anchors.rightMargin
 
-  SystemClock {
-    id: clock
-    precision: SystemClock.Seconds
-  }
-
   RowLayout {
     id: dateTimeRow
     height: parent.height
@@ -23,8 +18,8 @@ Item {
       Layout.alignment: Qt.AlignVCenter
       text: {
         const locale = Qt.locale("de_DE");
-        const dayName = locale.toString(clock.date, "ddd");
-        const date = locale.toString(clock.date, "dd.MM.yy");
+        const dayName = locale.toString(Clock.date, "ddd");
+        const date = locale.toString(Clock.date, "dd.MM.yy");
         return dayName + date;
       }
       color: Theme.dateColour
@@ -34,7 +29,7 @@ Item {
     Text {
       id: timeText
       Layout.alignment: Qt.AlignVCenter
-      text: Qt.formatDateTime(clock.date, "·hh:mm:ss")
+      text: Qt.formatDateTime(Clock.date, "·hh:mm:ss")
       color: Theme.timeColour
       font.pointSize: Variables.fontSizeText
       font.family: Variables.fontFamilyText
