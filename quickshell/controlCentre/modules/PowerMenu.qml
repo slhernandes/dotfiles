@@ -13,7 +13,7 @@ CCModuleBlock {
   property real boxSize: 80
   RowLayout {
     anchors.centerIn: parent
-    spacing: 8
+    spacing: 28
     MouseArea {
       id: shutdownMouseArea
       hoverEnabled: true
@@ -26,6 +26,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
+	radius: 5
         color: shutdownMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
@@ -56,6 +57,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
+	radius: 5
         color: restartMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
@@ -86,6 +88,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
+	radius: 5
         color: rebootWindowsMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
@@ -116,6 +119,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
+	radius: 5
         color: lockMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
@@ -146,6 +150,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
+	radius: 5
         color: logoutMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
