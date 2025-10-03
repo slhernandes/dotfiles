@@ -36,7 +36,7 @@ Singleton {
   }
 
   Timer {
-    interval: 300000
+    interval: 15000
     running: true
     repeat: true
     triggeredOnStart: true
@@ -109,16 +109,18 @@ Singleton {
 
   function reload() {
     const cur = Date.now();
-    if (cur - parseInt(weatherInfo.lastTimestamp) > 900000) {
+    if (cur - parseInt(weatherInfo.lastTimestamp) > 900000 || !parseInt(weatherInfo.lastTimestamp)) {
       weatherInfo.lastTimestamp = cur.toString();
       console.log("updated weather");
       retrieveWeather.running = true;
       weatherJson.reload();
     }
     const data = JSON.parse(weatherJson.text().trim());
-    weatherInfo.icon = root.getIcon(data.weather[0].icon);
-    weatherInfo.temperature = `${Math.round(parseInt(data.main.temp) - 273.15)}°C`;
-    weatherInfo.city = data.name;
-    weatherInfo.weatherDesc = data.weather[0].description;
+    if (!!data) {
+      weatherInfo.icon = root.getIcon(data?.weather[0].icon) || `file://${Variables.configDir}/icons/clear_day.png`;
+      weatherInfo.temperature = `${Math.round(parseInt(data?.main.temp) - 273.15)}°C` || `??°C`;
+      weatherInfo.city = data?.name || "Unknown City";
+      weatherInfo.weatherDesc = data?.weather[0].description || "No description";
+    }
   }
 }

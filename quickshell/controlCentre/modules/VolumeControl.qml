@@ -68,7 +68,7 @@ CCModuleBlock {
           value: Pipewire.defaultAudioSink?.audio.volume || 0.0
           Item {}
         }
-        onPositionChanged: function (event) {
+        function setVolume(event) {
           let xPos = event.x;
           const maxPos = audioOutput.implicitWidth;
           if (xPos < 0) {
@@ -76,12 +76,14 @@ CCModuleBlock {
           } else if (xPos > maxPos) {
             xPos = maxPos;
           }
-          let volume = Math.round(xPos/maxPos * 100)/100;
+          let volume = Math.round(xPos / maxPos * 100) / 100;
           let audio_sink = Pipewire.defaultAudioSink;
           if (!!audio_sink) {
             audio_sink.audio.volume = volume;
           }
         }
+        onPressed: event => setVolume(event)
+        onPositionChanged: event => setVolume(event)
       }
     }
     RowLayout {
@@ -111,7 +113,7 @@ CCModuleBlock {
         }
         onClicked: function (event) {
           const default_source = Pipewire.defaultAudioSource;
-          console.log(default_source);
+          // console.log(default_source);
           if (!!default_source) {
             default_source.audio.muted = !default_source.audio.muted;
           }
@@ -128,7 +130,8 @@ CCModuleBlock {
           value: Pipewire.defaultAudioSource?.audio.volume || 0.0
           Item {}
         }
-        onPositionChanged: function (event) {
+        function setVolumeInput(event) {
+          // console.log("asdf");
           let xPos = event.x;
           const maxPos = audioInput.implicitWidth;
           if (xPos < 0) {
@@ -136,12 +139,14 @@ CCModuleBlock {
           } else if (xPos > maxPos) {
             xPos = maxPos;
           }
-          let volume = Math.round(xPos/maxPos * 100)/100;
+          let volume = Math.round(xPos / maxPos * 100) / 100;
           let audio_source = Pipewire.defaultAudioSource;
           if (!!audio_source) {
             audio_source.audio.volume = volume;
           }
         }
+        onPressed: event => setVolumeInput(event)
+        onPositionChanged: event => setVolumeInput(event)
       }
     }
   }

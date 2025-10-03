@@ -56,7 +56,7 @@ Singleton {
         themeLoader.source = old_theme;
         return false;
       }
-      console.log(themeLoader.source);
+      // console.log(themeLoader.source);
       return true;
     }
   }

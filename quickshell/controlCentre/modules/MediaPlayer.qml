@@ -15,8 +15,10 @@ CCModuleBlock {
   property var players: Mpris.players.values
   ColumnLayout {
     anchors.centerIn: parent
+    Layout.fillHeight: true
     RowLayout {
       implicitWidth: root.cellSize * 2 + root.moduleGap
+      Layout.alignment: Qt.AlignTop
       MouseArea {
         id: leftChevronMouseArea
         hoverEnabled: true
@@ -54,7 +56,7 @@ CCModuleBlock {
       Rectangle {
         color: "transparent"
         Layout.fillWidth: true
-        implicitHeight: playerName.height
+        implicitHeight: 30
         Text {
           id: playerName
           anchors.centerIn: parent
@@ -110,23 +112,31 @@ CCModuleBlock {
         }
       }
     }
-    IconImage {
-      implicitSize: root.boxSize
-      source: {
-        const trackArtUrl = root.players[root.idx].trackArtUrl;
-        return trackArtUrl || `file://${Variables.configDir}/icons/hakase_no_img.png`;
+    Rectangle {
+      id: trackArtArea
+      implicitWidth: root.boxSize
+      implicitHeight: root.boxSize
+      color: "transparent"
+      IconImage {
+        implicitSize: root.boxSize
+        Layout.fillHeight: true
+        source: {
+          const trackArtUrl = root.players[root.idx].trackArtUrl;
+          return trackArtUrl || `file://${Variables.configDir}/icons/hakase_no_img.png`;
+        }
       }
     }
     Rectangle {
-      implicitHeight: title.height
+      implicitHeight: 24
       Layout.fillWidth: true
+      Layout.alignment: Qt.AlignBottom
       color: "transparent"
       Text {
         id: title
         anchors.centerIn: parent
         text: {
           let t = root.players[root.idx].trackTitle || "Unknown Title";
-          const maxLen = 21;
+          const maxLen = 17;
           if (t.length > maxLen) {
             t = t.slice(0, Math.floor(maxLen / 2)) + "…" + t.slice(t.length - Math.floor(maxLen / 2), t.length);
           }
@@ -138,15 +148,16 @@ CCModuleBlock {
       }
     }
     Rectangle {
-      implicitHeight: album.height
+      implicitHeight: 20
       Layout.fillWidth: true
+      Layout.alignment: Qt.AlignBottom
       color: "transparent"
       Text {
         id: album
         anchors.centerIn: parent
         text: {
           let t = root.players[root.idx].trackAlbum || "Unknown Album";
-          const maxLen = 25;
+          const maxLen = 21;
           if (t.length > maxLen) {
             t = t.slice(0, Math.floor(maxLen / 2)) + "…" + t.slice(t.length - Math.floor(maxLen / 2), t.length);
           }
@@ -158,15 +169,16 @@ CCModuleBlock {
       }
     }
     Rectangle {
-      implicitHeight: artist.height
+      implicitHeight: 20
       Layout.fillWidth: true
+      Layout.alignment: Qt.AlignBottom
       color: "transparent"
       Text {
         id: artist
         anchors.centerIn: parent
         text: {
           let t = root.players[root.idx].trackArtist || "Unknown Artist";
-          const maxLen = 25;
+          const maxLen = 21;
           if (t.length > maxLen) {
             t = t.slice(0, Math.floor(maxLen / 2)) + "…" + t.slice(t.length - Math.floor(maxLen / 2), t.length);
           }
@@ -179,7 +191,7 @@ CCModuleBlock {
     }
     RowLayout {
       Layout.fillWidth: true
-      Layout.alignment: Qt.AlignHCenter
+      Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
       MouseArea {
         id: skipPrevMouseArea
         hoverEnabled: true

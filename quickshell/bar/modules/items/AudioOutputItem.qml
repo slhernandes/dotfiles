@@ -12,10 +12,6 @@ Item {
 
   width: audioOutputIndicator.width
 
-  PwObjectTracker {
-    objects: [Pipewire.defaultAudioSink, Pipewire.defaultAudioSource]
-  }
-
   Rectangle {
     id: audioOutputBox
     width: audioOutputIndicator.width

@@ -28,7 +28,7 @@ Scope {
         id: ccMouseArea
         anchors.fill: parent
         onClicked: function () {
-          if (!ccBackground.contains(Qt.point(mouseX, mouseY))) {
+          if (!ccBackground.contains(Qt.point(mouseX, mouseY - Variables.barHeight - 4))) {
             GlobalStates.controlCentreVisible = false;
           }
         }
@@ -46,7 +46,7 @@ Scope {
         right: true
       }
 
-      margins.top: 4
+      margins.top: -Variables.barHeight
       margins.left: 4
 
       visible: GlobalStates.controlCentreVisible
@@ -54,6 +54,8 @@ Scope {
       Rectangle {
         id: ccBackground
         color: Theme.inactiveElement
+        anchors.top: parent.top
+        anchors.topMargin: Variables.barHeight + 4
         radius: Variables.radius
         // border.width: Variables.borderWidth
         // border.color: Theme.borderColour
@@ -64,6 +66,8 @@ Scope {
       }
       Rectangle {
         color: "transparent"
+        anchors.top: parent.top
+        anchors.topMargin: Variables.barHeight + 4
         width: controlCentre.cellSize * 5 + controlCentre.moduleGap * 4 + 16
         height: controlCentre.cellSize * 5 + controlCentre.moduleGap * 4 + 16
         ColumnLayout {

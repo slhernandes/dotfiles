@@ -1,6 +1,5 @@
 # TODO
 ## Quickshell
 - Finish quickshell bar
-  - ❗ Control Centre (WIP)
+  - ❕ Volume & Brightness OSD
   - ❕ Notification Centre
-  - ❕ MPRIS controller
