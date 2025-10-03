@@ -12,6 +12,12 @@ CCModuleBlock {
   required property real cellSize
   required property real moduleGap
   property real panelWidth: cellSize * 2 + moduleGap
+  signal volumeSinkUp
+  signal volumeSinkDown
+  signal volumeSourceUp
+  signal volumeSourceDown
+  signal toggleMuteSink
+  signal toggleMuteSource
   ColumnLayout {
     anchors.centerIn: parent
     RowLayout {
@@ -47,6 +53,11 @@ CCModuleBlock {
                 }
               }
               return `file://${Variables.configDir}/icons/${icon_name}`;
+            }
+          }
+          Behavior on color {
+            ColorAnimation {
+              duration: 200
             }
           }
         }
@@ -110,6 +121,11 @@ CCModuleBlock {
               return `file://${Variables.configDir}/icons/${icon_name}`;
             }
           }
+          Behavior on color {
+            ColorAnimation {
+              duration: 200
+            }
+          }
         }
         onClicked: function (event) {
           const default_source = Pipewire.defaultAudioSource;
@@ -148,6 +164,43 @@ CCModuleBlock {
         onPressed: event => setVolumeInput(event)
         onPositionChanged: event => setVolumeInput(event)
       }
+    }
+  }
+
+  onVolumeSinkUp: function () {
+    const sink = Pipewire.defaultAudioSink;
+    if (!!sink) {
+      sink.audio.volume += 0.01;
+    }
+  }
+  onVolumeSinkDown: function () {
+    const sink = Pipewire.defaultAudioSink;
+    if (!!sink) {
+      sink.audio.volume -= 0.01;
+    }
+  }
+  onVolumeSourceUp: function () {
+    const source = Pipewire.defaultAudioSource;
+    if (!!source) {
+      source.audio.volume += 0.01;
+    }
+  }
+  onVolumeSourceDown: function () {
+    const source = Pipewire.defaultAudioSource;
+    if (!!source) {
+      source.audio.volume -= 0.01;
+    }
+  }
+  onToggleMuteSink: function () {
+    const sink = Pipewire.defaultAudioSink;
+    if (!!sink) {
+      sink.audio.muted = !sink.audio.muted;
+    }
+  }
+  onToggleMuteSource: function () {
+    const source = Pipewire.defaultAudioSource;
+    if (!!source) {
+      source.audio.muted = !source.audio.muted;
     }
   }
 }

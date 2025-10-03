@@ -13,6 +13,12 @@ CCModuleBlock {
   property int idx: 0
   property real boxSize: 150
   property var players: Mpris.players.values
+  signal prevPlayer
+  signal nextPlayer
+  signal prevTrack
+  signal nextTrack
+  signal togglePlay
+
   ColumnLayout {
     anchors.centerIn: parent
     Layout.fillHeight: true
@@ -43,7 +49,7 @@ CCModuleBlock {
           implicitSize: 30
           source: `file://${Variables.configDir}/icons/chevron_backward.png`
         }
-        onClicked: function (event) {
+        function prevPlayer() {
           const len = root.players.length;
           let tmp = root.idx - 1;
           if (tmp < 0) {
@@ -52,6 +58,7 @@ CCModuleBlock {
             root.idx = tmp;
           }
         }
+        onClicked: event => prevPlayer()
       }
       Rectangle {
         color: "transparent"
@@ -101,7 +108,7 @@ CCModuleBlock {
           implicitSize: 30
           source: `file://${Variables.configDir}/icons/chevron_forward.png`
         }
-        onClicked: function (event) {
+        function nextPlayer() {
           const len = root.players.length;
           let tmp = root.idx + 1;
           if (tmp >= len) {
@@ -110,6 +117,7 @@ CCModuleBlock {
             root.idx = tmp;
           }
         }
+        onClicked: event => nextPlayer()
       }
     }
     Rectangle {
@@ -216,11 +224,12 @@ CCModuleBlock {
           implicitSize: 30
           source: `file://${Variables.configDir}/icons/skip_previous.png`
         }
-        onClicked: function (event) {
+        function prevTrack() {
           if (root.players[root.idx].canGoPrevious) {
             root.players[root.idx].previous();
           }
         }
+        onClicked: event => prevTrack()
       }
       MouseArea {
         id: playPauseMouseArea
@@ -251,13 +260,14 @@ CCModuleBlock {
             return `file://${Variables.configDir}/icons/play.png`;
           }
         }
-        onClicked: function (event) {
+        function togglePlay() {
           if (root.players[root.idx].isPlaying && root.players[root.idx].canPause) {
             root.players[root.idx].pause();
           } else if (!root.players[root.idx].isPlaying && root.players[root.idx].canPlay) {
             root.players[root.idx].play();
           }
         }
+        onClicked: event => togglePlay()
       }
       MouseArea {
         id: skipNextMouseArea
@@ -283,12 +293,18 @@ CCModuleBlock {
           implicitSize: 30
           source: `file://${Variables.configDir}/icons/skip_next.png`
         }
-        onClicked: function (event) {
+        function nextTrack() {
           if (root.players[root.idx].canGoNext) {
             root.players[root.idx].next();
           }
         }
+        onClicked: event => nextTrack()
       }
     }
   }
+  onPrevPlayer: () => leftChevronMouseArea.prevPlayer()
+  onNextPlayer: () => rightChevronMouseArea.nextPlayer()
+  onPrevTrack: () => skipPrevMouseArea.prevTrack()
+  onNextTrack: () => skipNextMouseArea.nextTrack()
+  onTogglePlay: () => playPauseMouseArea.togglePlay()
 }

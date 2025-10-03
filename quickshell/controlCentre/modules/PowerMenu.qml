@@ -11,6 +11,11 @@ CCModuleBlock {
   required property real cellSize
   required property real moduleGap
   property real boxSize: 80
+  signal shutdown
+  signal restart
+  signal restartToWindows
+  signal lock
+  signal logout
   RowLayout {
     anchors.centerIn: parent
     spacing: 28
@@ -113,6 +118,7 @@ CCModuleBlock {
       implicitHeight: root.boxSize
       implicitWidth: root.boxSize
       onClicked: function (event) {
+        GlobalStates.controlCentreVisible = false;
         lockProcess.running = true;
       }
       Rectangle {
@@ -166,8 +172,16 @@ CCModuleBlock {
       Process {
         id: logoutProcess
         running: false
-        command: ["pkill", "-u", "samuelhernandes"]
+        command: ["sh", "-c", "pkill -u $USER"]
       }
     }
   }
+  onShutdown: () => shutdownProcess.running = true
+  onRestart: () => restartProcess.running = true
+  onRestartToWindows: () => rebootWindowsProcess.running = true
+  onLock: () => {
+    GlobalStates.controlCentreVisible = false;
+    lockProcess.running = true;
+  }
+  onLogout: () => logoutProcess.running = true
 }

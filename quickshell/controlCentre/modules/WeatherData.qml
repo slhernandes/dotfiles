@@ -111,10 +111,10 @@ Singleton {
     const cur = Date.now();
     if (cur - parseInt(weatherInfo.lastTimestamp) > 900000 || !parseInt(weatherInfo.lastTimestamp)) {
       weatherInfo.lastTimestamp = cur.toString();
-      console.log("updated weather");
+      console.log("updated weather on", cur);
       retrieveWeather.running = true;
-      weatherJson.reload();
     }
+    weatherJson.reload();
     const data = JSON.parse(weatherJson.text().trim());
     if (!!data) {
       weatherInfo.icon = root.getIcon(data?.weather[0].icon) || `file://${Variables.configDir}/icons/clear_day.png`;

@@ -1,14 +1,23 @@
 //@ pragma UseQApplication
 //@ pragma IconTheme breeze-dark
 import Quickshell
-import QtQuick
+
 import qs.bar
 import qs.controlCentre
+import qs.osd
 
 Scope {
   Bar {}
   LazyLoader {
     loading: true
     ControlCentre {}
+  }
+  LazyLoader {
+    loading: true
+    VolumeOSD {}
+  }
+  LazyLoader {
+    loading: true
+    BrightnessOSD {}
   }
 }

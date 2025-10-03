@@ -39,6 +39,9 @@ Singleton {
   property string ccTextColour: theme.white
   property string tooltipColour: theme.white
 
+  property string osdBarColourBg: theme.brightBlack
+  property string osdBarColour: theme.white
+
   FileView {
     id: currentThemeFile
     path: `file://${Variables.configDir}/.current_theme`

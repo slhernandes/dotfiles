@@ -1,13 +1,11 @@
 pragma ComponentBehavior: Bound
 import Quickshell
-import Quickshell.Widgets
 import Quickshell.Wayland
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
 import qs
-import qs.controlCentre.widgets
 import qs.controlCentre.modules
 
 Scope {
@@ -39,6 +37,83 @@ Scope {
         onActivated: GlobalStates.controlCentreVisible = false
       }
 
+      Shortcut {
+        sequence: "Alt+M"
+        onActivated: volumeControl.toggleMuteSink()
+      }
+
+      Shortcut {
+        sequence: "Alt++"
+        onActivated: volumeControl.volumeSinkUp()
+      }
+
+      Shortcut {
+        sequence: "Alt+-"
+        onActivated: volumeControl.volumeSinkDown()
+      }
+
+      Shortcut {
+        sequence: "Alt+Shift+M"
+        onActivated: volumeControl.toggleMuteSource()
+      }
+
+      Shortcut {
+        sequence: "Alt+Shift++"
+        onActivated: volumeControl.volumeSourceUp()
+      }
+
+      Shortcut {
+        sequence: "Alt+Shift+-"
+        onActivated: volumeControl.volumeSourceDown()
+      }
+
+      Shortcut {
+        sequence: "Alt+H"
+        onActivated: mediaPlayer.prevPlayer()
+      }
+
+      Shortcut {
+        sequence: "Alt+L"
+        onActivated: mediaPlayer.nextPlayer()
+      }
+
+      Shortcut {
+        sequence: "Alt+J"
+        onActivated: mediaPlayer.prevTrack()
+      }
+
+      Shortcut {
+        sequence: "Alt+K"
+        onActivated: mediaPlayer.nextTrack()
+      }
+
+      Shortcut {
+        sequence: "Alt+Space"
+        onActivated: mediaPlayer.togglePlay()
+      }
+
+      Shortcut {
+        sequence: "Alt+1"
+        onActivated: powerMenu.shutdown()
+      }
+
+      Shortcut {
+        sequence: "Alt+2"
+        onActivated: powerMenu.restart()
+      }
+      Shortcut {
+        sequence: "Alt+3"
+        onActivated: powerMenu.restartToWindows()
+      }
+      Shortcut {
+        sequence: "Alt+4"
+        onActivated: powerMenu.lock()
+      }
+      Shortcut {
+        sequence: "Alt+5"
+        onActivated: powerMenu.logout()
+      }
+
       anchors {
         top: true
         left: true
@@ -57,8 +132,6 @@ Scope {
         anchors.top: parent.top
         anchors.topMargin: Variables.barHeight + 4
         radius: Variables.radius
-        // border.width: Variables.borderWidth
-        // border.color: Theme.borderColour
         opacity: Variables.ccBgOpacity
         width: controlCentre.cellSize * 5 + controlCentre.moduleGap * 4 + 16
         height: controlCentre.cellSize * 5 + controlCentre.moduleGap * 4 + 16
@@ -100,12 +173,14 @@ Scope {
             ColumnLayout {
               spacing: controlCentre.moduleGap
               MediaPlayer {
+                id: mediaPlayer
                 implicitWidth: controlCentre.cellSize * 2 + controlCentre.moduleGap
                 implicitHeight: controlCentre.cellSize * 3 + controlCentre.moduleGap * 2
                 cellSize: controlCentre.cellSize
                 moduleGap: controlCentre.moduleGap
               }
               VolumeControl {
+                id: volumeControl
                 implicitWidth: controlCentre.cellSize * 2 + controlCentre.moduleGap
                 implicitHeight: controlCentre.cellSize
                 cellSize: controlCentre.cellSize
@@ -114,6 +189,7 @@ Scope {
             }
           }
           PowerMenu {
+            id: powerMenu
             implicitWidth: controlCentre.cellSize * 5 + controlCentre.moduleGap * 4
             implicitHeight: controlCentre.cellSize
             cellSize: controlCentre.cellSize

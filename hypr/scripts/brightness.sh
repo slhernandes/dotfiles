@@ -39,11 +39,13 @@ function brightness_notification {
 case $1 in
   up)
     lux -a 5%
-    brightness_notification
+    qs ipc call brightnessOSD openOSD $(lux -G)
+    # brightness_notification
     ;;
   down)
     lux -s 5%
-    brightness_notification
+    qs ipc call brightnessOSD openOSD $(lux -G)
+    # brightness_notification
     ;;
   *)
     echo "Usage: $0 up | down "
