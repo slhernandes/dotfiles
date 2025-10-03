@@ -69,11 +69,11 @@ Scope {
         ColumnLayout {
           id: controlCentreLayout
           anchors.centerIn: parent
-          spacing: 8
+          spacing: controlCentre.moduleGap
           RowLayout {
-            spacing: 8
+            spacing: controlCentre.moduleGap
             ColumnLayout {
-              spacing: 8
+              spacing: controlCentre.moduleGap
               UserInfo {
                 implicitWidth: controlCentre.cellSize * 3 + controlCentre.moduleGap * 2
                 implicitHeight: controlCentre.cellSize
@@ -93,11 +93,20 @@ Scope {
                 moduleGap: controlCentre.moduleGap
               }
             }
-            CCModuleBlock {
-              implicitWidth: controlCentre.cellSize * 2 + controlCentre.moduleGap
-              implicitHeight: controlCentre.cellSize * 4 + controlCentre.moduleGap * 3
-
-              Item {}
+            ColumnLayout {
+              spacing: controlCentre.moduleGap
+              MediaPlayer {
+                implicitWidth: controlCentre.cellSize * 2 + controlCentre.moduleGap
+                implicitHeight: controlCentre.cellSize * 3 + controlCentre.moduleGap * 2
+                cellSize: controlCentre.cellSize
+                moduleGap: controlCentre.moduleGap
+              }
+              VolumeControl {
+                implicitWidth: controlCentre.cellSize * 2 + controlCentre.moduleGap
+                implicitHeight: controlCentre.cellSize
+                cellSize: controlCentre.cellSize
+                moduleGap: controlCentre.moduleGap
+              }
             }
           }
           PowerMenu {

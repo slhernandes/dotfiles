@@ -13,9 +13,7 @@ Item {
   width: audioOutputIndicator.width
 
   PwObjectTracker {
-    objects: [...Pipewire.nodes.values].filter(v => {
-      return v.isSink;
-    })
+    objects: [Pipewire.defaultAudioSink, Pipewire.defaultAudioSource]
   }
 
   Rectangle {
@@ -67,14 +65,6 @@ Item {
             const default_sink = Pipewire.defaultAudioSink;
             const volume = default_sink?.audio.volume;
             const is_muted = default_sink?.audio.muted;
-            // if (!volume || (!is_muted && is_muted !== false)) {
-            //   console.log("==========");
-            //   console.log("default_sink:", default_sink);
-            //   console.log("audio:", default_sink?.audio);
-            //   console.log("volume:", default_sink?.audio.volume);
-            //   console.log("is_muted:", default_sink?.audio.muted);
-            //   console.log("==========");
-            // }
             let volume_text = Math.round(volume * 100).toString();
             volume_text = " ".repeat(Math.max(0, 3 - volume_text.length)) + volume_text;
             return `${volume_text}`;

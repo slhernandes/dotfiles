@@ -36,9 +36,10 @@ Singleton {
   }
 
   Timer {
-    interval: 10000
+    interval: 300000
     running: true
     repeat: true
+    triggeredOnStart: true
     onTriggered: root.reload()
   }
 

@@ -26,7 +26,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
-	radius: 5
+        radius: 5
         color: shutdownMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
@@ -57,7 +57,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
-	radius: 5
+        radius: 5
         color: restartMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
@@ -88,7 +88,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
-	radius: 5
+        radius: 5
         color: rebootWindowsMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
@@ -104,7 +104,7 @@ CCModuleBlock {
       Process {
         id: rebootWindowsProcess
         running: false
-        command: ["sh", "-c", "systemctl reboot --boot-loader-entry=$entry --boot-loader-menu=1"]
+        command: ["sh", "-c", "systemctl reboot --boot-loader-entry=windows.conf --boot-loader-menu=1"]
       }
     }
     MouseArea {
@@ -119,7 +119,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
-	radius: 5
+        radius: 5
         color: lockMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
@@ -150,7 +150,7 @@ CCModuleBlock {
         anchors.centerIn: parent
         implicitHeight: root.boxSize
         implicitWidth: root.boxSize
-	radius: 5
+        radius: 5
         color: logoutMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
         Behavior on color {
           ColorAnimation {
