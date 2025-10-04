@@ -13,18 +13,16 @@ Item {
   required property int modelData
   property list<string> workspaceNames: ["", "", "", "󱔘", "", "󱔘", "󰓓", "󰊗", "󰙯"]
 
-  // width: Math.ceil(workspaceText.width)
-  width: {
-    // console.log(workspaceText.text, workspaceText.width);
-    return Math.ceil(workspaceText.width);
-  }
-  Layout.alignment: Qt.AlignLeft
+  implicitWidth: Math.ceil(workspaceText.width)
+  // implicitHeight: 32
+  Layout.alignment: Qt.AlignCenter
 
   Text {
     id: workspaceText
 
-    verticalAlignment: Text.AlignVCenter
+    // verticalAlignment: Text.AlignBottom
     anchors.centerIn: parent
+    bottomPadding: 12
     padding: this.text.length > 0 ? 8 : 0
     text: root.modelData >= 0 ? root.workspaceNames[root.modelData] : ""
     color: mouseArea.containsMouse ? Theme.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.modelData)

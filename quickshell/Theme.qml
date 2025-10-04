@@ -31,6 +31,7 @@ Singleton {
 
   property string inactiveElement: theme.brightBlack
   property string activeElement: theme.blue
+  property string activeBorder: theme.blue
 
   property string batteryIndicatorCharging: theme.green
   property string batteryIndicatorNormal: theme.blue
@@ -41,6 +42,9 @@ Singleton {
 
   property string osdBarColourBg: theme.brightBlack
   property string osdBarColour: theme.white
+
+  property string pageIndicatorActive: theme.white
+  property string pageIndicatorInactive: theme.brightBlack
 
   FileView {
     id: currentThemeFile

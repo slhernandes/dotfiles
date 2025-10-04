@@ -82,8 +82,9 @@ Scope {
         color: Theme.barBgColour
         border {
           width: 2
-          color: Theme.borderColour
+          color: Theme.activeBorder
         }
+        opacity: Variables.barOpacity
 
         RowLayout {
           anchors {
@@ -159,7 +160,7 @@ Scope {
     target: "volumeOSD"
     function openOSD(isSink: bool) {
       root.isSink = isSink;
-      root.shouldShowOsd = true;
+      root.shouldShowOsd = true && !GlobalStates.controlCentreVisible;
       hideTimer.restart();
     }
   }

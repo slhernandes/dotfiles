@@ -50,8 +50,9 @@ Scope {
         color: Theme.barBgColour
         border {
           width: 2
-          color: Theme.borderColour
+          color: Theme.activeBorder
         }
+        opacity: Variables.barOpacity
 
         RowLayout {
           anchors {

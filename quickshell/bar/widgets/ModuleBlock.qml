@@ -28,7 +28,7 @@ RowLayout {
 
     RowLayout {
       id: moduleRow
-      height: parent.implicitHeight
+      implicitHeight: moduleRect.implicitHeight
       anchors.centerIn: parent
       spacing: root.spacing
       children: root.items

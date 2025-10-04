@@ -19,7 +19,7 @@ Scope {
         id: tooltipWindow
         anchor {
           item: root.parentItem
-          rect.y: root.parentItem.height
+          rect.y: root.parentItem.height + 2
           rect.x: 0
         }
         implicitWidth: content.item.width
@@ -39,7 +39,7 @@ Scope {
   }
   Timer {
     id: showTooltipTimer
-    interval: 300
+    interval: 1000
     repeat: false
     running: false
     triggeredOnStart: false

@@ -1,4 +1,6 @@
+pragma ComponentBehavior: Bound
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell.Widgets
 import Quickshell.Services.Mpris
@@ -11,7 +13,7 @@ CCModuleBlock {
   required property real cellSize
   required property real moduleGap
   property int idx: 0
-  property real boxSize: 150
+  property real boxSize: 140
   property var players: Mpris.players.values
   signal prevPlayer
   signal nextPlayer
@@ -22,6 +24,7 @@ CCModuleBlock {
   ColumnLayout {
     anchors.centerIn: parent
     Layout.fillHeight: true
+    spacing: 0
     RowLayout {
       implicitWidth: root.cellSize * 2 + root.moduleGap
       Layout.alignment: Qt.AlignTop
@@ -68,7 +71,7 @@ CCModuleBlock {
           id: playerName
           anchors.centerIn: parent
           text: {
-            let t = root.players[root.idx].identity;
+            let t = root.players[root.idx]?.identity || "Unknown";
             if (t.includes("firefox")) {
               return "firefox";
             } else if (t.includes("MPD")) {
@@ -129,7 +132,7 @@ CCModuleBlock {
         implicitSize: root.boxSize
         Layout.fillHeight: true
         source: {
-          const trackArtUrl = root.players[root.idx].trackArtUrl;
+          const trackArtUrl = root.players[root.idx]?.trackArtUrl;
           return trackArtUrl || `file://${Variables.configDir}/icons/hakase_no_img.png`;
         }
       }
@@ -143,7 +146,7 @@ CCModuleBlock {
         id: title
         anchors.centerIn: parent
         text: {
-          let t = root.players[root.idx].trackTitle || "Unknown Title";
+          let t = root.players[root.idx]?.trackTitle || "Unknown Title";
           const maxLen = 17;
           if (t.length > maxLen) {
             t = t.slice(0, Math.floor(maxLen / 2)) + "…" + t.slice(t.length - Math.floor(maxLen / 2), t.length);
@@ -164,7 +167,7 @@ CCModuleBlock {
         id: album
         anchors.centerIn: parent
         text: {
-          let t = root.players[root.idx].trackAlbum || "Unknown Album";
+          let t = root.players[root.idx]?.trackAlbum || "Unknown Album";
           const maxLen = 21;
           if (t.length > maxLen) {
             t = t.slice(0, Math.floor(maxLen / 2)) + "…" + t.slice(t.length - Math.floor(maxLen / 2), t.length);
@@ -185,7 +188,7 @@ CCModuleBlock {
         id: artist
         anchors.centerIn: parent
         text: {
-          let t = root.players[root.idx].trackArtist || "Unknown Artist";
+          let t = root.players[root.idx]?.trackArtist || "Unknown Artist";
           const maxLen = 21;
           if (t.length > maxLen) {
             t = t.slice(0, Math.floor(maxLen / 2)) + "…" + t.slice(t.length - Math.floor(maxLen / 2), t.length);
@@ -254,7 +257,7 @@ CCModuleBlock {
           Layout.alignment: Qt.AlignLeft
           implicitSize: 30
           source: {
-            if (root.players[root.idx].isPlaying) {
+            if (root.players[root.idx]?.isPlaying) {
               return `file://${Variables.configDir}/icons/pause.png`;
             }
             return `file://${Variables.configDir}/icons/play.png`;
@@ -299,6 +302,32 @@ CCModuleBlock {
           }
         }
         onClicked: event => nextTrack()
+      }
+    }
+    Rectangle {
+      Layout.fillWidth: true
+      color: "transparent"
+      implicitHeight: 30
+      PageIndicator {
+        id: indicator
+        anchors.centerIn: parent
+        count: root.players.length
+        currentIndex: root.idx
+        interactive: false
+        delegate: Rectangle {
+          id: indicatorWrapper
+          required property int index
+          implicitWidth: 24
+          implicitHeight: 10
+          color: "transparent"
+          Rectangle {
+            anchors.centerIn: parent
+            implicitWidth: 20
+            implicitHeight: 10
+            radius: 999
+            color: indicator.currentIndex === indicatorWrapper.index ? Theme.pageIndicatorActive : Theme.pageIndicatorInactive
+          }
+        }
       }
     }
   }

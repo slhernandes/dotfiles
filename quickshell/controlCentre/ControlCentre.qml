@@ -129,6 +129,10 @@ Scope {
       Rectangle {
         id: ccBackground
         color: Theme.inactiveElement
+        border {
+          width: 2
+          color: Theme.activeBorder
+        }
         anchors.top: parent.top
         anchors.topMargin: Variables.barHeight + 4
         radius: Variables.radius
