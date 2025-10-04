@@ -121,6 +121,8 @@ Singleton {
       weatherInfo.temperature = `${Math.round(parseInt(data?.main.temp) - 273.15)}°C` || `??°C`;
       weatherInfo.city = data?.name || "Unknown City";
       weatherInfo.weatherDesc = data?.weather[0].description || "No description";
+
+      GlobalStates.updateSun(data?.sys.sunrise, data?.sys.sunset);
     }
   }
 }

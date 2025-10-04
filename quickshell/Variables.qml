@@ -5,6 +5,7 @@ import Quickshell
 
 Singleton {
   property string configDir: "/home/samuelhernandes/.config/quickshell"
+  property string wallDir: "/home/samuelhernandes/.config/hypr/wallpapers"
 
   property string fontFamilyText: "Noto Sans Mono"
   property string fontFamilyTextCC: "Noto Sans CJK"

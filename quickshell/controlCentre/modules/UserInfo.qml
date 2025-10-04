@@ -13,6 +13,7 @@ Item {
   id: root
   property string hostname
   property string username
+  property string uptime
   required property real cellSize
   required property real moduleGap
 
@@ -49,7 +50,7 @@ Item {
         id: content
         anchors.centerIn: parent
         spacing: 4
-        height: layoutHostname.implicitHeight + layoutUsername.implicitHeight + 4
+        height: layoutHostname.implicitHeight + layoutUsername.implicitHeight + layoutUptime.implicitHeight + 4
         width: Math.max(layoutHostname.implicitWidth, layoutUsername.implicitWidth)
         RowLayout {
           id: layoutHostname
@@ -99,6 +100,38 @@ Item {
             }
           }
         }
+        RowLayout {
+          id: layoutUptime
+          spacing: 4
+          implicitHeight: iconUptime.implicitSize
+          implicitWidth: iconUptime.implicitSize + textUptime.width + 4
+          IconImage {
+            id: iconUptime
+            implicitSize: 16
+            source: Quickshell.iconPath("smallclock-symbolic")
+          }
+          Rectangle {
+            color: "transparent"
+            implicitHeight: iconUptime.implicitHeight
+            implicitWidth: textUptime.width
+            Text {
+              id: textUptime
+              anchors.centerIn: parent
+              color: Theme.ccTextColour
+              font.family: Variables.fontFamilyTextCC
+              font.pointSize: Variables.fontSizeText
+              text: {
+                let uptimeStr = root.uptime.trim();
+                let uptime = uptimeStr.split(":");
+                if (uptime.length === 1) {
+                  let minutesLen = uptime[0].length;
+                  return `00:${"0".repeat(2 - minutesLen)}${uptime[0]}`;
+                }
+                return uptimeStr;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -119,6 +152,23 @@ Item {
     stdout: StdioCollector {
       onStreamFinished: function () {
         root.hostname = this.text;
+      }
+    }
+  }
+  Timer {
+    id: uptimeTimer
+    interval: 60000
+    running: true
+    repeat: true
+    onTriggered: userInfoUptime.running = true
+  }
+  Process {
+    id: userInfoUptime
+    command: ["sh", "-c", "uptime | awk '{print $3}' | cut -d ',' -f 1"]
+    running: true
+    stdout: StdioCollector {
+      onStreamFinished: function () {
+        root.uptime = this.text;
       }
     }
   }

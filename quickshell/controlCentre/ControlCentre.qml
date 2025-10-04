@@ -93,24 +93,24 @@ Scope {
       }
 
       Shortcut {
-        sequence: "Alt+1"
+        sequence: "Ctrl+Alt+1"
         onActivated: powerMenu.shutdown()
       }
 
       Shortcut {
-        sequence: "Alt+2"
+        sequence: "Ctrl+Alt+2"
         onActivated: powerMenu.restart()
       }
       Shortcut {
-        sequence: "Alt+3"
+        sequence: "Ctrl+Alt+3"
         onActivated: powerMenu.restartToWindows()
       }
       Shortcut {
-        sequence: "Alt+4"
+        sequence: "Ctrl+Alt+4"
         onActivated: powerMenu.lock()
       }
       Shortcut {
-        sequence: "Alt+5"
+        sequence: "Ctrl+Alt+5"
         onActivated: powerMenu.logout()
       }
 

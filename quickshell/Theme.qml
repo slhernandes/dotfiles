@@ -5,12 +5,20 @@ import Quickshell.Io
 
 Singleton {
   id: root
-  property string currentTheme: "themes/TokyoNightStorm.qml"
+
+  PersistentProperties {
+    id: themeProp
+    reloadableId: "themeName"
+    property string currentThemeName
+  }
+
   property Loader themeLoader: Loader {
     id: themeLoader
     source: {
-      root.currentTheme = `themes/${currentThemeFile.text().trim()}`;
-      return root.currentTheme;
+      if (!themeProp.currentThemeName) {
+        themeProp.currentThemeName = "TokyoNightStorm.qml";
+      }
+      return `themes/${themeProp.currentThemeName}`;
     }
   }
   property ThemeItem theme: themeLoader.item as ThemeItem
@@ -46,11 +54,6 @@ Singleton {
   property string pageIndicatorActive: theme.white
   property string pageIndicatorInactive: theme.brightBlack
 
-  FileView {
-    id: currentThemeFile
-    path: `file://${Variables.configDir}/.current_theme`
-    blockLoading: true
-  }
   IpcHandler {
     target: "themeLoader"
     function getTheme(): string {
@@ -63,7 +66,6 @@ Singleton {
         themeLoader.source = old_theme;
         return false;
       }
-      // console.log(themeLoader.source);
       return true;
     }
   }

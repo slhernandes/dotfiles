@@ -5,6 +5,7 @@ import Quickshell
 import qs.bar
 import qs.controlCentre
 import qs.osd
+import qs.wallpaper
 
 Scope {
   Bar {}
@@ -20,4 +21,5 @@ Scope {
     loading: true
     BrightnessOSD {}
   }
+  Wallpaper {}
 }
