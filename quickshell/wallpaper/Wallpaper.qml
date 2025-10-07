@@ -18,7 +18,7 @@ Scope {
     PersistentProperties {
       id: currentWallpaper
       reloadableId: "wallpaper"
-      property string wallName
+      property string wallName: "night_street"
     }
 
     anchors {
@@ -33,12 +33,7 @@ Scope {
 
     Image {
       id: image
-      source: {
-        if (!currentWallpaper.wallName) {
-          currentWallpaper.wallName = "night_street";
-        }
-        `file://${Variables.wallDir}/${currentWallpaper.wallName}.png`;
-      }
+      source: `file://${Variables.wallDir}/${currentWallpaper.wallName}.png`
       Behavior on y {
         NumberAnimation {
           duration: 10
@@ -67,6 +62,7 @@ Scope {
       id: wallpaperTimer
       running: true
       repeat: true
+      triggeredOnStart: true
       interval: 60000
       onTriggered: function () {
         const cur = Math.round(Date.now() / 1000);

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #     decoration:blur:enabled = false and decoration:drop_shadow = false to disable fancy but battery hungry effects.
-# 
+#
 #     misc:vfr = true, since it’ll lower the amount of sent frames when nothing is happening on-screen.
 
 MODE_FILE=$XDG_CACHE_HOME/lpmmode
@@ -16,7 +16,7 @@ on() {
   if [ $G14 -eq 1 ]; then
     asusctl anime -b Off
   fi
-  notify-send "Low Power Mode" "on" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
+  notify-send "Low Power Mode" "on" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true -h int:transient:1
   echo on > $MODE_FILE
 }
 
@@ -29,7 +29,7 @@ off() {
     asusctl anime -b Low
     asusctl anime gif -p $XDG_CONFIG_HOME/hypr/asus_anime/pikachu_running.gif -l 0 &
   fi
-  notify-send "Low Power Mode" "off" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true
+  notify-send "Low Power Mode" "off" -i $icon_name -u normal -h string:x-canonical-private-synchronous:test -h boolean:SWAYNC_BYPASS_DND:true -h int:transient:1
   echo off > $MODE_FILE
 }
 

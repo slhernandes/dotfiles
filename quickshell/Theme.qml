@@ -9,17 +9,12 @@ Singleton {
   PersistentProperties {
     id: themeProp
     reloadableId: "themeName"
-    property string currentThemeName
+    property string currentThemeName: "TokyoNightStorm.qml"
   }
 
   property Loader themeLoader: Loader {
     id: themeLoader
-    source: {
-      if (!themeProp.currentThemeName) {
-        themeProp.currentThemeName = "TokyoNightStorm.qml";
-      }
-      return `themes/${themeProp.currentThemeName}`;
-    }
+    source: `themes/${themeProp.currentThemeName}`
   }
   property ThemeItem theme: themeLoader.item as ThemeItem
 
