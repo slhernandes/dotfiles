@@ -123,4 +123,11 @@ Item {
       }
     }
   }
+  Connections {
+    target: Pipewire
+    function onDefaultAudioSinkChanged() {
+      console.log("Audio Changed!!:", Pipewire.defaultAudioSink.description);
+      Pipewire.defaultAudioSink.audio.mute = false;
+    }
+  }
 }

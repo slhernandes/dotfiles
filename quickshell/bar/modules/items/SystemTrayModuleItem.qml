@@ -11,8 +11,8 @@ MouseArea {
   required property SystemTrayItem modelData
   property alias item: delegate.modelData
 
-  Layout.fillHeight: true
-  implicitWidth: iconImage.implicitSize + 10
+  height: iconImage.implicitSize
+  width: iconImage.implicitSize + 10
 
   acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
   hoverEnabled: true
@@ -21,11 +21,7 @@ MouseArea {
     switch (event.button) {
     case Qt.LeftButton:
       {
-        if (item.onlyMenu) {
-          menuAnchor.open();
-        } else {
-          item.activate();
-        }
+        item.activate();
       }
       break;
     case Qt.MiddleButton:
@@ -35,11 +31,7 @@ MouseArea {
       break;
     case Qt.RightButton:
       {
-        if (item.hasMenu) {
-          menuAnchor.open();
-        } else {
-          item.activate();
-        }
+        menuAnchor.open();
       }
       break;
     }

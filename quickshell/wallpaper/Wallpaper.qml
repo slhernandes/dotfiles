@@ -56,6 +56,14 @@ Scope {
       function changeWallpaper(wallName: string) {
         wallpaper.changeWallpaper(wallName);
       }
+      function changeWallpaperCheckTime(wallName: string) {
+        const cur = Math.round(Date.now() / 1000);
+        const today = new Date();
+        const sunrise = parseInt(GlobalStates.sunrise) || Math.round(today.setHours(6, 0, 0, 0) / 1000);
+        const sunset = parseInt(GlobalStates.sunset) || Math.round(today.setHours(18, 0, 0, 0) / 1000);
+        const pref = cur < sunrise || cur > sunset ? "night" : "day";
+        wallpaper.changeWallpaper(`${pref}_${wallName}`);
+      }
     }
 
     Timer {
@@ -72,7 +80,6 @@ Scope {
         const wall = currentWallpaper.wallName.split("_");
         const pref = cur < sunrise || cur > sunset ? "night" : "day";
         if (pref !== wall[0]) {
-          console.log("changing wallpaper");
           wallpaper.changeWallpaper(`${pref}_${wall[1]}`);
         }
       }
