@@ -8,7 +8,8 @@ MouseArea {
   id: root
   required property var modelData
 
-  implicitWidth: iconImage.width + 8
+  width: iconImage.implicitSize + 8
+  height: iconImage.implicitSize + 8
   acceptedButtons: Qt.LeftButton
   IconImage {
     id: iconImage

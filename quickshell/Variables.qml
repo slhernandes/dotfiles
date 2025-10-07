@@ -4,13 +4,14 @@ import QtQuick
 import Quickshell
 
 Singleton {
-  property string configDir: "/home/samuelhernandes/.config/quickshell"
+  property string configDir: Quickshell.shellDir
   property string wallDir: "/home/samuelhernandes/.config/hypr/wallpapers"
 
   property string fontFamilyText: "Noto Sans Mono"
   property string fontFamilyTextCC: "Noto Sans CJK"
   // property string fontFamilyText: "FiraCode Nerd Font Mono"
-  property real fontSizeLogo: 18
+  property real fontSizeLogo: 24
+  property real fontSizeWorkspaceIcon: 24
   property real fontSizeText: 13
   property real fontSizeSmall: 9.5
 

@@ -16,6 +16,8 @@ Singleton {
   }
 
   property bool controlCentreVisible: false
+  property string monitorName: "eDP-1"
+
   property string sunrise: sunPos.sunrise
   property string sunset: sunPos.sunset
 

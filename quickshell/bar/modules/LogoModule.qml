@@ -1,3 +1,4 @@
+import Quickshell
 import Quickshell.Io
 import QtQuick
 
@@ -5,6 +6,7 @@ import qs
 import qs.bar.widgets
 
 ModuleBlock {
+  id: root
   extraWidth: 0
   Item {
     width: Math.ceil(logoText.width)
@@ -17,7 +19,7 @@ ModuleBlock {
       padding: 12
       text: ""
       color: Theme.logoColour
-      font.pointSize: Variables.fontSizeLogo
+      font.pixelSize: Variables.fontSizeLogo
     }
 
     Process {
@@ -36,6 +38,7 @@ ModuleBlock {
         case Qt.LeftButton:
           {
             GlobalStates.controlCentreVisible = !GlobalStates.controlCentreVisible;
+            GlobalStates.monitorName = root.QsWindow.window?.screen.name;
           }
           break;
         case Qt.RightButton:

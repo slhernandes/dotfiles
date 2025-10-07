@@ -22,11 +22,11 @@ Item {
 
     // verticalAlignment: Text.AlignBottom
     anchors.centerIn: parent
-    bottomPadding: 12
+    bottomPadding: 10
     padding: this.text.length > 0 ? 8 : 0
     text: root.modelData >= 0 ? root.workspaceNames[root.modelData] : ""
     color: mouseArea.containsMouse ? Theme.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.modelData)
-    font.pixelSize: 23
+    font.pixelSize: Variables.fontSizeWorkspaceIcon
 
     Behavior on color {
       ColorAnimation {
