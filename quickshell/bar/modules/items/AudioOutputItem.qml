@@ -11,6 +11,7 @@ Item {
   id: root
 
   width: audioOutputIndicator.width
+  property string popupName: "audioOutputPopup"
 
   Rectangle {
     id: audioOutputBox
@@ -88,10 +89,19 @@ Item {
       }
     }
     onEntered: function () {
-      audioTooltip.activateTooltip();
+      let sources = Pipewire.linkGroups.values.filter(x => x.source.isStream).map(x => x.source);
+      if (!audioPopup.audioPopupIsActive) {
+        audioTooltip.activateTooltip();
+      }
     }
     onExited: function () {
       audioTooltip.deactivateTooltip();
+    }
+    onClicked: function (event) {
+      audioTooltip.deactivateTooltip();
+      audioPopup.audioPopupIsActive = true;
+      audioPopup.activatePopup();
+      GlobalStates.currentPopupName = root.popupName;
     }
   }
   Tooltip {
@@ -123,11 +133,25 @@ Item {
       }
     }
   }
+
+  AudioOutputVolumeControl {
+    id: audioPopup
+    parentItem: audioOutputBox
+  }
+
   Connections {
     target: Pipewire
     function onDefaultAudioSinkChanged() {
-      console.log("Audio Changed!!:", Pipewire.defaultAudioSink.description);
       Pipewire.defaultAudioSink.audio.mute = false;
+    }
+  }
+
+  Connections {
+    target: GlobalStates
+    function onCurrentPopupNameChanged() {
+      if (GlobalStates.currentPopupName !== root.popupName) {
+        audioPopup.deactivatePopupImmediate();
+      }
     }
   }
 }

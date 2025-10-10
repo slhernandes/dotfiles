@@ -2,12 +2,13 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pipewire
+import Quickshell.Services.Notifications
 
 Singleton {
   id: root
 
   PwObjectTracker {
-    objects: [Pipewire.defaultAudioSink, Pipewire.defaultAudioSource]
+    objects: [Pipewire.defaultAudioSink, Pipewire.defaultAudioSource].concat(Pipewire.linkGroups.values.filter(x => x.source.isStream).map(x => x.source))
   }
 
   function updateSun(sunrise: string, sunset: string) {
@@ -20,6 +21,11 @@ Singleton {
 
   property string sunrise: sunPos.sunrise
   property string sunset: sunPos.sunset
+
+  property int activeNotifCount: 0
+  property list<Notification> showedNotifs
+
+  property string currentPopupName
 
   PersistentProperties {
     id: sunPos

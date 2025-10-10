@@ -4,6 +4,7 @@ import Quickshell.Wayland
 import Quickshell.Services.Notifications
 
 import qs
+import qs.notificationCentre
 
 Scope {
   id: root
@@ -16,17 +17,19 @@ Scope {
     actionsSupported: true
     onNotification: function (notification) {
       notification.tracked = true;
-      console.log("----------------");
-      console.log(notification.appName);
-      console.log(notification.appIcon);
-      console.log(notification.image);
-      console.log(notification.body);
-      console.log(notification.summary);
-      console.log(notification.urgency);
-      console.log(notification.desktopEntry);
-      console.log(notification.hints?.SWAYNC_BYPASS_DND);
-      console.log(notification.expireTimeout);
-      console.log("----------------");
+      // console.log("----------------");
+      // console.log(notification.appName);
+      // console.log(notification.appIcon);
+      // console.log(notification.image);
+      // console.log(notification.body);
+      // console.log(notification.summary);
+      // console.log(notification.urgency);
+      // console.log(notification.desktopEntry);
+      // console.log(notification.hints?.SWAYNC_BYPASS_DND);
+      // console.log(notification.expireTimeout);
+      // console.log("----------------");
+      GlobalStates.activeNotifCount += 1;
+      GlobalStates.showedNotifs.push(notification);
       notification.expire();
     }
   }

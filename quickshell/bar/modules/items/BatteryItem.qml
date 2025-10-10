@@ -9,8 +9,10 @@ import qs.bar.widgets
 Item {
   id: root
   width: batteryIndicator.width
+  property string popupName: "batteryPopup"
 
   Rectangle {
+    id: batteryBox
     width: batteryIndicator.width
     height: root.height
     color: "transparent"
@@ -47,6 +49,7 @@ Item {
                 icon_name = "battery_alert.svg";
               }
             }
+            let dev = UPower.devices.values;
             return `file://${Variables.configDir}/icons/${icon_name}`;
           }
         }
@@ -65,6 +68,26 @@ Item {
             return `${value_string}`;
           }
         }
+      }
+    }
+  }
+  MouseArea {
+    width: batteryBox.width
+    height: root.implicitHeight
+    onClicked: function (event) {
+      batteryPopup.activatePopup();
+      GlobalStates.currentPopupName = root.popupName;
+    }
+  }
+  BatteryPopup {
+    id: batteryPopup
+    parentItem: batteryBox
+  }
+  Connections {
+    target: GlobalStates
+    function onCurrentPopupNameChanged() {
+      if (GlobalStates.currentPopupName !== root.popupName) {
+        batteryPopup.deactivatePopupImmediate();
       }
     }
   }

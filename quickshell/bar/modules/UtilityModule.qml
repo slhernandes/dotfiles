@@ -11,6 +11,7 @@ ModuleBlock {
     Layout.alignment: Qt.AlignVCenter
   }
   BatteryItem {
+    implicitHeight: root.height
     Layout.alignment: Qt.AlignVCenter
   }
 }

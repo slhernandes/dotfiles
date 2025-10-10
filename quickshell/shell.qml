@@ -27,4 +27,8 @@ Scope {
   //   loading: true
   //   NotificationCentre {}
   // }
+  // LazyLoader {
+  //   loading: true
+  //   NotificationOSD {}
+  // }
 }
