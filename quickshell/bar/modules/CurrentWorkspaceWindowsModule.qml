@@ -46,7 +46,6 @@ ModuleBlock {
               icon: icon,
               address: w.address
             };
-            // console.log(temp.icon);
           } else {
             temp = {
               icon: `file://${Variables.configDir}/icons/steam.png`,

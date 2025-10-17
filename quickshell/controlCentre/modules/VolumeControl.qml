@@ -129,7 +129,6 @@ CCModuleBlock {
         }
         onClicked: function (event) {
           const default_source = Pipewire.defaultAudioSource;
-          // console.log(default_source);
           if (!!default_source) {
             default_source.audio.muted = !default_source.audio.muted;
           }
@@ -147,7 +146,6 @@ CCModuleBlock {
           Item {}
         }
         function setVolumeInput(event) {
-          // console.log("asdf");
           let xPos = event.x;
           const maxPos = audioInput.implicitWidth;
           if (xPos < 0) {

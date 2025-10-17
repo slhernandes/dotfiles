@@ -12,6 +12,8 @@ Singleton {
   readonly property string temperature: weatherInfo.temperature
   readonly property string city: weatherInfo.city
   readonly property string weatherDesc: weatherInfo.weatherDesc
+  readonly property string sunrise: weatherInfo.sunrise
+  readonly property string sunset: weatherInfo.sunset
 
   PersistentProperties {
     id: weatherInfo
@@ -21,6 +23,8 @@ Singleton {
     property string temperature
     property string city
     property string weatherDesc
+    property string sunrise: ""
+    property string sunset: ""
   }
 
   Process {
@@ -111,7 +115,6 @@ Singleton {
     const cur = Date.now();
     if (cur - parseInt(weatherInfo.lastTimestamp) > 900000 || !parseInt(weatherInfo.lastTimestamp)) {
       weatherInfo.lastTimestamp = cur.toString();
-      console.log("updated weather on", cur);
       retrieveWeather.running = true;
     }
     weatherJson.reload();
@@ -122,7 +125,8 @@ Singleton {
       weatherInfo.city = data?.name || "Unknown City";
       weatherInfo.weatherDesc = data?.weather[0].description || "No description";
 
-      GlobalStates.updateSun(data?.sys.sunrise, data?.sys.sunset);
+      weatherInfo.sunrise = data?.sys.sunrise || "";
+      weatherInfo.sunset = data?.sys.sunset || "";
     }
   }
 }

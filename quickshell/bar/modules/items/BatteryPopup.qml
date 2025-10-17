@@ -136,11 +136,9 @@ Scope {
       }
       onEntered: function () {
         hoverTimer.stop();
-        console.log("entered");
       }
       onExited: function () {
         hoverTimer.start();
-        console.log("exited");
       }
     }
   }
@@ -156,12 +154,14 @@ Scope {
   onActivatePopup: function () {
     popupWindow.visible = true;
     content.opacity = Variables.barOpacity;
+    hoverTimer.start();
   }
   onDeactivatePopup: function () {
     content.opacity = 0;
     closeTimer.start();
   }
   onDeactivatePopupImmediate: function () {
+    content.opacity = 0;
     popupWindow.visible = false;
   }
 }

@@ -4,6 +4,7 @@ import Quickshell.Io
 import Quickshell.Wayland
 
 import qs
+import qs.controlCentre.modules
 
 Scope {
   id: root
@@ -59,8 +60,8 @@ Scope {
       function changeWallpaperCheckTime(wallName: string) {
         const cur = Math.round(Date.now() / 1000);
         const today = new Date();
-        const sunrise = parseInt(GlobalStates.sunrise) || Math.round(today.setHours(6, 0, 0, 0) / 1000);
-        const sunset = parseInt(GlobalStates.sunset) || Math.round(today.setHours(18, 0, 0, 0) / 1000);
+        const sunrise = parseInt(WeatherData.sunrise) || Math.round(today.setHours(6, 0, 0, 0) / 1000);
+        const sunset = parseInt(WeatherData.sunset) || Math.round(today.setHours(18, 0, 0, 0) / 1000);
         const pref = cur < sunrise || cur > sunset ? "night" : "day";
         wallpaper.changeWallpaper(`${pref}_${wallName}`);
       }
@@ -75,8 +76,8 @@ Scope {
       onTriggered: function () {
         const cur = Math.round(Date.now() / 1000);
         const today = new Date();
-        const sunrise = parseInt(GlobalStates.sunrise) || Math.round(today.setHours(6, 0, 0, 0) / 1000);
-        const sunset = parseInt(GlobalStates.sunset) || Math.round(today.setHours(18, 0, 0, 0) / 1000);
+        const sunrise = parseInt(WeatherData.sunrise) || Math.round(today.setHours(6, 0, 0, 0) / 1000);
+        const sunset = parseInt(WeatherData.sunset) || Math.round(today.setHours(18, 0, 0, 0) / 1000);
         const wall = currentWallpaper.wallName.split("_");
         const pref = cur < sunrise || cur > sunset ? "night" : "day";
         if (pref !== wall[0]) {

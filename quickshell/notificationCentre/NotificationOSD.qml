@@ -24,16 +24,16 @@ Scope {
       color: "transparent"
       width: 300
       height: 100
-      ColumnLayout {
-        Instantiator {
-          model: GlobalStates.showedNotifs
-          delegate: NotificationCard {
-            required property Notification modelData
-            content: {
-              console.log(modelData);
-              return modelData;
-            }
+      NotificationCard {
+        content: {
+          return NotificationData.showedNotifs[0];
+        }
+        index: 0
+        visible: {
+          if (NotificationData.showedNotifs.length === 0) {
+            return false;
           }
+          return true;
         }
       }
     }

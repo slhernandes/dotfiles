@@ -1,5 +1,7 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
+import Quickshell.Widgets
 import Quickshell.Wayland
 import Quickshell.Services.Notifications
 
@@ -9,52 +11,102 @@ import qs.notificationCentre
 Scope {
   id: root
 
-  property bool shouldShowOsd: false
-  property bool isSink: true
-
-  NotificationServer {
-    imageSupported: true
-    actionsSupported: true
-    onNotification: function (notification) {
-      notification.tracked = true;
-      // console.log("----------------");
-      // console.log(notification.appName);
-      // console.log(notification.appIcon);
-      // console.log(notification.image);
-      // console.log(notification.body);
-      // console.log(notification.summary);
-      // console.log(notification.urgency);
-      // console.log(notification.desktopEntry);
-      // console.log(notification.hints?.SWAYNC_BYPASS_DND);
-      // console.log(notification.expireTimeout);
-      // console.log("----------------");
-      GlobalStates.activeNotifCount += 1;
-      GlobalStates.showedNotifs.push(notification);
-      notification.expire();
-    }
-  }
-
   LazyLoader {
-    active: root.shouldShowOsd
+    active: true
     PanelWindow {
-      anchors.top: true
-      anchors.right: true
-      margins.top: 4
+      id: panel
+      anchors {
+        top: true
+        right: true
+        bottom: true
+        left: true
+      }
+      margins.top: -Variables.barHeight
       margins.right: 4
       exclusiveZone: 0
 
-      implicitWidth: 400
-      implicitHeight: 50
       color: "transparent"
+      visible: true
 
-      mask: Region {}
+      // mask: Region {}
       Rectangle {
-        color: "transparent"
-        width: 400
-        height: 50
+        id: ncBackground
+        anchors {
+          top: parent.top
+          right: parent.right
+        }
+        anchors.topMargin: Variables.barHeight + 4
+        color: Theme.barBgColour
+        border {
+          width: 2
+          color: Theme.borderColour
+        }
+        opacity: Variables.barOpacity
+        width: 340
+        height: parent.height - Variables.barHeight - 8
+        radius: Variables.radius
+
+        ColumnLayout {
+          anchors.top: parent.top
+          anchors.left: parent.left
+          anchors.topMargin: 8
+          anchors.leftMargin: 8
+          Rectangle {
+            id: dismissButton
+            implicitWidth: dismissAllText.width + dismissAllIcon.implicitSize + 8
+            implicitHeight: dismissAllText.height + 4
+            radius: Variables.radius
+            color: Theme.inactiveElement
+            RowLayout {
+              id: dismissLayout
+              anchors.centerIn: parent
+              IconImage {
+                id: dismissAllIcon
+                implicitSize: dismissAllText.height
+                source: `file://${Variables.configDir}/icons/close.png`
+              }
+              Text {
+                id: dismissAllText
+                Layout.alignment: Qt.AlignVCenter
+                text: "delete all"
+                font.family: Variables.fontFamilyTextCC
+                font.pixelSize: Variables.fontSizeText
+                color: Theme.ccTextColour
+              }
+            }
+            MouseArea {
+              anchors.fill: parent
+              acceptedButtons: Qt.LeftButton
+              hoverEnabled: true
+              onEntered: () => {
+                dismissButton.color = Theme.activeElement;
+              }
+              onExited: () => {
+                dismissButton.color = Theme.inactiveElement;
+              }
+            }
+            Behavior on color {
+              ColorAnimation {
+                duration: 200
+              }
+            }
+          }
+        }
       }
+
+      MouseArea {
+        id: ncMouseArea
+        anchors.fill: parent
+        onClicked: function () {
+          if (!ncBackground.contains(Qt.point(mouseX - panel.width + ncBackground.width, mouseY - Variables.barHeight - 4))) {
+            panel.visible = false;
+          }
+        }
+      }
+
       Component.onCompleted: {
         this.WlrLayershell.layer = WlrLayer.Overlay;
+        this.WlrLayershell.keyboardFocus = WlrKeyboardFocus.Exclusive;
         this.WlrLayershell.namespace = "qsNotificationCentre";
       }
     }

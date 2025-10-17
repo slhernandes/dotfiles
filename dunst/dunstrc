@@ -1,17 +1,22 @@
 
 [urgency_low]
-    background = "#000000"
-    foreground = "#ffffff"
+    background = "#24273acc"
+    foreground = "#cad3f5cc"
+    frame_color = "#5b6078"
+    highlight = "#8aadf4"
     timeout = 3
 
 [urgency_normal]
-    background = "#212121"
-    foreground = "#ffffff"
+    background = "#24273acc"
+    foreground = "#cad3f5cc"
+    frame_color = "#5b6078"
+    highlight = "#8aadf4"
     timeout = 3
 
 [urgency_critical]
     background = "#fbc02d"
     foreground = "#000000"
+    highlight = "#8aadf4"
     timeout = 0
 
 [global]
@@ -34,8 +39,8 @@
     # geometry = "300x5+20+20"
     width = (300,400)
     height = 100
-    offset = 4x29
-    origin = top-left
+    offset = 4x4
+    origin = top-right
     notification_limit = 5
 
 
@@ -45,7 +50,7 @@
     alignment = left            # Align text left/center/right
     show_age_threshold = 60     # Show if message is older than x seconds (-1 to disable)
     word_wrap = yes             # Split notifications into multiple lines if they don't fit into geometry
-    transparency = 40           # The transparency of the window. 0 (opaque) to 100 (transparent) - requires compositing window manager (xcompmgr, compiz, compton, etc)
+    # transparency = 40           # The transparency of the window. 0 (opaque) to 100 (transparent) - requires compositing window manager (xcompmgr, compiz, compton, etc)
     shrink = no                 # Shrink window if it's smaller than the width (ignored if width is 0)
     monitor = 0                 # Display notifications on the monitor indicated (0 is default)
     show_indicators = no        # Display indicators for URLs (U) and actions (A)
@@ -56,8 +61,7 @@
     separator_color = frame     # Color for separator: auto/foreground/frame/X color
     icon_position = left        # Align icons left/right/off
     max_icon_size = 32
-    frame_width = 0
-    frame_color = "#212121"
+    frame_width = 2
 
     idle_threshold = 120        # Don't remove messages if the user is idle (no mouse or keyboard input) for longer than idle_threshold seconds
     sticky_history = yes        # Make notifications remain until clicked on (yes) or timeout as normal (no) when recalled from history
@@ -71,6 +75,8 @@
     mouse_left_click = do_action, close_current
     mouse_middle_click = do_action, close_current
     mouse_right_click = context_all
+
+    corner_radius = 5
 
     gap_size = 2
     

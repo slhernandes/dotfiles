@@ -33,9 +33,30 @@ Rectangle {
     ColumnLayout {
       Text {
         text: {
-          console.log("content body:", root.content?.body);
-          return "Hello";
+          return root.content.body;
         }
+      }
+    }
+  }
+
+  MouseArea {
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.topMargin: 5
+    anchors.rightMargin: 5
+    implicitWidth: inside.width
+    implicitHeight: inside.height
+    Rectangle {
+      id: inside
+      anchors.centerIn: parent
+      width: 20
+      height: 20
+      radius: 5
+    }
+    onClicked: function (event) {
+      if (NotificationData.showedNotifs.length > 0) {
+        NotificationData.showedNotifs[root.index].dismiss();
+        NotificationData.showedNotifs.splice(root.index, 1);
       }
     }
   }
