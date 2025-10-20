@@ -83,7 +83,9 @@ Scope {
                       anchors.verticalCenter: parent.verticalCenter
                       anchors.left: parent.left
                       anchors.leftMargin: 5
-                      text: volumeRow.modelData?.properties["media.name"] || volumeRow.modelData?.nickname || "Unknown source"
+                      text: {
+                        return volumeRow.modelData?.properties["media.name"] || volumeRow.modelData?.nickname || "Unknown source";
+                      }
                       font.pixelSize: Variables.fontSizeText
                       elide: Text.ElideMiddle
                       maximumLineCount: 1

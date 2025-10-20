@@ -38,10 +38,10 @@ Item {
       icon: Quickshell.iconPath("vesktop")
     },
     {
-      regex: /(\/.+)*(.+)\.pdf/g,
+      regex: /\/*(.+\/)*(.+)\.pdf/g,
       to: "2$",
       clip: 20,
-      icon: Quickshell.iconPath("zathura")
+      icon: Quickshell.iconPath("org.pwmt.zathura")
     },
     {
       regex: /[sS]team/g,
@@ -92,6 +92,7 @@ Item {
         let ret = "";
         for (const re of root.rewrites) {
           const matches = winName.match(re.regex);
+          console.log(matches);
           if (matches !== null) {
             ret = re.to.toString();
             let indices = ret.match(replaceVar);
@@ -102,7 +103,7 @@ Item {
                 ret = ret.replace(i, matches[idx]);
               }
             }
-            if (re.clip !== undefined) {
+            if (re.clip !== undefined && ret.length > re.clip) {
               ret = ret.slice(0, parseInt(re.clip) - 1) + "…";
             }
             return ret;
