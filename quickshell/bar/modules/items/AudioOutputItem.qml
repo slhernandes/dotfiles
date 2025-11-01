@@ -82,10 +82,13 @@ Item {
       }
       if (event.angleDelta.y > 0) {
         default_sink.audio.muted = false;
-        default_sink.audio.volume += 0.01;
+        default_sink.audio.volume = Math.min(default_sink.audio.volume + 0.01, 1.0);
       } else if (event.angleDelta.y < 0) {
         default_sink.audio.muted = false;
-        default_sink.audio.volume -= 0.01;
+        if (default_sink.audio.volume > 0.0) {
+          default_sink.audio.volume -= 0.01;
+          default_sink.audio.volume = Math.max(default_sink.audio.volume - 0.01, 0.0);
+        }
       }
     }
     onEntered: function () {

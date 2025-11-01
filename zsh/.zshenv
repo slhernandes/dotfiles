@@ -102,6 +102,7 @@ export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
 
 # python env
 export PYTHONSTARTUP="$HOME"/python/pythonrc
+export PYTHON_BASIC_REPL=1
 
 # tex env
 export TEXMFVAR="$XDG_CACHE_HOME"/texlive/texmf-var
