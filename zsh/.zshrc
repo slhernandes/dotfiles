@@ -1,8 +1,9 @@
 # zsh config directory
 ZSH_DIR=$XDG_CONFIG_HOME/zsh
 # aliases
-alias alert_fail='notify-send --urgency=critical -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias alert_fail='(notify-send --urgency=critical -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')" && paplay $XDG_CONFIG_HOME/zsh/chimes/error.mp3 &)'
+alias alert_success='(notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')" && paplay $XDG_CONFIG_HOME/zsh/chimes/success.mp3 &)'
+alias alert='alert_success || alert_fail'
 alias fortune="misfortune"
 alias ip="ip --color=auto"
 alias ls="ls -A --color=auto"
@@ -31,17 +32,18 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*:*:git:*' script /usr/share/git/completion/git-completion.bash
 autoload -Uz compinit && compinit
 
-autoload -U select-quoted
-zle -N select-quoted
-for m in visual viopp; do
-    for c in {a,i}{\',\",\`}; do
-        bindkey -M $m $c select-quoted
-    done
-done
+# autoload -U select-quoted
+# zle -N select-quoted
+# for m in visual viopp; do
+#     for c in {a,i}{\',\",\`}; do
+#         bindkey -M $m $c select-quoted
+#     done
+# done
 
 # bindkeys
 KEYTIMEOUT=1
-bindkey -v
+# bindkey -v
+bindkey -e
 bindkey "^?" backward-delete-char
 bindkey "^p" history-search-backward
 bindkey "^n" history-search-forward
@@ -159,6 +161,28 @@ function yz() {
 
 function chtsh() {
   curl cht.sh/$1 | less -R
+}
+
+OPP_VER="6.3.0"
+function opp_setenv() {
+  SRC_DIR="$HOME/Dokumente/srcs"
+  OPP_DIR="$SRC_DIR/omnetpp-$OPP_VER"
+  INET_DIR="$SRC_DIR/inet"
+
+  [ -f "$OPP_DIR/setenv" ] && source "$OPP_DIR/setenv" &> /tmp/opp_log
+  [ -f "$INET_DIR/setenv" ] && source "$INET_DIR/setenv" &> /tmp/inet_log
+}
+
+function opp_deactivate() {
+  SRC_DIR="$HOME/Dokumente/srcs"
+  OPP_DIR="$SRC_DIR/omnetpp-$OPP_VER"
+  INET_DIR="$SRC_DIR/inet"
+
+  deactivate
+  unset OMNETPP_ROOT
+  unset OMNETPP_IMAGE_PATH
+  PATH=$(echo $PATH | tr ":" "\n" | grep -vE 'omnetpp|inet' | perl -pe "chomp if eof" | tr "\n" ":" | xargs)
+
 }
 
 # ghcup-env

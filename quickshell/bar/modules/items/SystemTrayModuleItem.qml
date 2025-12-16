@@ -14,6 +14,7 @@ MouseArea {
   height: iconImage.implicitSize
   width: iconImage.implicitSize + 10
 
+  cursorShape: Qt.PointingHandCursor
   acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
   hoverEnabled: true
 

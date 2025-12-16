@@ -40,6 +40,7 @@ Item {
     width: workspaceText.width
     height: workspaceText.height
     anchors.centerIn: parent
+    cursorShape: Qt.PointingHandCursor
     hoverEnabled: true
     onClicked: {
       HyprlandUtils.switchWorkspace(root.modelData + 1);

@@ -34,6 +34,7 @@ CCModuleBlock {
         acceptedButtons: Qt.LeftButton
         implicitWidth: leftChevron.implicitSize
         implicitHeight: leftChevron.implicitSize
+        cursorShape: Qt.PointingHandCursor
         Layout.alignment: Qt.AlignLeft
         Rectangle {
           implicitWidth: leftChevron.implicitSize
@@ -93,6 +94,7 @@ CCModuleBlock {
         acceptedButtons: Qt.LeftButton
         implicitWidth: rightChevron.implicitSize
         implicitHeight: rightChevron.implicitSize
+        cursorShape: Qt.PointingHandCursor
         Layout.alignment: Qt.AlignLeft
         Rectangle {
           implicitWidth: rightChevron.implicitSize
@@ -209,6 +211,7 @@ CCModuleBlock {
         acceptedButtons: Qt.LeftButton
         implicitWidth: skipPrev.implicitSize
         implicitHeight: skipPrev.implicitSize
+        cursorShape: Qt.PointingHandCursor
         Layout.alignment: Qt.AlignLeft
         Rectangle {
           implicitWidth: skipPrev.implicitSize
@@ -240,6 +243,7 @@ CCModuleBlock {
         acceptedButtons: Qt.LeftButton
         implicitWidth: playPause.implicitSize
         implicitHeight: playPause.implicitSize
+        cursorShape: Qt.PointingHandCursor
         Layout.alignment: Qt.AlignLeft
         Rectangle {
           implicitWidth: playPause.implicitSize
@@ -278,6 +282,7 @@ CCModuleBlock {
         acceptedButtons: Qt.LeftButton
         implicitWidth: skipNext.implicitSize
         implicitHeight: skipNext.implicitSize
+        cursorShape: Qt.PointingHandCursor
         Layout.alignment: Qt.AlignLeft
         Rectangle {
           implicitWidth: skipNext.implicitSize

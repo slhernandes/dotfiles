@@ -75,6 +75,7 @@ Item {
     width: audioOutputBox.width
     height: root.implicitHeight
     hoverEnabled: true
+    cursorShape: Qt.PointingHandCursor
     onWheel: function (event) {
       const default_sink = Pipewire.defaultAudioSink;
       if (!default_sink) {
@@ -86,7 +87,6 @@ Item {
       } else if (event.angleDelta.y < 0) {
         default_sink.audio.muted = false;
         if (default_sink.audio.volume > 0.0) {
-          default_sink.audio.volume -= 0.01;
           default_sink.audio.volume = Math.max(default_sink.audio.volume - 0.01, 0.0);
         }
       }

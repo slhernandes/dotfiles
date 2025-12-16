@@ -17,8 +17,8 @@ export MANPAGER='nvim +Man!'
 export EDITOR=nvim
 
 # OMNeT++ env
-export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/opt/omnetpp/include
-export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:$XDG_DOCUMENTS_DIR/ba/cqf-fp-simulation/inet/src
+# export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/opt/omnetpp/include
+# export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:$XDG_DOCUMENTS_DIR/ba/cqf-fp-simulation/inet/src
 #export OMNETPP_IMAGE_PATH=/opt/omnetpp/images
 #export OMNETPP_TKENV_DIR=/opt/omnetpp/src/tkenv
 #export PATH=$PATH:$HOME/Dokumente/srcs/omnetpp-6.0.2/bin
@@ -102,7 +102,7 @@ export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
 
 # python env
 export PYTHONSTARTUP="$HOME"/python/pythonrc
-export PYTHON_BASIC_REPL=1
+# export PYTHON_BASIC_REPL=1
 
 # tex env
 export TEXMFVAR="$XDG_CACHE_HOME"/texlive/texmf-var

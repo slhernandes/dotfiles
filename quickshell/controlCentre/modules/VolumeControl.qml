@@ -27,6 +27,7 @@ CCModuleBlock {
         hoverEnabled: true
         implicitWidth: audioOutputIcon.implicitSize
         implicitHeight: audioOutputIcon.implicitSize
+        cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton
         Rectangle {
           anchors.fill: parent
@@ -71,6 +72,7 @@ CCModuleBlock {
       MouseArea {
         implicitWidth: audioOutput.implicitWidth
         implicitHeight: audioOutput.implicitHeight
+        cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton
         ClippedProgressBar {
           id: audioOutput
@@ -104,6 +106,7 @@ CCModuleBlock {
         hoverEnabled: true
         implicitWidth: audioInputIcon.implicitSize
         implicitHeight: audioInputIcon.implicitSize
+        cursorShape: Qt.PointingHandCursor
         Rectangle {
           anchors.fill: parent
           anchors.centerIn: parent
@@ -137,6 +140,7 @@ CCModuleBlock {
       MouseArea {
         implicitWidth: audioInput.implicitWidth
         implicitHeight: audioInput.implicitHeight
+        cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton
         ClippedProgressBar {
           id: audioInput

@@ -92,7 +92,6 @@ Item {
         let ret = "";
         for (const re of root.rewrites) {
           const matches = winName.match(re.regex);
-          console.log(matches);
           if (matches !== null) {
             ret = re.to.toString();
             let indices = ret.match(replaceVar);

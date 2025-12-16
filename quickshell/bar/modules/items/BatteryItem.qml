@@ -74,6 +74,7 @@ Item {
   MouseArea {
     width: batteryBox.width
     height: root.implicitHeight
+    cursorShape: Qt.PointingHandCursor
     onClicked: function (event) {
       batteryPopup.activatePopup();
       GlobalStates.currentPopupName = root.popupName;

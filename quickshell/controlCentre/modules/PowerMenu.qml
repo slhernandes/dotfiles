@@ -24,6 +24,7 @@ CCModuleBlock {
       hoverEnabled: true
       implicitHeight: root.boxSize
       implicitWidth: root.boxSize
+      cursorShape: Qt.PointingHandCursor
       onClicked: function (event) {
         shutdownProcess.running = true;
       }
@@ -55,6 +56,7 @@ CCModuleBlock {
       hoverEnabled: true
       implicitHeight: root.boxSize
       implicitWidth: root.boxSize
+      cursorShape: Qt.PointingHandCursor
       onClicked: function (event) {
         restartProcess.running = true;
       }
@@ -86,6 +88,7 @@ CCModuleBlock {
       hoverEnabled: true
       implicitHeight: root.boxSize
       implicitWidth: root.boxSize
+      cursorShape: Qt.PointingHandCursor
       onClicked: function (event) {
         rebootWindowsProcess.running = true;
       }
@@ -117,6 +120,7 @@ CCModuleBlock {
       hoverEnabled: true
       implicitHeight: root.boxSize
       implicitWidth: root.boxSize
+      cursorShape: Qt.PointingHandCursor
       onClicked: function (event) {
         GlobalStates.controlCentreVisible = false;
         lockProcess.running = true;
@@ -149,6 +153,7 @@ CCModuleBlock {
       hoverEnabled: true
       implicitHeight: root.boxSize
       implicitWidth: root.boxSize
+      cursorShape: Qt.PointingHandCursor
       onClicked: function (event) {
         logoutProcess.running = true;
       }

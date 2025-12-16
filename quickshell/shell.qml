@@ -8,6 +8,8 @@ import qs.osd
 import qs.wallpaper
 import qs.notificationCentre
 
+//import qs.notificationCentre
+
 Scope {
   Bar {}
   LazyLoader {
@@ -23,6 +25,7 @@ Scope {
     BrightnessOSD {}
   }
   Wallpaper {}
+  // Notification {}
   // LazyLoader {
   //   loading: true
   //   NotificationCentre {}

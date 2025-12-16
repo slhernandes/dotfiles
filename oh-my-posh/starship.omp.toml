@@ -51,8 +51,9 @@ final_space = true
     style = 'plain'
 
     [blocks.segments.properties]
-      style = 'agnoster_short'
-      max_depth = 3
+      style = 'fish'
+      # max_depth = 3
+      dir_length = 3
       hide_root_location = true
       folder_icon = "·"
 

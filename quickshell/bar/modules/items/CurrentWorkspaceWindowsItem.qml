@@ -11,6 +11,7 @@ MouseArea {
   width: iconImage.implicitSize + 8
   height: iconImage.implicitSize + 8
   acceptedButtons: Qt.LeftButton
+  cursorShape: Qt.PointingHandCursor
   IconImage {
     id: iconImage
     anchors.centerIn: parent
