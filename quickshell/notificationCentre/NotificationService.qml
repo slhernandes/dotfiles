@@ -3,20 +3,20 @@ pragma Singleton
 import QtQuick
 import QtQuick.Window
 import Quickshell
-import Quickshell.Io
 import Quickshell.Services.Notifications
 
 Singleton {
   id: root
+  property int test: 10
   property var notifServer: null
-
+  property ListModel activeList: ListModel {}
   property var activeNotif: ({})
 
   Component {
     id: notifServerComponent
     NotificationServer {
       keepOnReload: false
-      imageSupported: false
+      imageSupported: true
       actionsSupported: false
       onNotification: notif => handleNotif(notif)
     }
@@ -34,6 +34,15 @@ Singleton {
     updateNotifServer();
   }
 
+  function findIndexFromId(id) {
+    for (let i = 0; i < activeList.count; i++) {
+      if (activeList.get(i).metadata.id === id) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   function handleNotif(notif) {
     const id = notif.id;
     const data = {
@@ -49,44 +58,50 @@ Singleton {
         "progress": 1.0
       }
     };
-    console.log(data.metadata.urgency);
-    console.log(data.metadata.expireTimeout);
-    console.log(Object.keys(root.activeNotif));
-    activeNotif[id] = notif;
+    activeNotif[id] = data;
+    activeList.insert(0, data);
     notif.tracked = true;
-    notif.closed.connect(() => delete activeNotif[id]);
+    notif.closed.connect(() => {
+      delete activeNotif[id];
+      const idx = findIndexFromId(id);
+      if (idx >= 0) {
+        activeList.remove(idx);
+      }
+    });
   }
 
   Timer {
     interval: 100
     repeat: true
-    running: {
-      console.log("testing...");
-      console.log(Object.keys(activeNotif).length);
-      return Object.keys(activeNotif).length > 0;
-    }
-    onTriggered: updateNotifList()
+    running: root.activeList.count > 0
+    onTriggered: root.updateNotifList()
   }
 
   function updateNotifList() {
     const now = Date.now();
     const durations = [3000, 6000, 9000];
-    console.log("update is running");
     for (const i of Object.keys(activeNotif)) {
       const notifData = activeNotif[i];
       const urgency = notifData.urgency || 1;
       const duration = durations[urgency] || 6000;
       const expire = notifData.metadata.expireTimeout * 1000 || -1;
       if (now - notifData.metadata.timestamp >= duration) {
-        notifData.notif.dismiss();
-        delete activeNotif[i];
+        deactivateNotif(i);
         continue;
       }
       if (now - notifData.metadata.timestamp >= expire && expire > 0) {
-        notifData.notif.dismiss();
-        delete activeNotif[i];
+        deactivateNotif(i);
         continue;
       }
+    }
+  }
+
+  function deactivateNotif(id) {
+    activeNotif[id].notif.dismiss();
+    delete activeNotif[id];
+    const idx = findIndexFromId(id);
+    if (idx >= 0) {
+      activeList.remove(idx);
     }
   }
 }

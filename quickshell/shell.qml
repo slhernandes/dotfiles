@@ -25,7 +25,7 @@ Scope {
     BrightnessOSD {}
   }
   Wallpaper {}
-  // Notification {}
+  Notification {}
   // LazyLoader {
   //   loading: true
   //   NotificationCentre {}

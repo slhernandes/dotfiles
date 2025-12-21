@@ -49,6 +49,12 @@ Singleton {
   property string pageIndicatorActive: theme.white
   property string pageIndicatorInactive: theme.brightBlack
 
+  property string notifCritical: theme.brightYellow
+  property string notifNormal: theme.background
+
+  property string notifTextCritical: theme.brightBlack
+  property string notifTextNormal: theme.white
+
   IpcHandler {
     target: "themeLoader"
     function getTheme(): string {

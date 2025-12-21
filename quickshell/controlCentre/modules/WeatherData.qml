@@ -44,7 +44,7 @@ Singleton {
     running: true
     repeat: true
     triggeredOnStart: true
-    onTriggered: root.reload()
+    onTriggered: root.reload(false)
   }
 
   function getIcon(s) {
@@ -111,11 +111,15 @@ Singleton {
     return `file://${Variables.configDir}/icons/${iconName}`;
   }
 
-  function reload() {
+  function reload(override) {
     const cur = Date.now();
-    if (cur - parseInt(weatherInfo.lastTimestamp) > 900000 || !parseInt(weatherInfo.lastTimestamp)) {
+    if (cur - parseInt(weatherInfo.lastTimestamp) > 900000 || !parseInt(weatherInfo.lastTimestamp) || override === true) {
       weatherInfo.lastTimestamp = cur.toString();
       retrieveWeather.running = true;
+      var end = new Date().getTime() + 1000;
+      while (new Date().getTime() < end)
+        ;
+      return;
     }
     weatherJson.reload();
     const data = JSON.parse(weatherJson.text().trim());
@@ -127,6 +131,12 @@ Singleton {
 
       weatherInfo.sunrise = data?.sys.sunrise || "";
       weatherInfo.sunset = data?.sys.sunset || "";
+    }
+  }
+  IpcHandler {
+    target: "weatherInfo"
+    function reloadWeather() {
+      root.reload(true);
     }
   }
 }
