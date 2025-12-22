@@ -16,7 +16,7 @@ Singleton {
     id: notifServerComponent
     NotificationServer {
       keepOnReload: false
-      imageSupported: true
+      imageSupported: false
       actionsSupported: false
       onNotification: notif => handleNotif(notif)
     }

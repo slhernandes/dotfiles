@@ -17,14 +17,17 @@ Variants {
     active: notifModel.count > 0
     sourceComponent: PanelWindow {
       id: notifWindow
-      screen: modelData
+      screen: root.modelData
       WlrLayershell.namespace: "qsNotifications"
       WlrLayershell.layer: WlrLayer.Top
       WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
       color: "transparent"
-      readonly property int notifWidth: 400
-      readonly property int notifHeight: 100
+      readonly property int notifWidth: 440
+      readonly property real borderMarginMult: 0.125
+      readonly property real borderMarginMultV: 0.125
+      readonly property real borderMarginMultH: 0.225
+
       anchors {
         top: true
         right: true
@@ -37,21 +40,25 @@ Variants {
       implicitHeight: notifStack.implicitHeight
       ColumnLayout {
         id: notifStack
-        // anchors {
-        //   top: true
-        //   right: true
-        // }
         spacing: 4
         width: notifWindow.notifWidth
         Repeater {
-          id: notificationRepeater
+          id: notifRepeater
           model: root.notifModel
+
           delegate: Rectangle {
             id: rootRect
             required property var modelData
             property real closeIconSize: 25
+
+            readonly property int notifHeightSingle: 116
+            readonly property int notifHeightDouble: 145
+            property int notifHeight: this.notifHeightDouble
+            property int lineCount: 1
+
+            signal updateBodyLineCount
             implicitWidth: notifWindow.notifWidth
-            implicitHeight: notifWindow.notifHeight
+            implicitHeight: this.notifHeight
             radius: Variables.radius
             color: modelData.metadata.urgency === NotificationUrgency.Critical ? Theme.notifCritical : Theme.notifNormal
             border {
@@ -63,7 +70,7 @@ Variants {
             MouseArea {
               id: notifMouseArea
               anchors {
-                margins: 0.1 * rootRect.implicitHeight
+                margins: notifWindow.borderMarginMult * rootRect.notifHeightSingle
                 top: parent.top
                 right: parent.right
               }
@@ -93,19 +100,35 @@ Variants {
             RowLayout {
               id: notifRow
               anchors.fill: parent
-              anchors.margins: 0.1 * rootRect.implicitHeight
-              Layout.margins: 0.1 * rootRect.implicitHeight
+              anchors.topMargin: notifWindow.borderMarginMultV * rootRect.notifHeightSingle
+              anchors.bottomMargin: notifWindow.borderMarginMultV * rootRect.notifHeightSingle
+              anchors.leftMargin: notifWindow.borderMarginMultH * rootRect.notifHeightSingle
+              anchors.rightMargin: notifWindow.borderMarginMultH * rootRect.notifHeightSingle
               IconImage {
-                implicitSize: 0.8 * rootRect.implicitHeight
+                implicitSize: (0.5) * rootRect.notifHeightSingle
                 source: {
-                  const image = rootRect.modelData.notif.image || rootRect.modelData.notif.appIcon || "";
-                  return Quickshell.iconPath(image, true) || Quickshell.iconPath(`file://${image}`, true) || `file://${Variables.configDir}/icons/hakase_no_img.png`;
+                  const imagePath = Quickshell.iconPath(rootRect.modelData.notif?.image, true);
+                  const appIconPath = Quickshell.iconPath(`${rootRect.modelData.notif?.appIcon}`, true);
+                  return imagePath || appIconPath || `file://${Variables.configDir}/icons/hakase_no_img.png`;
                 }
               }
               spacing: 12
               ColumnLayout {
                 id: notifColumn
                 spacing: 4
+                Text {
+                  id: appNameText
+                  Layout.fillWidth: true
+                  font {
+                    family: Variables.fontFamilyTextCC
+                    pointSize: Variables.fontSizeText
+                    weight: Font.Bold
+                  }
+                  color: rootRect.modelData.metadata.urgency === NotificationUrgency.Critical ? Theme.notifTextCritical : Theme.notifTextNormal
+                  maximumLineCount: 1
+                  elide: Text.ElideRight
+                  text: rootRect.modelData.notif?.appName
+                }
                 Text {
                   id: summaryText
                   Layout.fillWidth: true
@@ -114,7 +137,9 @@ Variants {
                     pointSize: Variables.fontSizeIcon
                   }
                   color: rootRect.modelData.metadata.urgency === NotificationUrgency.Critical ? Theme.notifTextCritical : Theme.notifTextNormal
-                  text: rootRect.modelData.notif.summary
+                  maximumLineCount: 1
+                  elide: Text.ElideRight
+                  text: rootRect.modelData.notif?.summary
                 }
                 Text {
                   id: bodyText
@@ -125,9 +150,22 @@ Variants {
                     pointSize: Variables.fontSizeText
                   }
                   color: rootRect.modelData.metadata.urgency === NotificationUrgency.Critical ? Theme.notifTextCritical : Theme.notifTextNormal
-                  text: rootRect.modelData.notif.body
+                  maximumLineCount: 2
+                  wrapMode: Text.Wrap
+                  elide: Text.ElideRight
+                  text: rootRect.modelData.notif?.body
+                  Component.onCompleted: () => {
+                    rootRect.lineCount = this.lineCount;
+                    rootRect.updateBodyLineCount();
+                  }
                 }
               }
+            }
+            onUpdateBodyLineCount: () => {
+              this.notifHeight = this.lineCount === 1 ? this.notifHeightSingle : this.notifHeightDouble;
+            }
+            Component.onCompleted: () => {
+              console.log(JSON.stringify(this.modelData.notif));
             }
           }
         }
