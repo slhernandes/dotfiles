@@ -163,6 +163,8 @@ function chtsh() {
   curl cht.sh/$1 | less -R
 }
 
+[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
+
 OPP_VER="6.3.0"
 function opp_setenv() {
   SRC_DIR="$HOME/Dokumente/srcs"

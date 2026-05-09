@@ -102,6 +102,9 @@ export PARALLEL_HOME="$XDG_CONFIG_HOME"/parallel
 
 # python env
 export PYTHONSTARTUP="$HOME"/python/pythonrc
+export PYTHON_HISTORY=$XDG_STATE_HOME/python_history
+export PYTHONPYCACHEPREFIX=$XDG_CACHE_HOME/python
+export PYTHONUSERBASE=$XDG_DATA_HOME/python
 # export PYTHON_BASIC_REPL=1
 
 # tex env
@@ -154,3 +157,11 @@ export QT_QPA_PLATFORMTHEME=gtk3
 
 # Quickshell env
 # export QS_ICON_THEME=breeze
+. "/home/samuelhernandes/.local/share/bob/env/env.sh"
+
+# matlab env
+export MATLAB_LOG_DIR="$XDG_DATA_HOME/matlab"
+export MATLAB_PREFDIR="$XDG_DATA_HOME/matlab"
+
+# copilot env
+export COPILOT_HOME="$XDG_CONFIG_HOME"/copilot

@@ -92,11 +92,17 @@ final_space = true
     type = 'php'
     style = 'plain'
 
+  # [[blocks.segments]]
+  #   template = ''
+  #   foreground = 'p:terminal-yellow'
+  #   type = 'python'
+  #   style = 'plain'
+  #   display_mode = 'environment'
   [[blocks.segments]]
-    template = ''
-    foreground = 'p:terminal-yellow'
-    type = 'python'
-    style = 'plain'
+    type = "python"
+    style = "plain"
+    foreground = "p:terminal-yellow"
+    template = "{{ if .Venv }} {{ .Venv }}{{ end }}"
 
   [[blocks.segments]]
     template = ''

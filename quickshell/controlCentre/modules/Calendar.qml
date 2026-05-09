@@ -51,7 +51,7 @@ CCModuleBlock {
         Rectangle {
           anchors.centerIn: parent
           implicitHeight: monthGridText.height
-          implicitWidth: monthGridText.height
+          implicitWidth: monthGridText.width
           radius: 999
           color: {
             if (monthGridRect.model.day === parseInt(Qt.formatDate(Clock.date, "d")) && monthGridRect.model.month === monthGrid.month) {

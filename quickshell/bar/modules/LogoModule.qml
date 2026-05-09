@@ -25,6 +25,7 @@ ModuleBlock {
     Process {
       id: rofiDrun
       command: ["rofi", "-show", "drun", "-theme-str", "window {location: northwest; anchor: northwest;}"]
+      // command: ["sh", "-c", "hyprshutdown -t 'Shutting down...' -p 'poweroff' &> /home/samuelhernandes/Dokumente/test/hyprshutdown.log"]
       running: false
     }
 

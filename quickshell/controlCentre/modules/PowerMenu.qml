@@ -48,7 +48,8 @@ CCModuleBlock {
       Process {
         id: shutdownProcess
         running: false
-        command: ["shutdown", "-h", "now"]
+        // command: ["shutdown", "-h", "now"]
+        command: ["sh", "-c", "hyprshutdown -t 'Shutting down...' -p 'poweroff' &> /home/samuelhernandes/Dokumente/test/hyprshutdown.log"]
       }
     }
     MouseArea {
@@ -80,7 +81,8 @@ CCModuleBlock {
       Process {
         id: restartProcess
         running: false
-        command: ["reboot"]
+        command: ["sh", "-c", "hyprshutdown -t 'Rebooting...' -p 'reboot' &> /home/samuelhernandes/Dokumente/test/hyprshutdown.log"]
+        // command: ["reboot"]
       }
     }
     MouseArea {
@@ -112,7 +114,8 @@ CCModuleBlock {
       Process {
         id: rebootWindowsProcess
         running: false
-        command: ["sh", "-c", "systemctl reboot --boot-loader-entry=windows.conf --boot-loader-menu=1"]
+        command: ["sh", "-c", "hyprshutdown -t 'Rebooting to windows...' -p 'systemctl reboot --boot-loader-entry=windows.conf --boot-loader-menu=1' &> /home/samuelhernandes/Dokumente/test/hyprshutdown.log"]
+        // command: ["sh", "-c", "systemctl reboot --boot-loader-entry=windows.conf --boot-loader-menu=1"]
       }
     }
     MouseArea {
