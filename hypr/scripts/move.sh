@@ -1,4 +1,5 @@
 #!/bin/sh
+# WARNING: No longer works on hyprland v0.55
 
 ws_id=$(hyprctl activeworkspace | grep "workspace ID" | awk '{print $3}')
 py_cmd_next="print(${ws_id}%9+1)"

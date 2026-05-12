@@ -10,4 +10,5 @@ else
 fi
 
 echo $ws_name
-hyprctl dispatch togglespecialworkspace $ws_name
+dispatch=$(printf "hl.dsp.workspace.toggle_special(\"%s\")" $ws_name)
+hyprctl dispatch $dispatch

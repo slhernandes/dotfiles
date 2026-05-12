@@ -40,7 +40,7 @@ def get_cur_workspace_prop():
 def move_window_to_special():
     _ = subprocess.run(
         ["hyprctl", "dispatch",
-         "movetoworkspacesilent", "special:minimized"],
+         "hl.dsp.window.move({workspace = \"special:minimized\", follow = false})"],
         shell=False,
         encoding="utf-8",
         stdout=subprocess.PIPE,
@@ -110,9 +110,24 @@ def minimize():
 
 def restore(address):
     prop = get_cur_workspace_prop()
+    # v0.54
+    # _ = subprocess.run(
+    #     ["hyprctl", "dispatch", "movetoworkspace",
+    #      f"{prop['id']},address:{address}"],
+    #     shell=False,
+    #     encoding="utf-8",
+    #     stdout=subprocess.PIPE,
+    #     stderr=subprocess.PIPE,
+    # )
     _ = subprocess.run(
-        ["hyprctl", "dispatch", "movetoworkspace",
-         f"{prop['id']},address:{address}"],
+        ["hyprctl", "dispatch", f"hl.dsp.focus({{window = \"address:{address}\"}})"],
+        shell=False,
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    _ = subprocess.run(
+        ["hyprctl", "dispatch", f"hl.dsp.window.move({{workspace = \"{prop['id']}\"}})"],
         shell=False,
         encoding="utf-8",
         stdout=subprocess.PIPE,
