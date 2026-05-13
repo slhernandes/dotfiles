@@ -29,6 +29,7 @@ ModuleBlock {
     Tooltip {
       id: currentWindowNameTooltip
       parentItem: root
+      delay: 50
       Component {
         Rectangle {
           id: tooltipBox

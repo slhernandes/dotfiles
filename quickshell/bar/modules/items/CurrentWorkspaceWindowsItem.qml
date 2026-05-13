@@ -7,6 +7,7 @@ import qs
 MouseArea {
   id: root
   required property var modelData
+  property string title: modelData.title
 
   width: iconImage.implicitSize + 8
   height: iconImage.implicitSize + 8
@@ -24,6 +25,6 @@ MouseArea {
     implicitSize: Variables.iconSize
   }
   onClicked: function (event) {
-    Hyprland.dispatch(`focuswindow address:${root.modelData.address}`);
+    Hyprland.dispatch(`hl.dsp.focus({window = "address:${root.modelData.address}"})`);
   }
 }

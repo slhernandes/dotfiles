@@ -9,6 +9,7 @@ Scope {
   id: root
   required property Item parentItem
   default property Component tooltipContent
+  property int delay: 500
   signal activateTooltip
   signal deactivateTooltip
   LazyLoader {
@@ -39,7 +40,7 @@ Scope {
   }
   Timer {
     id: showTooltipTimer
-    interval: 500
+    interval: root.delay
     repeat: false
     running: false
     triggeredOnStart: false

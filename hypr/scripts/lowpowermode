@@ -9,10 +9,7 @@ icon_name=$XDG_CONFIG_HOME/hypr/icons/low-bat.png
 G14=0
 
 on() {
-  hyprctl keyword decoration:blur:enabled false
-  hyprctl keyword decoration:shadow:enabled false
-  hyprctl keyword animations:enabled false
-  hyprctl keyword misc:vfr true
+  hyprctl eval 'hl.config({ decoration = { blur = { enabled = false }, shadow = { enabled = false }}, animations = { enabled = false }, debug = { vfr = true }})'
   if [ $G14 -eq 1 ]; then
     asusctl anime -b Off
   fi
@@ -21,10 +18,7 @@ on() {
 }
 
 off() {
-  hyprctl keyword decoration:blur:enabled true
-  hyprctl keyword decoration:shadow:enabled true
-  hyprctl keyword animations:enabled true
-  hyprctl keyword misc:vfr false
+  hyprctl eval 'hl.config({ decoration = { blur = { enabled = true }, shadow = { enabled = true }}, animations = { enabled = true }, debug = { vfr = false }})'
   if [ $G14 -eq 1 ]; then
     asusctl anime -b Low
     asusctl anime gif -p $XDG_CONFIG_HOME/hypr/asus_anime/pikachu_running.gif -l 0 &

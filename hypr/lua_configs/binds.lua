@@ -1,5 +1,5 @@
 local terminal = "ghostty -e " .. os.getenv("HOME") .. "/.config/tmux/bin/tmux-start"
-local fileManager = "ghostty -e yazi"
+-- local fileManager = "ghostty -e yazi"
 local browser = "firefox -P default-release --setDefaultBrowser"
 local hyprDir = os.getenv("XDG_CONFIG_HOME") .. "/hypr"
 local scriptDir = hyprDir .. "/scripts"
@@ -20,10 +20,18 @@ hl.bind(mainMod .. "+ R", hl.dsp.exec_cmd(scriptDir .. "/restart_qs.sh"))
 hl.bind(mainMod .. "+ W", hl.dsp.exec_cmd(scriptDir .. "/change_wallpaper.sh"))
 hl.bind(mainMod .. "+ SHIFT + W", hl.dsp.exec_cmd(scriptDir .. "/change_theme.sh"))
 hl.bind(mainMod .. "+ P", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. "+ Return", hl.dsp.window.fullscreen({action = "toggle", mode = "maximized"}))
+-- hl.bind(mainMod .. "+ Return", hl.dsp.window.fullscreen({action = "toggle", mode = "maximized"}))
+hl.bind(mainMod .. "+ Return", function ()
+  local layout = hl.get_config("general.layout")
+  if layout == "monocle" then
+    hl.config({general = {layout = "master"}})
+  else
+    hl.config({general = {layout = "monocle"}})
+  end
+end)
 hl.bind(mainMod .. "+ SHIFT + Return", hl.dsp.window.fullscreen({action = "toggle", mode = "fullscreen"}))
 hl.bind(mainMod .. "+ C", hl.dsp.exec_cmd(scriptDir .. "/passmenu"))
-hl.bind(mainMod .. "+ SHIFT + C", hl.dsp.window.kill())
+hl.bind(mainMod .. "+ SHIFT + C", hl.dsp.window.close({}))
 hl.bind(mainMod .. "+ SHIFT + S", hl.dsp.window.float({action = "toggle"}))
 hl.bind(mainMod .. "+ SHIFT + Q", hl.dsp.exec_cmd("qs ipc call globalStates toggleControlCentre"))
 hl.bind(mainMod .. "+ SHIFT + P", hl.dsp.exec_cmd(scriptDir .. "/find_pdf"))
@@ -46,14 +54,26 @@ hl.bind(mainMod .. "+ left", hl.dsp.focus({direction = "l"}), {repeating = true}
 hl.bind(mainMod .. "+ right", hl.dsp.focus({direction = "r"}), {repeating = true})
 hl.bind(mainMod .. "+ up", hl.dsp.focus({direction = "u"}), {repeating = true})
 hl.bind(mainMod .. "+ down", hl.dsp.focus({direction = "d"}), {repeating = true})
-hl.bind(mainMod .. "+ SHIFT + right", hl.dsp.window.resize({x = 10, y = 0}), {repeating = true})
-hl.bind(mainMod .. "+ SHIFT + left", hl.dsp.window.resize({x = -10, y = 0}), {repeating = true})
-hl.bind(mainMod .. "+ SHIFT + up", hl.dsp.window.resize({x = 0, y = -10}), {repeating = true})
-hl.bind(mainMod .. "+ SHIFT + down", hl.dsp.window.resize({x = 0, y = 10}), {repeating = true})
-hl.bind(mainMod .. "+ k", hl.dsp.window.cycle_next({next = false}), {repeating = true})
-hl.bind(mainMod .. "+ j", hl.dsp.window.cycle_next({next = true}), {repeating = true})
-hl.bind(mainMod .. "+ SHIFT + k", hl.dsp.window.swap({prev = true}), {repeating = true})
-hl.bind(mainMod .. "+ SHIFT + j", hl.dsp.window.swap({next = true}), {repeating = true})
+hl.bind(mainMod .. "+ SHIFT + right", hl.dsp.window.move({direction = "r"}), {repeating = true})
+hl.bind(mainMod .. "+ SHIFT + left", hl.dsp.window.move({direction = "l"}), {repeating = true})
+hl.bind(mainMod .. "+ SHIFT + up", hl.dsp.window.move({direction = "u"}), {repeating = true})
+hl.bind(mainMod .. "+ SHIFT + down", hl.dsp.window.move({direction = "d"}), {repeating = true})
+hl.bind(mainMod .. "+ K", hl.dsp.layout("cycleprev"), {repeating = true})
+hl.bind(mainMod .. "+ J", hl.dsp.layout("cyclenext"), {repeating = true})
+hl.bind(mainMod .. "+ SHIFT + K", function ()
+  if hl.get_config("general.layout") == "master" then
+    hl.dispatch(hl.dsp.layout("rollnext"))
+  else
+    hl.dispatch(hl.dsp.no_op())
+  end
+end, {repeating = true})
+hl.bind(mainMod .. "+ SHIFT + J", function ()
+  if hl.get_config("general.layout") == "master" then
+    hl.dispatch(hl.dsp.layout("rollprev"))
+  else
+    hl.dispatch(hl.dsp.no_op())
+  end
+end, {repeating = true})
 
 -- Switch workspaces with mainMod + [0-9]
 hl.bind(mainMod .. "+ 1", hl.dsp.focus({workspace = "1"}))

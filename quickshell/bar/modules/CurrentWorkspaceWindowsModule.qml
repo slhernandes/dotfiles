@@ -10,6 +10,7 @@ import qs.bar.modules.items
 import qs.bar.widgets
 
 ModuleBlock {
+  id: root
   visible: !windowIcons.model?.length ? false : true
   RowLayout {
     id: windowRow
@@ -44,12 +45,14 @@ ModuleBlock {
             }
             temp = {
               icon: icon,
-              address: w.address
+              address: w.address,
+              title: w.title,
             };
           } else {
             temp = {
               icon: `file://${Variables.configDir}/icons/steam.png`,
-              address: w.address
+              address: w.address,
+              title: w.title,
             };
           }
           m.push(temp);
@@ -59,7 +62,49 @@ ModuleBlock {
 
       model: setModel()
       CurrentWorkspaceWindowsItem {
+        id: currentWorkspaceWindowsItem
         implicitHeight: parent.height
+        MouseArea {
+          anchors.fill: parent
+          hoverEnabled: true
+          propagateComposedEvents: true
+          onEntered: function () {
+            currentWorkspaceWindowTooltip.activateTooltip();
+          }
+          onExited: function () {
+            currentWorkspaceWindowTooltip.deactivateTooltip();
+          }
+        }
+        Tooltip {
+          id: currentWorkspaceWindowTooltip
+          parentItem: root
+          delay: 50
+          Component {
+            Rectangle {
+              id: tooltipBox
+              color: Theme.barBgColour
+              opacity: 0
+              radius: Variables.radius
+              border.width: Variables.borderWidth
+              border.color: Theme.borderColour
+              width: tooltipText.width
+              height: tooltipText.height
+              Text {
+                id: tooltipText
+                anchors.centerIn: parent
+                text: currentWorkspaceWindowsItem.title
+                font.pointSize: Variables.fontSizeTooltip
+                padding: Variables.paddingTooltip
+                color: Theme.tooltipColour
+              }
+              Behavior on opacity {
+                NumberAnimation {
+                  duration: 150
+                }
+              }
+            }
+          }
+        }
       }
 
       onWindowAdded: function (windowClass, windowAddress) {
