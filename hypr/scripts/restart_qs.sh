@@ -1,3 +1,0 @@
-#!/bin/dash
-
-qs -nd
