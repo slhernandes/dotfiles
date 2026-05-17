@@ -27,28 +27,38 @@ Item {
         id: audioInputRow
         width: icon.implicitWidth + content.width + 8
         spacing: 0
-        IconImage {
-          id: icon
-          implicitHeight: content.height
-          implicitWidth: content.height * 0.75
-          Layout.alignment: Qt.AlignRight
-          source: {
-            const default_sink = Pipewire.defaultAudioSink;
-            let icon_name = "volume_low.svg";
-            if (!!default_sink) {
-              if (default_sink?.audio.muted) {
-                icon_name = "volume_mute.svg";
-              } else {
-                if (default_sink?.audio.volume >= .5) {
-                  icon_name = "volume_high.svg";
-                } else if (default_sink.audio.volume == 0) {
-                  icon_name = "volume_mute.svg";
+        Rectangle {
+          id: iconRect
+          width: content.height * 0.76
+          height: content.height
+          color: "transparent"
+          Text {
+            id: icon
+            anchors.right: parent.right
+            height: parent.height
+            width: parent.width - 5
+            verticalAlignment: Text.AlignVCenter
+            text: {
+              const default_sink = Pipewire.defaultAudioSink;
+              let icon = "\uE04D"; // volume low
+              if (!!default_sink) {
+                if (default_sink?.audio.muted) {
+                  icon = "\uE04F"; // volume off
                 } else {
-                  icon_name = "volume_low.svg";
+                  if (default_sink?.audio.volume >= .5) {
+                    icon = "\uE050"; // volume high
+                  } else if (default_sink.audio.volume == 0) {
+                    icon = "\uE04F"; // volume off
+                  } else {
+                    icon = "\uE04D"; // volume low
+                  }
                 }
               }
+              return icon;
             }
-            return `file://${Variables.configDir}/icons/${icon_name}`;
+            font.pixelSize: Variables.fontSizeIcon
+            font.family: Variables.fontFamilyTextIcons
+            color: Theme.osdIconColor
           }
         }
         Text {

@@ -55,6 +55,11 @@ Singleton {
   property string notifTextCritical: theme.brightBlack
   property string notifTextNormal: theme.white
 
+  property string submapTextNormal: theme.white
+  property string submapTextOther: theme.yellow
+
+  property string osdIconColor: theme.white
+
   IpcHandler {
     target: "themeLoader"
     function getTheme(): string {

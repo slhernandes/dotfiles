@@ -93,35 +93,37 @@ Scope {
             rightMargin: 15
           }
 
-          IconImage {
-            implicitSize: 30
-            source: {
+          Text {
+            text: {
               if (root.isSink) {
                 const default_sink = Pipewire.defaultAudioSink;
-                let icon_name = "volume_low.svg";
+                let icon = "\uE04D"; // volume low
                 if (!!default_sink) {
                   if (default_sink?.audio.muted) {
-                    icon_name = "volume_mute.svg";
+                    icon = "\uE04F"; // volume off
                   } else {
                     if (default_sink?.audio.volume >= .5) {
-                      icon_name = "volume_high.svg";
+                      icon = "\uE050"; // volume high
                     } else if (default_sink.audio.volume == 0) {
-                      icon_name = "volume_mute.svg";
+                      icon = "\uE04F"; // volume off
                     } else {
-                      icon_name = "volume_low.svg";
+                      icon = "\uE04D"; // volume low
                     }
                   }
                 }
-                return `file://${Variables.configDir}/icons/${icon_name}`;
+                return icon;
               } else {
                 const default_source = Pipewire.defaultAudioSource;
-                let icon_name = "mic_on.png";
+                let icon = "\uE029";
                 if (default_source?.audio.muted) {
-                  icon_name = "mic_off.png";
+                  icon = "\uE02B";
                 }
-                return `file://${Variables.configDir}/icons/${icon_name}`;
+                return icon;
               }
             }
+            font.pixelSize: Variables.fontSizeIconL
+            font.family: Variables.fontFamilyTextIcons
+            color: Theme.osdIconColor
           }
 
           Rectangle {

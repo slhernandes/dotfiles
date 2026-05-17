@@ -61,17 +61,32 @@ Scope {
             rightMargin: 15
           }
 
-          IconImage {
-            implicitSize: 30
-            source: {
-              let icon = "brightness_low.png";
+          // IconImage {
+          //   implicitSize: 30
+          //   source: {
+          //     let icon = "brightness_low.png";
+          //     if (parseInt(root.brightness) > 66) {
+          //       icon = "brightness_high.png";
+          //     } else if (parseInt(root.brightness) > 33) {
+          //       icon = "brightness_mid.png";
+          //     }
+          //     return `file://${Variables.configDir}/icons/${icon}`;
+          //   }
+          // }
+
+          Text {
+            text: {
+              let icon = "\uE3A6";
               if (parseInt(root.brightness) > 66) {
-                icon = "brightness_high.png";
+                icon = "\uE3AC";
               } else if (parseInt(root.brightness) > 33) {
-                icon = "brightness_mid.png";
+                icon = "\uE3AA";
               }
-              return `file://${Variables.configDir}/icons/${icon}`;
+              return icon;
             }
+            font.pixelSize: Variables.fontSizeIconL
+            font.family: Variables.fontFamilyTextIcons
+            color: Theme.osdIconColor
           }
 
           Rectangle {

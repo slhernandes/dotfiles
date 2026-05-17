@@ -25,8 +25,8 @@ CCModuleBlock {
       MouseArea {
         id: audioOutputMouseArea
         hoverEnabled: true
-        implicitWidth: audioOutputIcon.implicitSize
-        implicitHeight: audioOutputIcon.implicitSize
+        implicitWidth: audioOutputIcon.width
+        implicitHeight: audioOutputIcon.height
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton
         Rectangle {
@@ -34,27 +34,33 @@ CCModuleBlock {
           anchors.centerIn: parent
           color: audioOutputMouseArea.containsMouse ? Theme.activeElement : "transparent"
           radius: 999
-          IconImage {
+          Text {
             id: audioOutputIcon
-            implicitSize: 0.15 * root.panelWidth
-            source: {
+            height: 0.15 * root.panelWidth
+            width: 0.15 * root.panelWidth
+            verticalAlignment: Text.AlignVCenter
+            anchors.centerIn: parent
+            text: {
               const default_sink = Pipewire.defaultAudioSink;
-              let icon_name = "volume_low.svg";
+              let icon = "\uE04D"; // volume low
               if (!!default_sink) {
                 if (default_sink?.audio.muted) {
-                  icon_name = "volume_mute.svg";
+                  icon = "\uE04F"; // volume off
                 } else {
                   if (default_sink?.audio.volume >= .5) {
-                    icon_name = "volume_high.svg";
+                    icon = "\uE050"; // volume high
                   } else if (default_sink.audio.volume == 0) {
-                    icon_name = "volume_mute.svg";
+                    icon = "\uE04F"; // volume off
                   } else {
-                    icon_name = "volume_low.svg";
+                    icon = "\uE04D"; // volume low
                   }
                 }
               }
-              return `file://${Variables.configDir}/icons/${icon_name}`;
+              return icon;
             }
+            font.pixelSize: Variables.fontSizeIconL
+            font.family: Variables.fontFamilyTextIcons
+            color: Theme.osdIconColor
           }
           Behavior on color {
             ColorAnimation {
@@ -104,25 +110,31 @@ CCModuleBlock {
       MouseArea {
         id: audioInputMouseArea
         hoverEnabled: true
-        implicitWidth: audioInputIcon.implicitSize
-        implicitHeight: audioInputIcon.implicitSize
+        implicitWidth: audioInputIcon.width
+        implicitHeight: audioInputIcon.height
         cursorShape: Qt.PointingHandCursor
         Rectangle {
           anchors.fill: parent
           anchors.centerIn: parent
           color: audioInputMouseArea.containsMouse ? Theme.activeElement : "transparent"
           radius: 999
-          IconImage {
+          Text {
             id: audioInputIcon
-            implicitSize: 0.15 * root.panelWidth
-            source: {
+            height: 0.15 * root.panelWidth
+            width: 0.15 * root.panelWidth
+            verticalAlignment: Text.AlignVCenter
+            anchors.centerIn: parent
+            text: {
               const default_source = Pipewire.defaultAudioSource;
-              let icon_name = "mic_on.png";
+              let icon = "\uE029";
               if (default_source?.audio.muted) {
-                icon_name = "mic_off.png";
+                icon = "\uE02B";
               }
-              return `file://${Variables.configDir}/icons/${icon_name}`;
+              return icon;
             }
+            font.pixelSize: Variables.fontSizeIconL
+            font.family: Variables.fontFamilyTextIcons
+            color: Theme.osdIconColor
           }
           Behavior on color {
             ColorAnimation {
