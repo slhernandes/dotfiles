@@ -20,6 +20,8 @@ else
   qs_dir="$XDG_CONFIG_HOME/quickshell"
 fi
 
+ghostty_dir="$HOME/dotfiles/ghostty"
+
 if [ ! -d "$swaync_dir" ] || [ -z "$swaync_dir" ]; then
   exit 1
 fi
@@ -38,14 +40,21 @@ if [ -n "$EMPTY_WIN" ]; then
   OFFSET="y-offset: -36px;"
 fi
 
+pref=$(qs ipc call wallpaper checkTime)
+wall=$(cat $XDG_CONFIG_HOME/hypr/.wallpaper)
+echo ${pref}_${wall}
+wal -i "$XDG_CONFIG_HOME/hypr/wallpapers/${pref}_${wall}.png" -n -q -s -t -e
 themes=$(ls ${qs_dir}/themes | cut -d "." -f 1)
 picked_theme=$(echo ${themes} | rofi -dmenu --only-match -l $(echo ${themes} | wc -l) -theme ${ROFI_THEME} -theme-str "window {width: 13%;${OFFSET}}")
 
 if [ -n "$picked_theme" ]; then
-  ln -sf ${swaync_dir}/themes/${picked_theme}/colors.css ${swaync_dir}/colors.css
-  qs ipc call themeLoader setTheme themes/${picked_theme}.qml
+  # ln -sf ${swaync_dir}/themes/${picked_theme}/colors.css ${swaync_dir}/colors.css
+  qs ipc call themeLoader setTheme ${picked_theme}.qml
+  echo ${picked_theme:l} > $hypr_dir/.theme
+  hyprctl eval "local helper = require(\"configs.helper\"); helper.changeTheme(\"${picked_theme:l}\")"
+  sed -i.bak "s|\(theme = \)\"\(.*\)\"|\\1\"${picked_theme}\"|" $ghostty_dir/config
+  killall -SIGUSR2 ghostty
   echo "${picked_theme}.qml" > ${qs_dir}/.current_theme
 else
   exit 1
 fi
-swaync-client -rs

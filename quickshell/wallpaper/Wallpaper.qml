@@ -14,6 +14,16 @@ Scope {
     function changeWallpaper(wallName: string) {
       currentWallpaper.wallName = wallName;
       image.y = wallpaper.screen.height;
+      runPywal.running = true;
+    }
+
+    function checkTime() {
+      const cur = Math.round(Date.now() / 1000);
+      const today = new Date();
+      const sunrise = parseInt(WeatherData.sunrise) || Math.round(today.setHours(6, 0, 0, 0) / 1000);
+      const sunset = parseInt(WeatherData.sunset) || Math.round(today.setHours(18, 0, 0, 0) / 1000);
+      const pref = cur < sunrise || cur > sunset ? "night" : "day";
+      return pref;
     }
 
     PersistentProperties {
@@ -58,13 +68,18 @@ Scope {
         wallpaper.changeWallpaper(wallName);
       }
       function changeWallpaperCheckTime(wallName: string) {
-        const cur = Math.round(Date.now() / 1000);
-        const today = new Date();
-        const sunrise = parseInt(WeatherData.sunrise) || Math.round(today.setHours(6, 0, 0, 0) / 1000);
-        const sunset = parseInt(WeatherData.sunset) || Math.round(today.setHours(18, 0, 0, 0) / 1000);
-        const pref = cur < sunrise || cur > sunset ? "night" : "day";
+        const pref = wallpaper.checkTime();
         wallpaper.changeWallpaper(`${pref}_${wallName}`);
       }
+      function checkTime(): string {
+        return wallpaper.checkTime();
+      }
+    }
+
+    Process {
+      id: runPywal
+      running: true
+      command: [`${Variables.configDir}/scripts/update_theme.sh`]
     }
 
     Timer {
@@ -74,12 +89,8 @@ Scope {
       triggeredOnStart: true
       interval: 60000
       onTriggered: function () {
-        const cur = Math.round(Date.now() / 1000);
-        const today = new Date();
-        const sunrise = parseInt(WeatherData.sunrise) || Math.round(today.setHours(6, 0, 0, 0) / 1000);
-        const sunset = parseInt(WeatherData.sunset) || Math.round(today.setHours(18, 0, 0, 0) / 1000);
+        const pref = wallpaper.checkTime();
         const wall = currentWallpaper.wallName.split("_");
-        const pref = cur < sunrise || cur > sunset ? "night" : "day";
         if (pref !== wall[0]) {
           wallpaper.changeWallpaper(`${pref}_${wall[1]}`);
         }

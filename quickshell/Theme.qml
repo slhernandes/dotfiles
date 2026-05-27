@@ -67,9 +67,11 @@ Singleton {
     }
     function setTheme(s: string): bool {
       const old_theme = themeLoader.source;
-      themeLoader.source = s + `?${Math.random()}`;
+      themeLoader.source = `themes/${s}?${Math.random()}`;
+      themeProp.currentThemeName = s;
       if (themeLoader.status === Loader.Null || themeLoader.status === Loader.Error) {
         themeLoader.source = old_theme;
+        themeProp.currentThemeName = old_theme;
         return false;
       }
       return true;

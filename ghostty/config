@@ -1,6 +1,4 @@
-# theme = gruber-darker
-theme = "TokyoNight Storm"
-# theme = "OsakaJade"
+theme = "Pywal"
 
 font-family = "Fira Code"
 font-family-italic = "JetBrains Mono NL"

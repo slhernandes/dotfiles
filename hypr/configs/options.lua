@@ -1,3 +1,5 @@
+local helper = require("configs.helper")
+local theme = require("themes." .. helper.getActiveTheme())
 hl.config({cursor = {no_hardware_cursors = 2, no_warps = false}})
 
 hl.config({
@@ -42,12 +44,14 @@ hl.config({
     border_size = 2,
     col = {
       active_border = {
-        colors = {"rgba(7aa2f7aa)", "rgba(8f80f7aa)"},
+        colors = {
+          helper.rgba(theme.colour.blue, "AA"),
+          helper.rgba(theme.colour.magenta, "AA")
+        },
         angle = 45
       },
-      inactive_border = "rgba(2e3c64aa)"
+      inactive_border = helper.rgba(theme.colour.background, "AA")
     },
-
     layout = "master",
     allow_tearing = true
   }
@@ -96,21 +100,30 @@ hl.config({
     merge_floated_into_tiled_on_groupbar = true,
     col = {
       border_active = {
-        colors = {"rgba(7aa2f7aa)", "rgba(8f80f7aa)"},
+        colors = {
+          helper.rgba(theme.colour.blue, "AA"),
+          helper.rgba(theme.colour.magenta, "AA")
+        },
         angle = 45
       },
-      border_inactive = "rgba(2e3c64aa)"
+      border_inactive = helper.rgba(theme.colour.background, "AA")
     },
     groupbar = {
       gradients = true,
       gradient_rounding = 5,
       gradient_rounding_power = 4.0,
-      gradient_round_only_edges = false,
-      height = 16,
+      gradient_round_only_edges = true,
+      gaps_in = 0,
+      gaps_out = 0,
+      keep_upper_gap = false,
+      height = 20,
       indicator_height = 0,
       font_size = 12,
-      text_color = "rgba(f8f8f2ff)",
-      col = {active = "rgba(7aa2f7ff)", inactive = "rgba(24283bff)"}
+      text_color = helper.rgba(theme.colour.foreground, "FF"),
+      col = {
+        active = helper.rgba(theme.colour.blue, "FF"),
+        inactive = helper.rgba(theme.colour.background, "FF")
+      }
     }
   }
 })

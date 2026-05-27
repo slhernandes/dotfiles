@@ -1,3 +1,4 @@
+local specialWs = require("configs.specialws")
 hl.window_rule({match = {class = "^(kitty)$"}, opacity = "0.95 0.8"})
 
 hl.window_rule({
@@ -18,7 +19,6 @@ hl.window_rule({
 })
 
 hl.window_rule({match = {class = "^(steam)$"}, workspace = "7 silent"})
-
 hl.window_rule({match = {title = "^(Friends List)$"}, float = true})
 
 hl.window_rule({match = {class = "^(steam_app_.*)$"}, fullscreen = true})
@@ -50,53 +50,38 @@ hl.window_rule({match = {class = "^(cs2)$"}, immediate = true, workspace = "8"})
 
 hl.window_rule({match = {class = "^(vesktop)$"}, workspace = "9"})
 
-hl.window_rule({match = {initial_title = "^(Discord Popout)$"}, float = true})
-
-hl.window_rule({match = {initial_title = "^(Discord Popout)$"}, pin = true})
-
 hl.window_rule({
   match = {initial_title = "^(Discord Popout)$"},
-  size = "<40% <40%"
-})
-
-hl.window_rule({
-  match = {initial_title = "^(Discord Popout)$"},
-  move = "onscreen 100%-w-5 100%-w-5"
+  float = true,
+  pin = true,
+  size = {"0.4*monitor_w", "0.4*monitor_h"},
+  move = {"0.6*monitor_w-5", "0.6*monitor_h-5"}
 })
 
 hl.window_rule({match = {class = "^(hyprland-share-picker)$"}, float = true})
 
-hl.window_rule({match = {title = "^(Picture-in-Picture)$"}, float = true})
-
-hl.window_rule({match = {title = "^(Picture-in-Picture)$"}, pin = true})
-
-hl.window_rule({match = {title = "^(Picture-in-Picture)$"}, size = "<35% <35%"})
-
 hl.window_rule({
   match = {title = "^(Picture-in-Picture)$"},
-  move = "onscreen 100%-w-5 100%-w-5"
+  float = true,
+  pin = true,
+  -- size = "<35% <35%",
+  move = {"monitor_w-window_w-5", "monitor_h-window_h-5"}
 })
-
-hl.window_rule({match = {title = "^(Bild-im-Bild)$"}, float = true})
-
-hl.window_rule({match = {title = "^(Bild-im-Bild)$"}, pin = true})
-
-hl.window_rule({match = {title = "^(Bild-im-Bild)$"}, size = "<35% <35%"})
 
 hl.window_rule({
   match = {title = "^(Bild-im-Bild)$"},
-  move = "onscreen 100%-w-5 100%-w-5"
+  float = true,
+  pin = true,
+  -- size = "<35% <35%",
+  move = {"monitor_w-window_w-5", "monitor_h-window_h-5"}
 })
-
-hl.window_rule({match = {title = "^(Waylyrics)$"}, float = true})
-
-hl.window_rule({match = {title = "^(Waylyrics)$"}, pin = true})
-
-hl.window_rule({match = {title = "^(Waylyrics)$"}, size = "500 120"})
 
 hl.window_rule({
   match = {title = "^(Waylyrics)$"},
-  move = "onscreen 100%-w-5 100%-w-5"
+  float = true,
+  pin = true,
+  size = "500 120",
+  move = {"monitor_w-window_w-5", "monitor_h-window_h-5"}
 })
 
 hl.window_rule({match = {class = "^(dragon-drop)$"}, pin = true})
@@ -104,6 +89,13 @@ hl.window_rule({match = {class = "^(dragon-drop)$"}, pin = true})
 hl.window_rule({match = {class = "^(Rofi)$"}, stay_focused = true})
 
 hl.window_rule({match = {class = ".*"}, suppress_event = "maximize"})
+
+for _, v in ipairs(specialWs.suffixes) do
+  hl.workspace_rule({
+    workspace = "name:special:" .. v.name,
+    gaps_out = {top = 4, left = 320, right = 335, bottom = 341}
+  })
+end
 
 hl.layer_rule({
   match = {namespace = "swaync-.*"},

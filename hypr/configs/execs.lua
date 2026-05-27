@@ -1,6 +1,7 @@
 local hyprDir = os.getenv("XDG_CONFIG_HOME") .. "/hypr"
 local scriptDir = hyprDir .. "/scripts"
 hl.on("hyprland.start", function()
+  hl.exec_cmd("hyprlauncher -d > /tmp/hyprlauncher.log")
   -- hl.exec_cmd("hyprpaper > /tmp/hyprpaper.log")
   -- hl.exec_cmd("$scriptDir/launch_waybar")
   hl.exec_cmd("qs -nd")

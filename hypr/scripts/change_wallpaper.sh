@@ -30,4 +30,5 @@ if [ -n "$NEW_WALL" ]; then
   # $SCRIPT_DIR/restart_waybar
   # swaync-client -rs
   qs ipc call wallpaper changeWallpaperCheckTime $NEW_WALL
+  hyprctl reload
 fi

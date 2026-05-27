@@ -120,6 +120,7 @@ Item {
   Tooltip {
     id: audioTooltip
     parentItem: audioOutputBox
+    delay: 50
     Component {
       Rectangle {
         id: audioTooltipBox

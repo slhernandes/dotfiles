@@ -1,4 +1,5 @@
-module = {}
+local theme = require("themes.tokyonightstorm")
+local module = {}
 
 ---@param direction string
 ---@param debug     boolean
@@ -34,12 +35,18 @@ module.moveWindow = function(direction, debug)
   end
 end
 
----@param app { name: string, key: string, cmd: string }
+---@param app { name: string, key: string, layout: string, cmd: string }
 ---@return function namedSp A function that toggles the dropdown app of choice
 module.namedSp = function(app)
   return function()
     local specialWs = hl.get_workspace("name:special:" .. app.name)
     if specialWs == nil then
+      if app.layout ~= nil then
+        hl.workspace_rule({
+          workspace = "special:" .. app.name,
+          layout = app.layout
+        })
+      end
       hl.exec_cmd(app.cmd, {
         workspace = "special:" .. app.name,
         focus_on_activate = true
@@ -118,7 +125,7 @@ module.volume = function(io, operation)
   hl.notification.create({
     text = "Unreachable!:module.volume",
     duration = 3000,
-    color = "rgba(ff0000ff)"
+    color = module.rgb(theme.color.red)
   })
   return hl.dispatch(hl.dsp.no_op())
 end
@@ -164,7 +171,7 @@ module.masterTabbedToggle = function()
           hl.notification({
             text = "Unreachable!:module.masterTabbedToggle",
             duration = 3000,
-            color = "rgba(ff0000ff)"
+            color = module.rgb(theme.colour.red)
           })
         end
         for _, t in ipairs(tags) do
@@ -182,12 +189,12 @@ module.masterTabbedToggle = function()
   end
 end
 
----@param next boolean
+---@param dl boolean cycle to down/left if true, else cycle to up/right
 ---@return function cycleWindow A function then cycles the window focus respecting the masterTabbed layout and floating window
-module.cycleWindow = function(next)
+module.cycleWindow = function(dl)
   return function()
     local direction
-    if next then
+    if dl then
       direction = "next"
     else
       direction = "prev"
@@ -195,12 +202,12 @@ module.cycleWindow = function(next)
     local activeWindow = hl.get_active_window()
     if activeWindow == nil then return end
     if activeWindow.floating then
-      hl.dispatch(hl.dsp.window.cycle_next({next = next, floating = true}))
+      hl.dispatch(hl.dsp.window.cycle_next({next = dl, floating = true}))
     elseif activeWindow.group ~= nil then
-      if next then
-        hl.dispatch(hl.dsp.group.next())
-      else
+      if dl then
         hl.dispatch(hl.dsp.group.prev())
+      else
+        hl.dispatch(hl.dsp.group.next())
       end
     else
       hl.dispatch(hl.dsp.layout("cycle" .. direction))
@@ -237,7 +244,7 @@ module.swapWindow = function(next)
       hl.notification.create({
         text = "Unreachable!:module.swapWindow",
         duration = 3000,
-        color = "rgba(ff0000ff)"
+        color = module.rgb(theme.colour.red)
       })
     end
   end
@@ -273,7 +280,7 @@ module.toggleFloat = function()
       hl.notification.create({
         text = "Unreachable!:module.toggleFloat",
         duration = 3000,
-        color = "rgba(ff0000ff)"
+        color = module.rgb(theme.colour.red)
       })
     end
   end
@@ -290,6 +297,86 @@ module.toggleFocusFloating = function()
       hl.dispatch(hl.dsp.focus({window = "floating"}))
     end
   end
+end
+
+---@return function launcher A function that invokes the app launcher
+module.launcher = function()
+  return function()
+    local currentSpecial = hl.get_active_special_workspace()
+    local currentWorkspace = hl.get_active_workspace()
+    local count = -1
+    if currentSpecial ~= nil then
+      count = currentSpecial.windows or 0
+    elseif currentWorkspace ~= nil then
+      count = currentWorkspace.windows or 0
+    end
+    if count == 0 then
+      hl.dispatch(hl.dsp.exec_cmd(
+                      "rofi -show drun -theme-str \"window { y-offset: -36px; }\""))
+    else
+      hl.dispatch(hl.dsp.exec_cmd("rofi -show drun"))
+    end
+  end
+end
+
+---@param rgb string rgb value of a colour (rrggbb)
+---@return string colour The colour in hyprland rgb format
+module.rgb = function(rgb)
+  if rgb:sub(1, 1) == "#" then return "rgb(" .. rgb:sub(2) .. ")" end
+  return "rgb(" .. rgb .. ")"
+end
+
+---@param rgb string rgb value of a colour (rrggbb)
+---@param a string opacity value (aa)
+---@return string colour The colour in hyprland rbga format
+module.rgba = function(rgb, a)
+  if rgb:sub(1, 1) == "#" then return "rgba(" .. rgb:sub(2) .. a .. ")" end
+  return "rgba(" .. rgb .. a .. ")"
+end
+
+---@param themeName string
+module.changeTheme = function(themeName)
+  local newTheme = require("themes." .. themeName)
+  hl.config({
+    group = {
+      col = {
+        border_active = {
+          colors = {
+            module.rgba("0000FF", "AA"),
+            -- module.rgba(newTheme.colour.blue, "AA"),
+            module.rgba(newTheme.colour.magenta, "AA")
+          }
+        },
+        border_inactive = module.rgba(newTheme.colour.background, "AA")
+      },
+      groupbar = {
+        text_color = module.rgba(newTheme.colour.foreground, "FF"),
+        col = {
+          active = module.rgba(newTheme.colour.blue, "FF"),
+          inactive = module.rgba(newTheme.colour.background, "FF")
+        }
+      }
+    },
+    general = {
+      col = {
+        active_border = {
+          colors = {
+            module.rgba(newTheme.colour.blue, "AA"),
+            module.rgba(newTheme.colour.magenta, "AA")
+          }
+        },
+        inactive_border = module.rgba(newTheme.colour.background, "AA")
+      }
+    }
+  })
+end
+
+---@return theme_name string theme name (from themes/*.lua)
+module.getActiveTheme = function()
+  local hypr_dir = os.getenv("XDG_CONFIG_HOME") .. "/hypr"
+  local theme = io.open(hypr_dir .. "/.theme")
+  if theme ~= nil then return theme:read("*l") or "toykonightstorm" end
+  return "tokyonightstorm" -- Default theme
 end
 
 return module

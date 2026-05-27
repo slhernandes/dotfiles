@@ -102,13 +102,18 @@ Item {
                 ret = ret.replace(i, matches[idx]);
               }
             }
-            if (re.clip !== undefined && ret.length > re.clip) {
-              ret = ret.slice(0, parseInt(re.clip) - 1) + "…";
+            let clip = re.clip || 30;
+            if (ret.length > clip) {
+              ret = ret.slice(0, parseInt(clip) - 1) + "…";
             }
             return ret;
           }
         }
-        return winName;
+        let clip = 30;
+        if (winName.length > clip) {
+          ret = winName.slice(0, parseInt(clip) - 1) + "…";
+        }
+        return ret;
       }
       color: Theme.windowTitleColour
     }

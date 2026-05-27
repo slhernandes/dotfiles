@@ -45,8 +45,7 @@ Scope {
 
         LogoModule {}
         WorkspacesModule {}
-        // CurrentWorkspaceWindowsModule {}
-        SubmapBlockModule {}
+        CurrentWorkspaceWindowsModule {}
       }
       RowLayout {
         id: centerBlocks
@@ -70,6 +69,7 @@ Scope {
         }
 
         SystemTrayModule {}
+        SubmapBlockModule {}
         UtilityModule {}
         InfoBlockModule {}
       }
