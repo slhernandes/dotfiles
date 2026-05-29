@@ -38,8 +38,8 @@
     # Positive y value is measured from the top of the screen
     # geometry = "300x5+20+20"
     width = (300,400)
-    height = 100
-    offset = 4x4
+    height = (0, 100)
+    offset = (4, 4)
     origin = top-right
     notification_limit = 5
 

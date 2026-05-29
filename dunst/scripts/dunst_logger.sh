@@ -24,16 +24,16 @@ timestamp=$(date +"%I:%M %p")
 
 # Rules for notifs that send their icons over the wire (w/o an actual path)
 if [[ "$crunch_appname" == "Spotify" ]]; then
-    random_name=$(mktemp --suffix ".png")
-    artlink=$(playerctl metadata mpris:artUrl | sed -e 's/open.spotify.com/i.scdn.co/g')
-    curl -s "$artlink" -o "$random_name"
-    crunch_icon=$random_name
+  random_name=$(mktemp --suffix ".png")
+  artlink=$(playerctl metadata mpris:artUrl | sed -e 's/open.spotify.com/i.scdn.co/g')
+  curl -s "$artlink" -o "$random_name"
+  crunch_icon=$random_name
 elif [[ "$crunch_appname" == "VLC media player" ]]; then
-    crunch_icon="vlc"
+  crunch_icon="vlc"
 elif [[ "$crunch_appname" == "Calendar" ]] || [[ "$crunch_appname" == "Volume" ]] || [[ "$crunch_appname" == "Brightness" ]] || [[ "$crunch_appname" == "notify-send" ]]; then
-    exit 0
+  exit 0
 fi
 
-echo -en "$timestamp\n$crunch_urgency\n$crunch_icon\n$crunch_body\n$crunch_summary\n$crunch_appname\n" >>/tmp/dunstlog
+echo -en "$timestamp\n$crunch_urgency\n$crunch_icon\n$crunch_body\n$crunch_summary\n$crunch_appname\n" >> /tmp/dunstlog
 
 #echo -en "$crunch_appname\n$crunch_summary\n$crunch_body\n$crunch_icon\n$crunch_urgency\x0f" >> /tmp/dunstlog

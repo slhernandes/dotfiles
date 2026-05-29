@@ -60,21 +60,33 @@ Singleton {
 
   property string osdIconColor: theme.white
 
+  function setTheme(s: string): bool {
+    const old_theme = themeLoader.source;
+    themeLoader.source = `themes/${s}?${Math.random()}`;
+    themeProp.currentThemeName = s;
+    if (themeLoader.status === Loader.Null || themeLoader.status === Loader.Error) {
+      themeLoader.source = old_theme;
+      themeProp.currentThemeName = old_theme;
+      return false;
+    }
+    return true;
+  }
+
   IpcHandler {
     target: "themeLoader"
     function getTheme(): string {
       return themeLoader.source;
     }
     function setTheme(s: string): bool {
-      const old_theme = themeLoader.source;
-      themeLoader.source = `themes/${s}?${Math.random()}`;
-      themeProp.currentThemeName = s;
-      if (themeLoader.status === Loader.Null || themeLoader.status === Loader.Error) {
-        themeLoader.source = old_theme;
-        themeProp.currentThemeName = old_theme;
-        return false;
-      }
-      return true;
+      return root.setTheme(s);
+    }
+  }
+
+  FileView {
+    path: Quickshell.shellDir + "/.current_theme"
+    onLoaded: {
+      themeProp.currentThemeName = text().trim();
+      root.setTheme(themeProp.currentThemeName);
     }
   }
 }

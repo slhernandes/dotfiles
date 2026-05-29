@@ -78,7 +78,7 @@ Scope {
 
     Process {
       id: runPywal
-      running: true
+      running: false
       command: [`${Variables.configDir}/scripts/update_theme.sh`]
     }
 

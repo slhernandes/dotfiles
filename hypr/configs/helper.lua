@@ -371,7 +371,7 @@ module.changeTheme = function(themeName)
   })
 end
 
----@return theme_name string theme name (from themes/*.lua)
+---@return string theme_name theme name (from themes/*.lua)
 module.getActiveTheme = function()
   local hypr_dir = os.getenv("XDG_CONFIG_HOME") .. "/hypr"
   local theme = io.open(hypr_dir .. "/.theme")

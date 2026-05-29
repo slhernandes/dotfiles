@@ -43,7 +43,7 @@ fi
 pref=$(qs ipc call wallpaper checkTime)
 wall=$(cat $XDG_CONFIG_HOME/hypr/.wallpaper)
 echo ${pref}_${wall}
-wal -i "$XDG_CONFIG_HOME/hypr/wallpapers/${pref}_${wall}.png" -n -q -s -t -e
+wal --backend colorz -i "$XDG_CONFIG_HOME/hypr/wallpapers/${pref}_${wall}.png" -n -q -s -t -e
 themes=$(ls ${qs_dir}/themes | cut -d "." -f 1)
 picked_theme=$(echo ${themes} | rofi -dmenu --only-match -l $(echo ${themes} | wc -l) -theme ${ROFI_THEME} -theme-str "window {width: 13%;${OFFSET}}")
 
