@@ -1,8 +1,10 @@
 # primary
 background = #24283b
-foreground = #f8f8f2
+foreground = #c0caf5
 cursor-color = #c0caf5
-cursor-text = #000000
+cursor-text = #1d202f
+selection-background = #364a82
+selection-foreground = #c0caf5
 
 # normal colors
 palette = 0=#1d202f

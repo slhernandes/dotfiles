@@ -2,7 +2,9 @@
 background = #24273a
 foreground = #cad3f5
 cursor-color = #f4dbd6
-cursor-text = #000000
+cursor-text = #24273a
+selection-background = #5b6078
+selection-foreground = #cad3f5
 
 # normal colors
 palette = 0=#494d64
@@ -23,4 +25,3 @@ palette = 12=#8aadf4
 palette = 13=#f5bde6
 palette = 14=#8bd5ca
 palette = 15=#a5adcb
-
