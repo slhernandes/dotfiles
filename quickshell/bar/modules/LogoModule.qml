@@ -14,12 +14,11 @@ ModuleBlock {
     Text {
       id: logoText
       anchors.centerIn: parent
-      horizontalAlignment: Text.AlignHCenter
-      verticalAlignment: Text.AlignVCenter
       padding: 12
       text: ""
       color: Theme.logoColour
-      font.pixelSize: Variables.fontSizeLogo
+      font.pointSize: Variables.fontSizeLogo
+      font.family: Variables.fontFamilyLogo
     }
 
     Process {

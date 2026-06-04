@@ -10,9 +10,11 @@ Singleton {
   property string fontFamilyText: "Noto Sans Mono"
   property string fontFamilyTextCC: "Noto Sans CJK"
   property string fontFamilyTextIcons: "Material Symbols Sharp"
-  // property string fontFamilyText: "FiraCode Nerd Font Mono"
-  property real fontSizeLogo: 24
-  property real fontSizeWorkspaceIcon: 24
+  property string fontFamilyLogo: "FiraCode Nerd Font Mono"
+  property string fontFamilyWorkspaceIcon: "FiraCode Nerd Font Mono"
+
+  property real fontSizeLogo: 18
+  property real fontSizeWorkspaceIcon: 18
   property real fontSizeText: 13
   property real fontSizeSmall: 9.5
 

@@ -20,13 +20,12 @@ Item {
   Text {
     id: workspaceText
 
-    // verticalAlignment: Text.AlignBottom
     anchors.centerIn: parent
-    bottomPadding: 10
     padding: this.text.length > 0 ? 8 : 0
     text: root.modelData >= 0 ? root.workspaceNames[root.modelData] : ""
     color: mouseArea.containsMouse ? Theme.workspaceHovered : HyprlandUtils.getWorkspaceColour(root.modelData)
-    font.pixelSize: Variables.fontSizeWorkspaceIcon
+    font.pointSize: Variables.fontSizeWorkspaceIcon
+    font.family: Variables.fontFamilyWorkspaceIcon
 
     Behavior on color {
       ColorAnimation {
