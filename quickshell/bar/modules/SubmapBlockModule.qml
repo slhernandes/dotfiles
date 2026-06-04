@@ -42,7 +42,12 @@ ModuleBlock {
           Text {
             id: tooltipText
             anchors.centerIn: parent
-            text: submapItem.submap
+            text: {
+              if (submapItem.submap == "PASSTHROUGH") {
+                return submapItem.submap + " (SUPER+ESCAPE to exit)";
+              }
+              return submapItem.submap;
+            }
             font.pointSize: Variables.fontSizeTooltip
             padding: Variables.paddingTooltip
             color: Theme.tooltipColour

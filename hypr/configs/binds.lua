@@ -4,9 +4,11 @@ local terminal = "ghostty -e " .. os.getenv("HOME") ..
                      "/.config/tmux/bin/tmux-start"
 -- local fileManager = "ghostty -e yazi"
 local browser = "firefox -P default-release --setDefaultBrowser"
-local hyprDir = os.getenv("XDG_CONFIG_HOME") .. "/hypr"
+local configDir = os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") ..
+                      "/.config"
+local hyprDir = configDir .. "/hypr"
 local scriptDir = hyprDir .. "/scripts"
-local menu = scriptDir .. "/drun.sh"
+-- local menu = scriptDir .. "/drun.sh"
 local mainMod = "SUPER "
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/
@@ -184,6 +186,12 @@ hl.define_submap("DROPDOWN", "reset", function()
   hl.bind("catchall", hl.dsp.submap("reset"))
 end)
 --------------------
+-------------------
+-- Submap passthrough
+hl.bind(mainMod .. "+ F10", hl.dsp.submap("PASSTHROUGH"))
+hl.define_submap("PASSTHROUGH", function()
+  hl.bind(mainMod .. "+ escape", hl.dsp.submap("reset"))
+end)
 
 -- Global Shortcuts
 hl.bind(mainMod .. "+ ALT + M", hl.dsp.send_shortcut({

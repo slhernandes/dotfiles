@@ -20,6 +20,12 @@
 git clone https://github.com/slhernandes/dotfiles.git --depth=1
 ```
 
+## Dependencies
+### Hyprland & Quickshell
+```sh
+sudo pacman -S hyprland rofi quickshell ttf-material-symbols-variable tmux
+```
+
 ## Usage
 
 To use the config, either manually copy/link the files one by one to \$XDG_CONFIG_HOME or \$HOME/.config,
@@ -54,7 +60,7 @@ or use the ```deploy.sh``` script.
 
 #### Usage
 ```console
- ./deploy.sh [-y|--noconfirm|-h|--help|-r|--replace] <manifest_file> [target_dir]
+ ./deploy.sh [-y|--noconfirm|-h|--help|-r|--replace|-u|--update] <manifest_file> [target_dir]
      -h / --help      : show this message
      -r / --replace   : do not skip when config exists in target_dir
      -u / --update    : Sync the plugins

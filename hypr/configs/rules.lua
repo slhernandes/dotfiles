@@ -1,4 +1,16 @@
 local specialWs = require("configs.specialws")
+hl.window_rule({
+  match = {modal = true},
+  float = true,
+  move = {"(monitor_w-window_w)/2", "(monitor_h-window_h)/2"}
+})
+
+hl.window_rule({
+  match = {class = "^(zenity)$"},
+  float = true,
+  move = {"(monitor_w-window_w)/2", "(monitor_h-window_h)/2"}
+})
+
 hl.window_rule({match = {class = "^(kitty)$"}, opacity = "0.95 0.8"})
 
 hl.window_rule({

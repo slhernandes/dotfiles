@@ -185,24 +185,28 @@ CCModuleBlock {
     const sink = Pipewire.defaultAudioSink;
     if (!!sink) {
       sink.audio.volume += 0.01;
+      sink.audio.volume = Math.min(sink.audio.volume, 1.0);
     }
   }
   onVolumeSinkDown: function () {
     const sink = Pipewire.defaultAudioSink;
     if (!!sink) {
       sink.audio.volume -= 0.01;
+      sink.audio.volume = Math.max(sink.audio.volume, 0);
     }
   }
   onVolumeSourceUp: function () {
     const source = Pipewire.defaultAudioSource;
     if (!!source) {
       source.audio.volume += 0.01;
+      source.audio.volume = Math.min(source.audio.volume, 1.0);
     }
   }
   onVolumeSourceDown: function () {
     const source = Pipewire.defaultAudioSource;
     if (!!source) {
       source.audio.volume -= 0.01;
+      source.audio.volume = Math.max(source.audio.volume, 0);
     }
   }
   onToggleMuteSink: function () {

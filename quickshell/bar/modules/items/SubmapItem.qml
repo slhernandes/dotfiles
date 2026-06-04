@@ -17,6 +17,8 @@ Item {
         return "\uF707";
       } else if (root.submap == "DROPDOWN") {
         return "\uF732";
+      } else if (root.submap == "PASSTHROUGH") {
+        return "\uF492";
       }
     }
     height: root.height

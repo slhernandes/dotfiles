@@ -373,9 +373,11 @@ end
 
 ---@return string theme_name theme name (from themes/*.lua)
 module.getActiveTheme = function()
-  local hypr_dir = os.getenv("XDG_CONFIG_HOME") .. "/hypr"
-  local theme = io.open(hypr_dir .. "/.theme")
-  if theme ~= nil then return theme:read("*l") or "toykonightstorm" end
+  local configDir = os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") ..
+                        "/.config"
+  local hyprDir = configDir .. "/hypr"
+  local themeFile = io.open(hyprDir .. "/.theme")
+  if themeFile ~= nil then return themeFile:read("*l") or "toykonightstorm" end
   return "tokyonightstorm" -- Default theme
 end
 

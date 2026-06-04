@@ -1,0 +1,4 @@
+*.manifest
+!linux.manifest
+!macos.manifest
+!test.manifest

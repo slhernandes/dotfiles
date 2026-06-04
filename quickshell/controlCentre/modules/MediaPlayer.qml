@@ -130,12 +130,51 @@ CCModuleBlock {
       implicitWidth: root.boxSize
       implicitHeight: root.boxSize
       color: "transparent"
-      IconImage {
-        implicitSize: root.boxSize
+      Image {
+        id: trackArtImage
+        width: root.boxSize
+        height: root.boxSize
+        cache: false
+        sourceSize.width: {
+          if (trackArtImage.source.toString().split("/").pop().substr(0, 8) === "artwork_") {
+            return 1280;
+          }
+          return root.boxSize;
+        }
+        sourceSize.height: {
+          if (trackArtImage.source.toString().split("/").pop().substr(0, 8) === "artwork_") {
+            return 720;
+          }
+          return root.boxSize;
+        }
+        sourceClipRect: {
+          if (trackArtImage.source.toString().split("/").pop().substr(0, 8) === "artwork_") {
+            return Qt.rect(280, 0, 720, 720);
+          }
+          return Qt.rect(0, 0, root.boxSize, root.boxSize);
+        }
+        property string title: root.players[root.idx].trackTitle
+        function changeArt(s: string): string {
+          const defaultArt = `file://${Variables.configDir}/icons/hakase_no_img.png`;
+          if (s === "source") {
+            const player = root.players[root.idx];
+            if (player === null) {
+              return defaultArt;
+            }
+            return player.trackArtUrl || defaultArt;
+          }
+          return defaultArt;
+        }
         Layout.fillHeight: true
-        source: {
-          const trackArtUrl = root.players[root.idx]?.trackArtUrl;
-          return trackArtUrl || `file://${Variables.configDir}/icons/hakase_no_img.png`;
+        source: trackArtImage.changeArt("source")
+        onStatusChanged: () => {
+          if (trackArtImage.status === Image.Error) {
+            trackArtImage.source = trackArtImage.changeArt("status");
+          }
+        }
+        onTitleChanged: () => {
+          trackArtImage.source = "";
+          trackArtImage.source = trackArtImage.changeArt("source");
         }
       }
     }

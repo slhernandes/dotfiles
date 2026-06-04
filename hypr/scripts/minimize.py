@@ -84,8 +84,8 @@ def initiate_argparse():
 
 
 def minimize():
-    icons_dir = (os.getenv("XDG_CONFIG_HOME") + "/hypr/icons")\
-        or (os.getenv("HOME") + ".config/hypr/icons")
+    config_dir = os.getenv("XDG_CONFIG_HOME") or (os.getenv("HOME") + "/.config")
+    icons_dir = config_dir + "/hypr/icons"
     screenshot_dir = "/tmp/minimize"
     if not os.path.isdir(screenshot_dir):
         os.mkdir(screenshot_dir)
@@ -137,8 +137,8 @@ def restore(address):
 
 
 def restorerofi():
-    icons_dir = (os.getenv("XDG_CONFIG_HOME") + "/hypr/icons")\
-        or (os.getenv("HOME") + ".config/hypr/icons")
+    config_dir = os.getenv("XDG_CONFIG_HOME") or (os.getenv("HOME") + "/.config")
+    icons_dir = config_dir + "/hypr/icons"
     screenshot_dir = "/tmp/minimize"
     fallback_thumbnail = f"{icons_dir}/hakase_no_img.jpg"
     minimized_wins = json.loads(subprocess.run(
