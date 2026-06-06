@@ -75,6 +75,10 @@ hl.bind(mainMod .. "+ J", helper.cycleWindow(true), {repeating = true})
 hl.bind(mainMod .. "+ K", helper.cycleWindow(false), {repeating = true})
 hl.bind(mainMod .. "+ SHIFT + J", helper.swapWindow(true))
 hl.bind(mainMod .. "+ SHIFT + K", helper.swapWindow(false))
+hl.bind(mainMod .. "+ ALT + J", helper.moveView(true))
+hl.bind(mainMod .. "+ ALT + K", helper.moveView(false))
+hl.bind(mainMod .. "+ ALT + H", helper.moveView(true))
+hl.bind(mainMod .. "+ ALT + L", helper.moveView(false))
 hl.bind(mainMod .. "+ ALT + S", helper.toggleFocusFloating())
 
 --------------------
@@ -82,30 +86,18 @@ hl.bind(mainMod .. "+ ALT + S", helper.toggleFocusFloating())
 hl.bind(mainMod .. "+ R", hl.dsp.submap("RESIZE"))
 
 hl.define_submap("RESIZE", function()
-  hl.bind("right", hl.dsp.window.move({x = 10, y = 0, relative = true}),
-          {repeating = true})
-  hl.bind("left", hl.dsp.window.move({x = -10, y = 0, relative = true}),
-          {repeating = true})
-  hl.bind("up", hl.dsp.window.move({x = 0, y = -10, relative = true}),
-          {repeating = true})
-  hl.bind("down", hl.dsp.window.move({x = 0, y = 10, relative = true}),
-          {repeating = true})
-  hl.bind("L", hl.dsp.window.move({x = 10, y = 0, relative = true}),
-          {repeating = true})
-  hl.bind("H", hl.dsp.window.move({x = -10, y = 0, relative = true}),
-          {repeating = true})
-  hl.bind("K", hl.dsp.window.move({x = 0, y = -10, relative = true}),
-          {repeating = true})
-  hl.bind("J", hl.dsp.window.move({x = 0, y = 10, relative = true}),
-          {repeating = true})
-  hl.bind("SHIFT + L", hl.dsp.window.resize({x = 10, y = 0, relative = true}),
-          {repeating = true})
-  hl.bind("SHIFT + H", hl.dsp.window.resize({x = -10, y = 0, relative = true}),
-          {repeating = true})
-  hl.bind("SHIFT + K", hl.dsp.window.resize({x = 0, y = 10, relative = true}),
-          {repeating = true})
-  hl.bind("SHIFT + J", hl.dsp.window.resize({x = 0, y = -10, relative = true}),
-          {repeating = true})
+  local conf = {
+    {key = {"right", "L"}, opt = {x = 10, y = 0, relative = true}},
+    {key = {"left", "H"}, opt = {x = -10, y = 0, relative = true}},
+    {key = {"up", "K"}, opt = {x = 0, y = -10, relative = true}},
+    {key = {"down", "J"}, opt = {x = 0, y = 10, relative = true}}
+  }
+  for _, v in ipairs(conf) do
+    for _, k in ipairs(v.key) do
+      hl.bind(k, hl.dsp.window.move(v.opt), {repeating = true})
+      hl.bind("SHIFT + " .. k, hl.dsp.window.resize(v.opt), {repeating = true})
+    end
+  end
   hl.bind("escape", hl.dsp.submap("reset"))
 end)
 --------------------

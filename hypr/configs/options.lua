@@ -70,7 +70,14 @@ hl.config({
   }
 })
 
-hl.config({master = {mfact = 0.5}})
+hl.config({
+  master = {mfact = 0.5},
+  scrolling = {
+    wrap_focus = false,
+    explicit_column_widths = "0.5, 1.0",
+    follow_focus = false
+  }
+})
 
 hl.config({
   gestures = {

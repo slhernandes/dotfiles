@@ -1,6 +1,14 @@
-local shaderPath = os.getenv("HOME") .. "/.config/ghostty/shaders/retro.glsl"
+local configDir = os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") ..
+                      "/.config"
+local shaderPath = configDir .. "/ghostty/shaders/retro.glsl"
 local term = "ghostty --custom-shader=" .. shaderPath .. " -e "
 local module = {}
+hl.on("window.open", function(w)
+  local activeWindow = hl.get_active_window()
+  if activeWindow == nil then
+    hl.dispatch(hl.dsp.focus({window = "address:" .. w.address}))
+  end
+end)
 module.suffixes = {
   {name = "magic", key = nil, cmd = nil},
   {name = "btop", key = "B", cmd = term .. "btop"},
@@ -8,11 +16,7 @@ module.suffixes = {
   {name = "wezterm", key = "T", cmd = "wezterm start --class=wezterm_sp"},
   {name = "yazi", key = "R", cmd = term .. "yazi"},
   {name = "ferdium", key = "Y", cmd = "ferdium"},
-  {name = "ncmpcpp", key = "N", cmd = term .. "ncmpcpp"}, {
-    name = "wireless",
-    key = "W",
-    layout = "monocle",
-    cmd = term .. "bluetuith &\n" .. term .. "nmtui"
-  }
+  {name = "ncmpcpp", key = "N", cmd = term .. "ncmpcpp"},
+  {name = "wireless", key = "W", cmd = {term .. "bluetuith", term .. "nmtui"}}
 }
 return module

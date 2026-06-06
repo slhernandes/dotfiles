@@ -109,6 +109,10 @@ for _, v in ipairs(specialWs.suffixes) do
   })
 end
 
+for i = 2, 5 do
+  hl.workspace_rule({workspace = tostring(i), layout = "scrolling"})
+end
+
 hl.layer_rule({
   match = {namespace = "swaync-.*"},
   blur = true,

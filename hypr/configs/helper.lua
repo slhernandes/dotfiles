@@ -35,7 +35,7 @@ module.moveWindow = function(direction, debug)
   end
 end
 
----@param app { name: string, key: string, layout: string, cmd: string }
+---@param app { name: string, key: string, layout: string, cmd: string | table }
 ---@return function namedSp A function that toggles the dropdown app of choice
 module.namedSp = function(app)
   return function()
@@ -47,10 +47,26 @@ module.namedSp = function(app)
           layout = app.layout
         })
       end
-      hl.exec_cmd(app.cmd, {
-        workspace = "special:" .. app.name,
-        focus_on_activate = true
-      })
+      if type(app.cmd) == "string" then
+        hl.exec_cmd(app.cmd, {
+          workspace = "special:" .. app.name,
+          focus_on_activate = true
+        })
+      elseif type(app.cmd) == "table" then
+        for _, cmd in ipairs(app.cmd) do
+          hl.exec_cmd(cmd, {
+            workspace = "special:" .. app.name,
+            group = "set",
+            tag = "+" .. app.name
+          })
+        end
+      else
+        hl.notification.create({
+          text = "Unreachable!:module.namedSp",
+          duration = 3000,
+          color = module.rgb(theme.color.red)
+        })
+      end
     else
       hl.dispatch(hl.dsp.workspace.toggle_special(app.name))
     end
@@ -134,39 +150,86 @@ end
 module.masterTabbedToggle = function()
   return function()
     if hl.get_active_special_workspace() ~= nil then return end
-    local workspace = hl.get_active_workspace()
-    if workspace == nil or workspace.windows == 0 then return end
-    if workspace.groups == 0 then
-      local activeWindow = workspace.last_window.address
-      local orientation = hl.get_config("master.orientation")
-      hl.dispatch(hl.dsp.layout("focusmaster master"))
-      hl.dispatch(hl.dsp.window.tag({tag = "mmaster"}))
-      hl.dispatch(hl.dsp.group.toggle())
-      if workspace.windows > 1 then
-        for _ = 2, workspace.windows do
-          hl.dispatch(hl.dsp.window.cycle_next({next = true}))
-          if orientation == "left" then
-            hl.dispatch(hl.dsp.window.move({into_group = "l"}))
-          elseif orientation == "top" then
-            hl.dispatch(hl.dsp.window.move({into_group = "u"}))
+    local currentWorkspace = hl.get_active_workspace()
+    if currentWorkspace == nil or currentWorkspace.windows == 0 then return end
+    if currentWorkspace.tiled_layout == "master" then
+      if currentWorkspace.groups == 0 then
+        local activeWindow = currentWorkspace.last_window.address
+        local orientation = hl.get_config("master.orientation")
+        hl.dispatch(hl.dsp.layout("focusmaster master"))
+        hl.dispatch(hl.dsp.window.tag({tag = "mmaster"}))
+        hl.dispatch(hl.dsp.group.toggle())
+        if currentWorkspace.windows > 1 then
+          for _ = 2, currentWorkspace.windows do
+            hl.dispatch(hl.dsp.window.cycle_next({next = true}))
+            if orientation == "left" then
+              hl.dispatch(hl.dsp.window.move({into_group = "l"}))
+            elseif orientation == "top" then
+              hl.dispatch(hl.dsp.window.move({into_group = "u"}))
+            end
           end
         end
-      end
-      hl.dispatch(hl.dsp.focus({window = "address:" .. activeWindow}))
-    else
-      local activeWindow = workspace.last_window.address
-      local windows = hl.get_windows({workspace = workspace})
-      for _, v in ipairs(windows) do
-        local groups = {}
-        if v.group ~= nil and groups[v.group] == nil then
-          groups[v.group] = 1
-          hl.dispatch(hl.dsp.group.toggle({window = "address:" .. v.address}))
+        hl.dispatch(hl.dsp.focus({window = "address:" .. activeWindow}))
+      else
+        local activeWindow = currentWorkspace.last_window.address
+        local windows = hl.get_windows({workspace = currentWorkspace})
+        for _, v in ipairs(windows) do
+          local groups = {}
+          if v.group ~= nil and groups[v.group] == nil then
+            groups[v.group] = 1
+            hl.dispatch(hl.dsp.group.toggle({window = "address:" .. v.address}))
+          end
+          local tags
+          if type(v.tags) == "string" then
+            tags = {v.tags}
+          elseif type(v.tags) == "table" then
+            tags = v.tags
+          else
+            hl.notification({
+              text = "Unreachable!:module.masterTabbedToggle",
+              duration = 3000,
+              color = module.rgb(theme.colour.red)
+            })
+          end
+          for _, t in ipairs(tags) do
+            if t == "mmaster" then
+              hl.dispatch(hl.dsp.focus({window = "address:" .. v.address}))
+              hl.dispatch(hl.dsp.layout("swapwithmaster ignoremaster"))
+              hl.dispatch(hl.dsp.window.clear_tags({
+                window = "address:" .. v.address
+              }))
+            end
+          end
         end
-        local tags
-        if type(v.tags) == "string" then
-          tags = {v.tags}
-        elseif type(v.tags) == "table" then
-          tags = v.tags
+        hl.dispatch(hl.dsp.focus({window = "address:" .. activeWindow}))
+      end
+    elseif currentWorkspace.tiled_layout == "scrolling" then
+      local soloColumn = true
+      local activeWindow = hl.get_active_window()
+      local windows = currentWorkspace:get_windows()
+      if activeWindow == nil then return end
+      for _, w in ipairs(windows) do
+        if w.address ~= activeWindow.address then
+          if w.at.x == activeWindow.at.x then soloColumn = false end
+        end
+      end
+      local full = false
+      local expelled = false
+      if activeWindow.tags ~= nil then
+        if type(activeWindow.tags) == "string" then
+          if string.gmatch(activeWindow.tags, "expelled")() ~= nil then
+            expelled = true
+          elseif string.gmatch(activeWindow.tags, "full")() ~= nil then
+            full = true
+          end
+        elseif type(activeWindow.tags) == "table" then
+          for _, v in ipairs(activeWindow.tags) do
+            if string.gmatch(v, "expelled")() ~= nil then
+              expelled = true
+            elseif string.gmatch(v, "full")() ~= nil then
+              full = true
+            end
+          end
         else
           hl.notification({
             text = "Unreachable!:module.masterTabbedToggle",
@@ -174,17 +237,30 @@ module.masterTabbedToggle = function()
             color = module.rgb(theme.colour.red)
           })
         end
-        for _, t in ipairs(tags) do
-          if t == "mmaster" then
-            hl.dispatch(hl.dsp.focus({window = "address:" .. v.address}))
-            hl.dispatch(hl.dsp.layout("swapwithmaster ignoremaster"))
-            hl.dispatch(hl.dsp.window.clear_tags({
-              window = "address:" .. v.address
-            }))
-          end
-        end
       end
-      hl.dispatch(hl.dsp.focus({window = "address:" .. activeWindow}))
+      if not soloColumn then
+        hl.dispatch(hl.dsp.window.tag({tag = "+expelled"}))
+        hl.dispatch(hl.dsp.window.tag({tag = "+full"}))
+        hl.dispatch(hl.dsp.layout("promote"))
+        hl.dispatch(hl.dsp.layout("colresize 1.0"))
+      elseif expelled and full then
+        hl.dispatch(hl.dsp.window.tag({tag = "-expelled"}))
+        hl.dispatch(hl.dsp.window.tag({tag = "-full"}))
+        hl.dispatch(hl.dsp.layout("colresize 0.5"))
+        hl.dispatch(hl.dsp.layout("consume"))
+      elseif full then
+        hl.dispatch(hl.dsp.window.tag({tag = "-full"}))
+        hl.dispatch(hl.dsp.layout("colresize 0.5"))
+      elseif not expelled and not full then
+        hl.dispatch(hl.dsp.window.tag({tag = "+full"}))
+        hl.dispatch(hl.dsp.layout("colresize 1.0"))
+      else
+        hl.notification({
+          text = "Unreachable!:module.masterTabbedToggle",
+          duration = 3000,
+          color = module.rgb(theme.colour.red)
+        })
+      end
     end
   end
 end
@@ -193,13 +269,17 @@ end
 ---@return function cycleWindow A function then cycles the window focus respecting the masterTabbed layout and floating window
 module.cycleWindow = function(dl)
   return function()
-    local direction
+    local cycle
     if dl then
-      direction = "next"
+      cycle = "next"
     else
-      direction = "prev"
+      cycle = "prev"
     end
+
     local activeWindow = hl.get_active_window()
+    local currentSpecial = hl.get_active_special_workspace()
+    local currentWorkspace = hl.get_active_workspace()
+
     if activeWindow == nil then return end
     if activeWindow.floating then
       hl.dispatch(hl.dsp.window.cycle_next({next = dl, floating = true}))
@@ -210,7 +290,38 @@ module.cycleWindow = function(dl)
         hl.dispatch(hl.dsp.group.next())
       end
     else
-      hl.dispatch(hl.dsp.layout("cycle" .. direction))
+      if currentSpecial == nil and currentWorkspace ~= nil and
+          currentWorkspace.tiled_layout == "scrolling" then
+        local windows = currentWorkspace:get_windows()
+        local below = false
+        local above = false
+        for _, w in ipairs(windows) do
+          if w.address ~= activeWindow.address then
+            if w.at.x == activeWindow.at.x then
+              if w.at.y < activeWindow.at.y then
+                above = true
+              elseif w.at.y > activeWindow.at.y then
+                below = true
+              end
+            end
+          end
+        end
+        if dl then
+          if below then
+            hl.dispatch(hl.dsp.layout("focus d"))
+          else
+            hl.dispatch(hl.dsp.layout("focus l"))
+          end
+        else
+          if above then
+            hl.dispatch(hl.dsp.layout("focus u"))
+          else
+            hl.dispatch(hl.dsp.layout("focus r"))
+          end
+        end
+      else
+        hl.dispatch(hl.dsp.layout("cycle" .. cycle))
+      end
     end
   end
 end
@@ -231,9 +342,17 @@ module.swapWindow = function(next)
     local workspace = hl.get_active_workspace()
     if workspace ~= nil and workspace.groups == 0 then
       if next then
-        hl.dispatch(hl.dsp.layout("swapnext"))
+        if workspace.tiled_layout == "scrolling" then
+          hl.dispatch(hl.dsp.layout("consume_or_expel prev"))
+        else
+          hl.dispatch(hl.dsp.layout("swapnext"))
+        end
       else
-        hl.dispatch(hl.dsp.layout("swapprev"))
+        if workspace.tiled_layout == "scrolling" then
+          hl.dispatch(hl.dsp.layout("consume_or_expel next"))
+        else
+          hl.dispatch(hl.dsp.layout("swapprev"))
+        end
       end
     elseif workspace ~= nil then
       local activeWindow = workspace.last_window
@@ -379,6 +498,23 @@ module.getActiveTheme = function()
   local themeFile = io.open(hyprDir .. "/.theme")
   if themeFile ~= nil then return themeFile:read("*l") or "toykonightstorm" end
   return "tokyonightstorm" -- Default theme
+end
+
+---@param left boolean right or not
+---@return function moveView move the view of scrolling layout
+module.moveView = function(left)
+  return function()
+    local activeWorkspace = hl.get_active_workspace()
+    local activeSpecial = hl.get_active_special_workspace()
+    if activeSpecial ~= nil then return end
+    if activeWorkspace ~= nil and activeWorkspace.tiled_layout == "scrolling" then
+      if left then
+        hl.dispatch(hl.dsp.layout("move -col"))
+      else
+        hl.dispatch(hl.dsp.layout("move +col"))
+      end
+    end
+  end
 end
 
 return module
