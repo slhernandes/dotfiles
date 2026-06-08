@@ -1,6 +1,6 @@
 local helper = require("configs.helper")
 local theme = require("themes." .. helper.getActiveTheme())
-hl.config({cursor = {no_hardware_cursors = 2, no_warps = false}})
+hl.config({ cursor = { no_hardware_cursors = 2, no_warps = false } })
 
 hl.config({
   input = {
@@ -61,7 +61,7 @@ hl.config({
   decoration = {
     rounding = 5,
     rounding_power = 4.0,
-    blur = {enabled = true, size = 3, passes = 1}
+    blur = { enabled = true, size = 3, passes = 1 }
 
     -- #     drop_shadow = yes
     -- #     shadow_range = 4
@@ -71,7 +71,7 @@ hl.config({
 })
 
 hl.config({
-  master = {mfact = 0.5},
+  master = { mfact = 0.5 },
   scrolling = {
     wrap_focus = false,
     explicit_column_widths = "0.5, 1.0",
@@ -96,9 +96,9 @@ hl.config({
   }
 })
 
-hl.config({debug = {disable_logs = false, disable_time = false}})
+hl.config({ debug = { disable_logs = false, disable_time = false } })
 
-hl.device({name = "elan1201:00-04f3:3098-touchpad", sensitivity = 0.8})
+hl.device({ name = "elan1201:00-04f3:3098-touchpad", sensitivity = 0.8 })
 
 hl.config({
   group = {
