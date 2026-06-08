@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
-import Qt5Compat.GraphicalEffects
+import QtQuick.Effects
 
 import qs
 import qs.controlCentre.widgets
@@ -28,6 +28,7 @@ Item {
         width: userIcon.implicitSize
         height: userIcon.implicitSize
         anchors.centerIn: parent
+        layer.enabled: true
         radius: 999
       }
       IconImage {
@@ -37,9 +38,10 @@ Item {
         source: `file:///usr/share/sddm/faces/${root.username.trim()}.face.icon`
         implicitSize: 80
       }
-      OpacityMask {
+      MultiEffect {
         anchors.fill: userIcon
         source: userIcon
+        maskEnabled: true
         maskSource: mask
       }
     }
