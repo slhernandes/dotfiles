@@ -67,7 +67,8 @@ Item {
       source: {
         const replaceVar = /\d+\$(?!\$)/g;
         const winName = HyprlandUtils.currentActiveWindowTitle.toString();
-        let defaultIcon = Quickshell.iconPath(HyprlandUtils.currentActiveWindowClass, true).toString();
+        let iconName = DesktopEntries.heuristicLookup(HyprlandUtils.currentActiveWindowClass)?.icon;
+        let defaultIcon = Quickshell.iconPath(iconName, true);
         for (const re of root.rewrites) {
           const matches = winName.match(re.regex);
           if (matches !== null && re.icon !== undefined) {

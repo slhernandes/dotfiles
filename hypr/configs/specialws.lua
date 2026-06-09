@@ -3,12 +3,6 @@ local configDir = os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") ..
 local shaderPath = configDir .. "/ghostty/shaders/retro.glsl"
 local term = "ghostty --custom-shader=" .. shaderPath .. " -e "
 local module = {}
-hl.on("window.open", function(w)
-  local activeWindow = hl.get_active_window()
-  if activeWindow == nil then
-    hl.dispatch(hl.dsp.focus({window = "address:" .. w.address}))
-  end
-end)
 module.suffixes = {
   {name = "magic", key = nil, cmd = nil},
   {name = "btop", key = "B", cmd = term .. "btop"},

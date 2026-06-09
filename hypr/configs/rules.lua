@@ -109,6 +109,8 @@ for _, v in ipairs(specialWs.suffixes) do
   })
 end
 
+hl.workspace_rule({workspace = "name:special:minimized", layout = "monocle"})
+
 for i = 2, 5 do
   hl.workspace_rule({workspace = tostring(i), layout = "scrolling"})
 end
@@ -160,6 +162,3 @@ hl.layer_rule({
 })
 
 hl.layer_rule({match = {namespace = "quickshell"}, order = 1})
-
-hl.on("window.active",
-      function(_) hl.dispatch(hl.dsp.window.alter_zorder({mode = "top"})) end)

@@ -11,6 +11,7 @@ hl.config({
     kb_rules = "",
 
     follow_mouse = 1,
+    follow_mouse_shrink = 4,
     natural_scroll = true,
     repeat_rate = 50,
     repeat_delay = 150,
@@ -45,12 +46,12 @@ hl.config({
     col = {
       active_border = {
         colors = {
-          helper.rgba(theme.colour.blue, "AA"),
-          helper.rgba(theme.colour.magenta, "AA")
+          helper.rgba(theme.colour.blue, "FF"),
+          helper.rgba(theme.colour.magenta, "FF")
         },
         angle = 45
       },
-      inactive_border = helper.rgba(theme.colour.background, "AA")
+      inactive_border = helper.rgba(theme.colour.background, "FF")
     },
     layout = "master",
     allow_tearing = true
@@ -61,12 +62,11 @@ hl.config({
   decoration = {
     rounding = 5,
     rounding_power = 4.0,
-    blur = { enabled = true, size = 3, passes = 1 }
-
-    -- #     drop_shadow = yes
-    -- #     shadow_range = 4
-    -- #     shadow_render_power = 3
-    -- #     col.shadow = rgba(1a1a1aee)
+    screen_shader = "shaders/vibrant.glsl",
+    -- screen_shader = "shaders/bluelight.frag",
+    blur = { enabled = true, size = 3, passes = 1 },
+    shadow = { enabled = false }
+    -- motion_blur = { enabled = true } -- Not available yet
   }
 })
 

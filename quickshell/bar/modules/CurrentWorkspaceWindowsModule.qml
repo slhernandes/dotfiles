@@ -39,20 +39,21 @@ ModuleBlock {
         for (const w of windows) {
           let temp;
           if (w.class != "steam") {
-            let icon = Quickshell.iconPath(w.class, true);
+            let iconName = DesktopEntries.heuristicLookup(w.class)?.icon;
+            let icon = Quickshell.iconPath(iconName, true);
             if (icon === "") {
               icon = `file://${Variables.configDir}/icons/unknown.png`;
             }
             temp = {
               icon: icon,
               address: w.address,
-              title: w.title,
+              title: w.title
             };
           } else {
             temp = {
               icon: `file://${Variables.configDir}/icons/steam.png`,
               address: w.address,
-              title: w.title,
+              title: w.title
             };
           }
           m.push(temp);

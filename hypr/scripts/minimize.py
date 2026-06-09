@@ -15,6 +15,18 @@ def send_waybar_update():
     )
 
 
+def get_minimized_windows_prop():
+    output = subprocess.run(
+        ["hyprctl", "clients", "-j"],
+        shell=False,
+        encoding="utf-8",
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    ret = [w for w in json.loads(output.stdout) if w['workspace']['name'] == "special:minimized"]
+    return ret
+
+
 def get_cur_window_prop():
     output = subprocess.run(
         ["hyprctl", "activewindow", "-j"],
@@ -48,16 +60,21 @@ def move_window_to_special():
     )
 
 
-def screenshot_active(file):
-    prop = get_cur_window_prop()
-    bin_path = f"{os.path.dirname(__file__)}/fullscreenblast.sh"
+def screenshot_window(outputFile, prop):
     _ = subprocess.run(
-        [bin_path, file, str(prop["fullscreen"])],
+        ["grim", "-T", str(prop["stableId"]), outputFile],
         shell=False,
         encoding="utf-8",
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
+
+
+def screenshot_all_minimized():
+    props = get_minimized_windows_prop()
+    for prop in props:
+        outputFile = f"/tmp/minimize/{prop['address']}.png"
+        screenshot_window(outputFile, prop)
 
 
 def initiate_argparse():
@@ -91,8 +108,6 @@ def minimize():
         os.mkdir(screenshot_dir)
     prop = get_cur_window_prop()
     if len(prop) != 0:
-        screenshot_file = f"{screenshot_dir}/{prop['address']}.png"
-        screenshot_active(screenshot_file)
         move_window_to_special()
         send_waybar_update()
     else:
@@ -110,15 +125,6 @@ def minimize():
 
 def restore(address):
     prop = get_cur_workspace_prop()
-    # v0.54
-    # _ = subprocess.run(
-    #     ["hyprctl", "dispatch", "movetoworkspace",
-    #      f"{prop['id']},address:{address}"],
-    #     shell=False,
-    #     encoding="utf-8",
-    #     stdout=subprocess.PIPE,
-    #     stderr=subprocess.PIPE,
-    # )
     _ = subprocess.run(
         ["hyprctl", "dispatch", f"hl.dsp.focus({{window = \"address:{address}\"}})"],
         shell=False,
@@ -141,12 +147,8 @@ def restorerofi():
     icons_dir = config_dir + "/hypr/icons"
     screenshot_dir = "/tmp/minimize"
     fallback_thumbnail = f"{icons_dir}/hakase_no_img.jpg"
-    minimized_wins = json.loads(subprocess.run(
-        ["hyprctl", "clients", "-j"],
-        encoding="utf-8",
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    ).stdout)
+    minimized_wins = get_minimized_windows_prop()
+    # screenshot_all_minimized()
 
     address_title_map = {}
     title_address_map = {}
