@@ -60,7 +60,7 @@ CCModuleBlock {
             }
             font.pixelSize: Variables.fontSizeIconL
             font.family: Variables.fontFamilyTextIcons
-            color: Theme.osdIconColor
+            color: Theme.osdIconColour
           }
           Behavior on color {
             ColorAnimation {
@@ -76,20 +76,23 @@ CCModuleBlock {
         }
       }
       MouseArea {
-        implicitWidth: audioOutput.implicitWidth
-        implicitHeight: audioOutput.implicitHeight
+        Layout.fillWidth: true
+        Layout.preferredWidth: audioOutput.width
+        Layout.preferredHeight: audioOutput.height
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton
         ClippedProgressBar {
           id: audioOutput
-          implicitWidth: Math.round(0.7 * root.panelWidth)
+          anchors.centerIn: parent
+          width: Math.round(0.7 * root.panelWidth)
+          height: Math.round(0.08 * root.panelWidth)
           highlightColor: Theme.activeElement
           value: Pipewire.defaultAudioSink?.audio.volume || 0.0
           Item {}
         }
         function setVolume(event) {
           let xPos = event.x;
-          const maxPos = audioOutput.implicitWidth;
+          const maxPos = audioOutput.width;
           if (xPos < 0) {
             xPos = 0;
           } else if (xPos > maxPos) {
@@ -104,19 +107,19 @@ CCModuleBlock {
         onPressed: event => setVolume(event)
         onPositionChanged: event => setVolume(event)
       }
-    }
-    RowLayout {
-      Layout.alignment: Qt.AlignHCenter
-      MouseArea {
-        id: audioInputMouseArea
-        hoverEnabled: true
-        implicitWidth: audioInputIcon.width
-        implicitHeight: audioInputIcon.height
-        cursorShape: Qt.PointingHandCursor
-        Rectangle {
-          anchors.fill: parent
-          anchors.centerIn: parent
-          color: audioInputMouseArea.containsMouse ? Theme.activeElement : "transparent"
+      }
+      RowLayout {
+        Layout.alignment: Qt.AlignHCenter
+        MouseArea {
+          id: audioInputMouseArea
+          hoverEnabled: true
+          implicitWidth: audioInputIcon.width
+          implicitHeight: audioInputIcon.height
+          cursorShape: Qt.PointingHandCursor
+          Rectangle {
+            anchors.fill: parent
+            anchors.centerIn: parent
+            color: audioInputMouseArea.containsMouse ? Theme.activeElement : "transparent"
           radius: 999
           Text {
             id: audioInputIcon
@@ -134,7 +137,7 @@ CCModuleBlock {
             }
             font.pixelSize: Variables.fontSizeIconL
             font.family: Variables.fontFamilyTextIcons
-            color: Theme.osdIconColor
+            color: Theme.osdIconColour
           }
           Behavior on color {
             ColorAnimation {
@@ -150,20 +153,22 @@ CCModuleBlock {
         }
       }
       MouseArea {
-        implicitWidth: audioInput.implicitWidth
-        implicitHeight: audioInput.implicitHeight
+        Layout.fillWidth: true
+        Layout.preferredWidth: audioInput.width
+        Layout.preferredHeight: audioInput.height
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton
         ClippedProgressBar {
           id: audioInput
-          implicitWidth: Math.round(0.7 * root.panelWidth)
+          width: Math.round(0.7 * root.panelWidth)
+          height: Math.round(0.08 * root.panelWidth)
           highlightColor: Theme.activeElement
           value: Pipewire.defaultAudioSource?.audio.volume || 0.0
           Item {}
         }
         function setVolumeInput(event) {
           let xPos = event.x;
-          const maxPos = audioInput.implicitWidth;
+          const maxPos = audioInput.width;
           if (xPos < 0) {
             xPos = 0;
           } else if (xPos > maxPos) {

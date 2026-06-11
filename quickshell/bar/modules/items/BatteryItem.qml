@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.UPower
@@ -20,6 +21,7 @@ Item {
       id: batteryIndicator
       anchors.centerIn: parent
       width: batteryRow.width
+      height: batteryRow.height
       highlightColor: {
         const device = UPower.displayDevice;
         if (device.state === UPowerDeviceState.Charging || device.changeRate == 0) {
@@ -32,40 +34,59 @@ Item {
       value: UPower.displayDevice.percentage
       RowLayout {
         id: batteryRow
-        width: icon.implicitWidth + content.width + 8
+        width: content.width + icon.implicitWidth + Variables.progressBarPadding
+        height: content.height
         spacing: 0
-        IconImage {
-          id: icon
-          implicitHeight: content.height
-          implicitWidth: content.height * 0.75
-          Layout.alignment: Qt.AlignRight
-          source: {
-            let icon_name = "battery_full.svg";
-            const device = UPower.displayDevice;
-            if (device.state === UPowerDeviceState.Charging || device.changeRate == 0) {
-              icon_name = "lightning.svg";
-            } else {
-              if (device.percentage <= .2) {
-                icon_name = "battery_alert.svg";
+        Rectangle {
+          Layout.fillWidth: true
+          Layout.fillHeight: true
+          Layout.preferredWidth: icon.width
+          border.width: 0
+          color: "transparent"
+          Text {
+            id: icon
+            anchors.right: parent.right
+            height: parent.height
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.Right
+            text: {
+              const battery_full = "\uE1A4";
+              const charging = "\uE1A3";
+              const battery_alert = "\uE19C";
+              const device = UPower.displayDevice;
+              if (device.state === UPowerDeviceState.Charging || device.changeRate == 0) {
+                return charging;
+              } else if (device.percentage <= .2) {
+                return battery_alert;
               }
+              return battery_full;
             }
-            let dev = UPower.devices.values;
-            return `file://${Variables.configDir}/icons/${icon_name}`;
+            font.pixelSize: Variables.fontSizeIcon
+            font.family: Variables.fontFamilyTextIcons
+            color: Theme.progressBarColour
           }
         }
-        Text {
-          id: content
-          font {
-            family: Variables.fontFamilyText
-            pointSize: Variables.fontSizeSmall
-          }
-          Layout.alignment: Qt.AlignLeft
-          text: {
-            const device = UPower.displayDevice;
-            const value = Math.round(device.percentage * 100);
-            let value_string = value.toString();
-            value_string = " ".repeat(Math.max(0, 3 - value_string.length)) + value_string;
-            return `${value_string}`;
+        Rectangle {
+          color: "transparent"
+          Layout.fillWidth: true
+          Layout.fillHeight: true
+          Layout.preferredWidth: content.width
+          border.width: 0
+          Text {
+            id: content
+            color: Theme.progressBarColour
+            font {
+              family: Variables.fontFamilyText
+              pointSize: Variables.fontSizeSmall
+            }
+            anchors.left: parent.left
+            text: {
+              const device = UPower.displayDevice;
+              const value = Math.round(device.percentage * 100);
+              let value_string = value.toString();
+              value_string = " ".repeat(Math.max(0, 3 - value_string.length)) + value_string;
+              return `${value_string}`;
+            }
           }
         }
       }

@@ -58,7 +58,9 @@ Singleton {
   property string submapTextNormal: theme.white
   property string submapTextOther: theme.yellow
 
-  property string osdIconColor: theme.white
+  property string osdIconColour: theme.white
+
+  property string progressBarColour: theme.black
 
   function setTheme(s: string): bool {
     const old_theme = themeLoader.source;

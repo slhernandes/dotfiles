@@ -86,7 +86,7 @@ Scope {
             }
             font.pixelSize: Variables.fontSizeIconL
             font.family: Variables.fontFamilyTextIcons
-            color: Theme.osdIconColor
+            color: Theme.osdIconColour
           }
 
           Rectangle {

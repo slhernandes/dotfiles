@@ -21,6 +21,7 @@ Singleton {
   property real fontSizeIcon: 15.8
   property real fontSizeIconL: 30
   property real iconSize: 16
+  property real iconSizeBig: 22.5
 
   property real barHeight: 32
   property real ccBgOpacity: 0.5
@@ -30,4 +31,5 @@ Singleton {
 
   property real fontSizeTooltip: 10
   property real paddingTooltip: 6
+  property real progressBarPadding: 8
 }

@@ -55,31 +55,40 @@ Scope {
               required property PwNode modelData
               implicitWidth: audioDataIcon.implicitSize + audioDataMouseArea.implicitWidth
               implicitHeight: audioDataIcon.implicitSize + audioDataMouseArea.implicitHeight
-              IconImage {
-                id: audioDataIcon
-                source: {
-                  let iconName = volumeRow.modelData.properties["application.icon-name"];
-                  let altIconName = volumeRow.modelData.properties["application.name"]?.toLowerCase();
-                  let fallbackIcon = `file://${Variables.configDir}/icons/unknown.png`;
-                  return Quickshell.iconPath(iconName, true) || Quickshell.iconPath(altIconName, true) || fallbackIcon;
+              Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: Variables.iconSizeBig
+                Layout.preferredWidth: Variables.iconSizeBig
+                color: "transparent"
+                IconImage {
+                  id: audioDataIcon
+                  anchors.centerIn: parent
+                  anchors.fill: parent
+                  source: {
+                    let iconName = volumeRow.modelData.properties["application.icon-name"];
+                    let altIconName = volumeRow.modelData.properties["application.name"]?.toLowerCase();
+                    let fallbackIcon = Quickshell.iconPath("audio-headphones-symbolic");
+                    return Quickshell.iconPath(iconName, true) || Quickshell.iconPath(altIconName, true) || fallbackIcon;
+                  }
                 }
-                implicitSize: audioData.valueBarHeight * 1.5
               }
               MouseArea {
                 id: audioDataMouseArea
-                implicitWidth: audioData.implicitWidth
-                implicitHeight: audioData.implicitHeight
+                Layout.preferredWidth: audioData.width
+                Layout.preferredHeight: audioData.height
                 acceptedButtons: Qt.LeftButton
                 ClippedProgressBar {
                   id: audioData
-                  implicitWidth: root.sliderLength
+                  width: root.sliderLength
+                  height: audioDataText.height
                   highlightColor: Theme.activeElement
                   value: volumeRow.modelData?.audio?.volume || 0.0
                   Rectangle {
                     color: "transparent"
-                    width: audioData.implicitWidth
-                    height: audioData.valueBarHeight
+                    width: audioData.width
+                    height: audioDataText.height
                     Text {
+                      id: audioDataText
                       anchors.verticalCenter: parent.verticalCenter
                       anchors.left: parent.left
                       anchors.leftMargin: 5
@@ -89,13 +98,12 @@ Scope {
                       font.pixelSize: Variables.fontSizeText
                       elide: Text.ElideMiddle
                       maximumLineCount: 1
-                      width: audioData.implicitWidth - 10
                     }
                   }
                 }
                 function setVolumeInput(event) {
                   let xPos = event.x;
-                  const maxPos = audioData.implicitWidth;
+                  const maxPos = audioData.width;
                   if (xPos < 0) {
                     xPos = 0;
                   } else if (xPos > maxPos) {

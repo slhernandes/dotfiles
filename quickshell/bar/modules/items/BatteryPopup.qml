@@ -52,34 +52,40 @@ Scope {
             RowLayout {
               id: batteryRow
               required property UPowerDevice modelData
-              implicitWidth: batteryDataIcon.implicitSize + batteryData.implicitWidth
-              implicitHeight: batteryDataIcon.implicitSize + batteryData.valueBarHeight
-              IconImage {
-                id: batteryDataIcon
-                source: {
-                  let icons = [
-                    {
-                      device: "ASUS Battery",
-                      icon: "computer-laptop-symbolic"
-                    },
-                    {
-                      device: "Logitech G Pro",
-                      icon: "input-mouse-battery-symbolic"
+              Rectangle {
+                Layout.fillWidth: true
+                Layout.preferredHeight: Variables.iconSizeBig
+                Layout.preferredWidth: Variables.iconSizeBig
+                color: "transparent"
+                IconImage {
+                  id: batteryDataIcon
+                  anchors.centerIn: parent
+                  anchors.fill: parent
+                  source: {
+                    let icons = [
+                      {
+                        device: "ASUS Battery",
+                        icon: "computer-laptop-symbolic"
+                      },
+                      {
+                        device: "Logitech G Pro",
+                        icon: "input-mouse-battery-symbolic"
+                      }
+                    ];
+                    let model = batteryRow.modelData.model;
+                    for (const icon of icons) {
+                      if (icon.device === model) {
+                        return Quickshell.iconPath(icon.icon);
+                      }
                     }
-                  ];
-                  let model = batteryRow.modelData.model;
-                  for (const icon of icons) {
-                    if (icon.device === model) {
-                      return Quickshell.iconPath(icon.icon);
-                    }
+                    return Quickshell.iconPath("battery-missing-symbolic");
                   }
-                  return Quickshell.iconPath("battery-missing-symbolic");
                 }
-                implicitSize: batteryData.valueBarHeight * 1.5
               }
               ClippedProgressBar {
                 id: batteryData
-                implicitWidth: root.sliderLength
+                Layout.preferredWidth: root.sliderLength
+                Layout.preferredHeight: batteryNameText.height
                 highlightColor: {
                   if (batteryRow.modelData.state === UPowerDeviceState.Charging || batteryRow.modelData.changeRate == 0) {
                     return Theme.batteryIndicatorCharging;
@@ -91,9 +97,10 @@ Scope {
                 value: batteryRow.modelData?.percentage || 0.0
                 Rectangle {
                   color: "transparent"
-                  width: batteryData.implicitWidth
-                  height: batteryData.valueBarHeight
+                  width: batteryData.width
+                  height: batteryNameText.height
                   Text {
+                    id: batteryNameText
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 5
@@ -101,7 +108,8 @@ Scope {
                     font.pixelSize: Variables.fontSizeText
                     elide: Text.ElideMiddle
                     maximumLineCount: 1
-                    width: batteryData.implicitWidth - 10
+                    width: batteryData.width
+                    color: Theme.progressBarColour
                   }
                 }
               }

@@ -12,9 +12,12 @@ Scope {
     id: wallpaper
 
     function changeWallpaper(wallName: string) {
-      currentWallpaper.wallName = wallName;
-      image.y = wallpaper.screen.height;
-      runPywal.running = true;
+      if (wallName != currentWallpaper.wallName) {
+        wallFile.setText(wallName.split("_").at(-1));
+        currentWallpaper.wallName = wallName;
+        image.y = wallpaper.screen.height;
+        runPywal.running = true;
+      }
     }
 
     function checkTime() {
@@ -52,9 +55,7 @@ Scope {
         }
       }
       onYChanged: function () {
-        if (image.y === 0)
-          return;
-        if (image.y < 0) {
+        if (image.y <= 0) {
           image.y = 0;
           return;
         }
@@ -97,6 +98,17 @@ Scope {
       }
     }
 
+    FileView {
+      id: wallFile
+      path: Quickshell.shellDir + "/.wallpaper"
+      onLoaded: {
+        const pref = wallpaper.checkTime();
+        const wall = text().trim();
+        if (!!pref && !!wall) {
+          wallpaper.changeWallpaper(`${pref}_${text()}`);
+        }
+      }
+    }
     Component.onCompleted: {
       this.WlrLayershell.layer = WlrLayer.Background;
       this.WlrLayershell.namespace = "qsWallpaper";

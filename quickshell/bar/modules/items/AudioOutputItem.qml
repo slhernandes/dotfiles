@@ -22,22 +22,25 @@ Item {
       id: audioOutputIndicator
       anchors.centerIn: parent
       width: audioInputRow.width
+      height: audioInputRow.height
       value: Pipewire.defaultAudioSink?.audio.volume || 0.0
       RowLayout {
         id: audioInputRow
-        width: icon.implicitWidth + content.width + 8
+        width: icon.implicitWidth + content.width + Variables.progressBarPadding
+        height: content.height
         spacing: 0
         Rectangle {
           id: iconRect
-          width: content.height * 0.76
-          height: content.height
+          Layout.fillWidth: true
+          Layout.preferredWidth: icon.width
+          Layout.preferredHeight: parent.height
           color: "transparent"
           Text {
             id: icon
             anchors.right: parent.right
             height: parent.height
-            width: parent.width - 5
             verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.Right
             text: {
               const default_sink = Pipewire.defaultAudioSink;
               let icon = "\uE04D"; // volume low
@@ -58,23 +61,30 @@ Item {
             }
             font.pixelSize: Variables.fontSizeIcon
             font.family: Variables.fontFamilyTextIcons
-            color: Theme.osdIconColor
+            color: Theme.progressBarColour
           }
         }
-        Text {
-          id: content
-          font {
-            family: Variables.fontFamilyText
-            pointSize: Variables.fontSizeSmall
-          }
-          Layout.alignment: Qt.AlignLeft
-          text: {
-            const default_sink = Pipewire.defaultAudioSink;
-            const volume = default_sink?.audio.volume;
-            const is_muted = default_sink?.audio.muted;
-            let volume_text = Math.round(volume * 100).toString();
-            volume_text = " ".repeat(Math.max(0, 3 - volume_text.length)) + volume_text;
-            return `${volume_text}`;
+        Rectangle {
+          color: "transparent"
+          Layout.fillWidth: true
+          Layout.fillHeight: true
+          Layout.preferredWidth: content.width
+          Text {
+            id: content
+            color: Theme.progressBarColour
+            font {
+              family: Variables.fontFamilyText
+              pointSize: Variables.fontSizeSmall
+            }
+            Layout.alignment: Qt.AlignLeft
+            text: {
+              const default_sink = Pipewire.defaultAudioSink;
+              const volume = default_sink?.audio.volume;
+              const is_muted = default_sink?.audio.muted;
+              let volume_text = Math.round(volume * 100).toString();
+              volume_text = " ".repeat(Math.max(0, 3 - volume_text.length)) + volume_text;
+              return `${volume_text}`;
+            }
           }
         }
       }
