@@ -12,40 +12,15 @@ Rectangle {
   id: root
   color: "transparent"
   property real value: 0
-  // property real valueBarWidth: content.width
-  // property real valueBarHeight: content.height
   property color highlightColor: Theme.activeElement
   property color trackColor: Theme.inactiveElement
   property alias radius: contentItem.radius
   property bool vertical: false
-  // property string text: "TEST"
-  // default property Component overlay: Component {
-  //   id: textMaskComponent
-  //   Item {
-  //     id: textMaskItem
-  //     width: Math.round(content.width)
-  //     height: Math.round(content.height)
-  //     Text {
-  //       id: content
-  //       anchors.centerIn: parent
-  //       font {
-  //         family: Variables.fontFamilyText
-  //         pointSize: Variables.fontSizeSmall
-  //       }
-  //       text: ` ${root.text} `
-  //     }
-  //   }
-  // }
   ProgressBar {
     id: progressBar
     value: root.value
     anchors.fill: parent
     property string text
-
-    // background: Item {
-    //   implicitHeight: root.valueBarHeight
-    //   implicitWidth: root.valueBarWidth
-    // }
 
     contentItem: Rectangle {
       id: contentItem
@@ -55,6 +30,7 @@ Rectangle {
       visible: false
       width: parent.width * progressBar.visualPosition
       height: root.height
+      layer.enabled: true
 
       Rectangle {
         id: progressFill
@@ -86,17 +62,18 @@ Rectangle {
           }
         }
 
-        radius: 2
         color: root.highlightColor
       }
     }
 
     Rectangle {
       id: maskRect
-      color: "blue"
+      color: "white"
       visible: false
-      anchors.fill: contentItem
-      radius: root.radius
+      // anchors.fill: contentItem
+      width: contentItem.width
+      height: contentItem.height
+      radius: 9999
       layer.enabled: true
       layer.smooth: true
     }
