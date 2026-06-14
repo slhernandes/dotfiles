@@ -13,7 +13,8 @@ Scope {
 
     function changeWallpaper(wallName: string) {
       if (wallName != currentWallpaper.wallName) {
-        wallFile.setText(wallName.split("_").at(-1));
+        const temp = wallName.split("_");
+        wallFile.setText(temp[temp.length - 1]);
         currentWallpaper.wallName = wallName;
         image.y = wallpaper.screen.height;
         runPywal.running = true;

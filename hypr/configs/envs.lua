@@ -5,9 +5,9 @@
 -- hl.env("NVD_BACKEND", "direct")
 -- hl.env("AQ_DRM_DEVICES", "/dev/dri/card0:/dev/dri/card1")
 -- hl.env("AQ_DRM_DEVICES", "/dev/dri/nvidia-gpu:/dev/dri/amd-igpu")
-
 -- AMD Driver
-hl.env("__EGL_VENDOR_LIBRARY_FILENAMES", "/usr/share/glvnd/egl_vendor.d/50_mesa.json")
+hl.env("__EGL_VENDOR_LIBRARY_FILENAMES",
+  "/usr/share/glvnd/egl_vendor.d/50_mesa.json")
 hl.env("AQ_DRM_DEVICES", "/dev/dri/amd-igpu:/dev/dri/nvidia-gpu")
 
 -- Wayland envs
@@ -23,3 +23,8 @@ hl.env("HYPRCURSOR_THEME", "AC-Future")
 hl.env("XCURSOR_THEME", "AC-Future")
 hl.env("HYPRCURSOR_SIZE", "48")
 hl.env("XCURSOR_SIZE", "36")
+
+-- hl.env("GTK_IM_MODULE", "wayland")
+-- hl.env("XMODIFIERS", "@im=ibus")
+-- hl.env("QT_IM_MODULES", "wayland;ibus")
+-- hl.env("QT_IM_MODULE", "ibus")

@@ -107,19 +107,19 @@ CCModuleBlock {
         onPressed: event => setVolume(event)
         onPositionChanged: event => setVolume(event)
       }
-      }
-      RowLayout {
-        Layout.alignment: Qt.AlignHCenter
-        MouseArea {
-          id: audioInputMouseArea
-          hoverEnabled: true
-          implicitWidth: audioInputIcon.width
-          implicitHeight: audioInputIcon.height
-          cursorShape: Qt.PointingHandCursor
-          Rectangle {
-            anchors.fill: parent
-            anchors.centerIn: parent
-            color: audioInputMouseArea.containsMouse ? Theme.activeElement : "transparent"
+    }
+    RowLayout {
+      Layout.alignment: Qt.AlignHCenter
+      MouseArea {
+        id: audioInputMouseArea
+        hoverEnabled: true
+        implicitWidth: audioInputIcon.width
+        implicitHeight: audioInputIcon.height
+        cursorShape: Qt.PointingHandCursor
+        Rectangle {
+          anchors.fill: parent
+          anchors.centerIn: parent
+          color: audioInputMouseArea.containsMouse ? Theme.activeElement : "transparent"
           radius: 999
           Text {
             id: audioInputIcon

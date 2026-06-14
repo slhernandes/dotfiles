@@ -25,4 +25,5 @@ hl.on("hyprland.start", function()
 
   hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme AC-Future")
   hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 36")
+  -- hl.exec_cmd("ibus start --type wayland")
 end)

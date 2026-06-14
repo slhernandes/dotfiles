@@ -42,7 +42,7 @@ hl.config({
 
     gaps_in = 2,
     gaps_out = 4,
-    border_size = 2,
+    border_size = 1,
     col = {
       active_border = {
         colors = {
@@ -63,7 +63,6 @@ hl.config({
     rounding = 5,
     rounding_power = 4.0,
     screen_shader = "shaders/vibrant.glsl",
-    -- screen_shader = "shaders/bluelight.frag",
     blur = { enabled = true, size = 3, passes = 1 },
     shadow = { enabled = false }
     -- motion_blur = { enabled = true } -- Not available yet

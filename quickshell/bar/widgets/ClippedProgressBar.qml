@@ -14,79 +14,53 @@ Rectangle {
   property real value: 0
   property color highlightColor: Theme.activeElement
   property color trackColor: Theme.inactiveElement
-  property alias radius: contentItem.radius
-  property bool vertical: false
-  ProgressBar {
-    id: progressBar
-    value: root.value
+  radius: contentItem.radius
+  Rectangle {
+    id: contentItem
     anchors.fill: parent
-    property string text
-
-    contentItem: Rectangle {
-      id: contentItem
-      anchors.fill: parent
-      radius: 9999
-      color: root.trackColor
-      visible: false
-      width: parent.width * progressBar.visualPosition
-      height: root.height
-      layer.enabled: true
-
-      Rectangle {
-        id: progressFill
-        anchors {
-          top: parent.top
-          bottom: parent.bottom
-          left: parent.left
-          right: undefined
-        }
-        width: parent.width * progressBar.visualPosition
-        height: parent.height
-
-        states: State {
-          name: "vertical"
-          when: root.vertical
-          AnchorChanges {
-            target: progressFill
-            anchors {
-              top: undefined
-              bottom: progressFill.parent.bottom
-              left: progressFill.parent.left
-              right: progressFill.parent.right
-            }
-          }
-          PropertyChanges {
-            target: progressFill
-            progressFill.width: parent.width
-            progressFill.height: parent.height * progressBar.visualPosition
-          }
-        }
-
-        color: root.highlightColor
-      }
-    }
+    radius: 9999
+    color: root.trackColor
+    visible: false
+    width: parent.width
+    height: root.height
+    layer.enabled: true
 
     Rectangle {
-      id: maskRect
-      color: "white"
-      visible: false
-      // anchors.fill: contentItem
-      width: contentItem.width
-      height: contentItem.height
-      radius: 9999
-      layer.enabled: true
-      layer.smooth: true
-    }
-
-    MultiEffect {
-      id: roundingMask
+      id: progressFill
       visible: true
-      anchors.fill: contentItem
-      maskEnabled: true
-      maskSpreadAtMin: 1.0
-      maskThresholdMin: 0.5
-      source: contentItem
-      maskSource: maskRect
+      anchors {
+        top: parent.top
+        bottom: parent.bottom
+        left: parent.left
+        right: undefined
+      }
+      width: parent.width * root.value
+      height: parent.height
+
+      color: root.highlightColor
     }
+  }
+
+  Rectangle {
+    id: maskRect
+    color: "white"
+    visible: false
+    // anchors.fill: contentItem
+    width: contentItem.width
+    height: contentItem.height
+    radius: 9999
+    layer.enabled: true
+    layer.smooth: true
+  }
+
+  MultiEffect {
+    id: roundingMask
+    visible: true
+    anchors.fill: contentItem
+    maskEnabled: true
+    maskSpreadAtMin: 1.0
+    maskThresholdMin: 0.5
+    source: contentItem
+    maskSource: maskRect
   }
 }
