@@ -108,7 +108,8 @@
 	("https://nedroid.com/feed/" comic)
 	("https://xkcd.com/rss.xml" comic)
 	("https://ladybird.org/posts.rss" linux browser)
-  ("https://www.phoronix.com/rss.php" linux)
+	("https://www.phoronix.com/rss.php" linux)
+	("https://neovim.io/news.xml" linux)
 ))
 
 (setq elfeed-db-directory "~/.cache/elfeed/")
