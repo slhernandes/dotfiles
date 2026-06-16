@@ -113,6 +113,21 @@
 
 (setq elfeed-db-directory "~/.cache/elfeed/")
 
+(defun sk/elfeed-db-remove-entry (id)
+  "Removes the entry for ID"
+  (avl-tree-delete elfeed-db-index id)
+  (remhash id elfeed-db-entries))
+
+(defun sk/elfeed-search-remove-selected ()
+  "Remove selected entries from database"
+  (interactive)
+  (let* ((entries (elfeed-search-selected))
+	       (count (length entries)))
+    (when (y-or-n-p (format "Delete %d entires?" count))      
+      (cl-loop for entry in entries
+	             do (sk/elfeed-db-remove-entry (elfeed-entry-id entry)))))
+  (elfeed-search-update--force))
+
 (global-set-key (kbd "C-x r") 'elfeed)
 (setq browse-url-browser-function 'eww-browse-url)
 
@@ -156,8 +171,8 @@
 
 (defun toggle-noob-mode ()
   (interactive)
-  (toggle-tool-bar-mode-from-frame)
-  (toggle-menu-bar-mode-from-frame))
+  (tool-bar-mode 'toggle)
+  (menu-bar-mode 'toggle))
 
 (global-set-key (kbd "M-n") 'toggle-noob-mode)
 
