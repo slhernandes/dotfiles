@@ -81,7 +81,7 @@
 
 ;; C/C++ autocomplete
 (rc/require 'company
-	    'yasnippet)
+	          'yasnippet)
 (yas-global-mode 1)
 (add-hook 'after-init-hook 'global-company-mode)
 
@@ -97,20 +97,19 @@
 
 ;; Misc packages
 (rc/require 'mood-line
-	    'magit
-	    'elfeed
-	    'evil)
+	          'magit
+	          'elfeed
+	          'evil)
 
 ;; elfeed config
 (setq elfeed-feeds
       '(("https://archlinux.org/feeds/news/" linux)
-        ("https://ctftime.org/writeups/rss/" ctf)
-	("https://nedroid.com/feed/" comic)
-	("https://xkcd.com/rss.xml" comic)
-	("https://ladybird.org/posts.rss" linux browser)
-	("https://www.phoronix.com/rss.php" linux)
-	("https://neovim.io/news.xml" linux)
-))
+	      ("https://nedroid.com/feed/" comic)
+	      ("https://xkcd.com/rss.xml" comic)
+	      ("https://ladybird.org/posts.rss" linux browser)
+	      ("https://www.phoronix.com/rss.php" linux)
+	      ("https://neovim.io/news.xml" linux)
+        ))
 
 (setq elfeed-db-directory "~/.cache/elfeed/")
 
@@ -168,7 +167,7 @@
 
 ;; Paste with C-S-v in *terminal*
 (add-hook 'term-load-hook
-  (lambda () (define-key term-raw-map (kbd "C-S-v") 'term-paste)))
+          (lambda () (define-key term-raw-map (kbd "C-S-v") 'term-paste)))
 
 (load-file custom-file)
 (put 'downcase-region 'disabled nil)
