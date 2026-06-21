@@ -53,6 +53,8 @@
 
 ;; Major mode packages
 (rc/require 'rust-mode)
+(rc/require 'lua-ts-mode)
+(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
 
 ;; simpc-mode
 ;; Importing simpc-mode
@@ -81,7 +83,7 @@
 
 ;; C/C++ autocomplete
 (rc/require 'company
-	          'yasnippet)
+	    'yasnippet)
 (yas-global-mode 1)
 (add-hook 'after-init-hook 'global-company-mode)
 
@@ -97,9 +99,9 @@
 
 ;; Misc packages
 (rc/require 'mood-line
-	          'magit
-	          'elfeed
-	          'evil)
+	    'magit
+	    'elfeed
+	    'evil)
 
 ;; elfeed config
 (setq elfeed-feeds

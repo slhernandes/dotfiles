@@ -146,8 +146,8 @@ module.volume = function(io, operation)
   return hl.dispatch(hl.dsp.no_op())
 end
 
----@return function masterTabbedToggle A function to toggle between regular master layout and tabbed layout (see xmonad for comparison)
-module.masterTabbedToggle = function()
+---@return function maximizeToggle A function to toggle between regular master layout and tabbed layout (see xmonad for comparison)
+module.maximizeToggle = function()
   return function()
     if hl.get_active_special_workspace() ~= nil then return end
     local currentWorkspace = hl.get_active_workspace()
@@ -247,7 +247,7 @@ module.masterTabbedToggle = function()
         hl.dispatch(hl.dsp.window.tag({tag = "-expelled"}))
         hl.dispatch(hl.dsp.window.tag({tag = "-full"}))
         hl.dispatch(hl.dsp.layout("colresize 0.5"))
-        hl.dispatch(hl.dsp.layout("consume"))
+        hl.dispatch(hl.dsp.layout("consume_or_expel prev"))
       elseif full then
         hl.dispatch(hl.dsp.window.tag({tag = "-full"}))
         hl.dispatch(hl.dsp.layout("colresize 0.5"))
@@ -455,7 +455,8 @@ end
 
 ---@param themeName string
 module.changeTheme = function(themeName)
-  local newTheme = require("themes." .. themeName)
+  local status, newTheme = pcall(require, "themes." .. themeName)
+  if not status then return end
   hl.config({
     group = {
       col = {
@@ -492,10 +493,7 @@ end
 
 ---@return string theme_name theme name (from themes/*.lua)
 module.getActiveTheme = function()
-  local configDir = os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") ..
-                        "/.config"
-  local hyprDir = configDir .. "/hypr"
-  local themeFile = io.open(hyprDir .. "/.theme")
+  local themeFile = io.open(HyprDir .. "/.theme")
   if themeFile ~= nil then return themeFile:read("*l") or "toykonightstorm" end
   return "tokyonightstorm" -- Default theme
 end

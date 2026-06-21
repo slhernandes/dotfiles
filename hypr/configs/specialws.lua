@@ -1,7 +1,4 @@
-local configDir = os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") ..
-                      "/.config"
-local shaderPath = configDir .. "/ghostty/shaders/retro.glsl"
-local term = "ghostty --custom-shader=" .. shaderPath .. " -e "
+local term = "ghostty --custom-shader=" .. ShaderPath .. " -e "
 local module = {}
 module.suffixes = {
   {name = "magic", key = nil, cmd = nil},

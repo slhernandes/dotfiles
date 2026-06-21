@@ -1,8 +1,5 @@
-local configDir = os.getenv("XDG_CONFIG_HOME") or os.getenv("HOME") ..
-                      "/.config"
-local hyprDir = configDir .. "/hypr"
-local scriptDir = hyprDir .. "/scripts"
 hl.on("hyprland.start", function()
+  hl.exec_cmd("systemctl --user start hyprland-session.target")
   hl.exec_cmd("hyprlauncher -d > /tmp/hyprlauncher.log")
   -- hl.exec_cmd("hyprpaper > /tmp/hyprpaper.log")
   -- hl.exec_cmd("$scriptDir/launch_waybar")
@@ -18,7 +15,7 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("nm-applet --sm-disable")
   hl.exec_cmd("systemctl --user start hyprpolkitagent")
   hl.exec_cmd(
-      "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+    "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
   hl.exec_cmd("hypridle > /tmp/hypridle.log")
   hl.exec_cmd("amixer -c 2 sset 'Mic Boost',0 0 &> /dev/null")
   hl.exec_cmd(string.format("%s/start_mpd &", scriptDir))
@@ -26,4 +23,8 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme AC-Future")
   hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size 36")
   -- hl.exec_cmd("ibus start --type wayland")
+end)
+
+hl.on("hyprland.shutdown", function()
+  os.execute("systemctl --user stop hyprland-session.target && sleep 0.1")
 end)
