@@ -24,7 +24,7 @@ cursor-style = block
 
 keybind = alt+r=reload_config
 keybind = ctrl+enter=unbind
-keybind = ctrl+comma=unbind
+keybind = ctrl+,=unbind
 
 # custom-shader="./shaders/retro.glsl"
 custom-shader="./shaders/cursor.glsl"

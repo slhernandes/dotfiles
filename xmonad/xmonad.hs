@@ -73,7 +73,7 @@ myConfig = def
     , ("M-S-n"   , spawn "notificationcenter"                                             )
 ----, ("M-d"     , spawn "$HOME/.local/bin/togglekeyboard"                                )
     , ("M-p"     , spawn "rofi -show drun"                                                )
-    , ("M-f"     , spawnOn "br:1" "floorp -P default-release"                             )
+    , ("M-f"     , spawnOn "br:1" "firefox -P default-release"                            )
     , ("M-t"     , spawnOn "term" "ghostty -e $HOME/.config/tmux/bin/tmux-start"          )
     , ("M-l"     , moveTo Next nonNSPEmpty                                                )
     , ("M-h"     , moveTo Prev nonNSPEmpty                                                )
@@ -323,7 +323,7 @@ myStartupHook = do
   spawnOnce "xscreensaver -nosplash &"
   spawnOnce "xfce4-power-manager &"
   spawnOnce "dunst &"
---spawnOnce "picom --config $HOME/.config/picom/picom.conf &"
+  spawnOnce "picom --config $HOME/.config/picom/picom.conf &"
   spawnOnce "$HOME/.local/bin/statusbar.sh"
   spawnOnce "if [ -x /usr/bin/nm-applet ] ; then nm-applet --sm-disable & fi"
   spawnOnce "xset r rate 150 50"
