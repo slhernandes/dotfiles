@@ -165,3 +165,6 @@ export MATLAB_PREFDIR="$XDG_DATA_HOME/matlab"
 
 # copilot env
 export COPILOT_HOME="$XDG_CONFIG_HOME"/copilot
+
+# docker env
+export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
