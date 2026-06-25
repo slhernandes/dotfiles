@@ -41,6 +41,8 @@ Singleton {
   property string batteryIndicatorLow: theme.red
 
   property string ccTextColour: theme.white
+  property string ncTextColour: theme.white
+  property string ncScrollBarColour: theme.white
   property string tooltipColour: theme.white
 
   property string osdBarColourBg: theme.brightBlack

@@ -9,6 +9,7 @@ Singleton {
 
   property string fontFamilyText: "Noto Sans Mono"
   property string fontFamilyTextCC: "Noto Sans CJK"
+  property string fontFamilyTextNC: "Noto Sans CJK"
   property string fontFamilyTextIcons: "Material Symbols Sharp"
   property string fontFamilyLogo: "FiraCode Nerd Font Mono"
   property string fontFamilyWorkspaceIcon: "FiraCode Nerd Font Mono"
@@ -25,6 +26,7 @@ Singleton {
 
   property real barHeight: 32
   property real ccBgOpacity: 0.5
+  property real ncBgOpacity: 0.5
   property real barOpacity: 0.85
   property int borderWidth: 2
   property int radius: 5

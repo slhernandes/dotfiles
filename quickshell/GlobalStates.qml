@@ -11,17 +11,28 @@ Singleton {
     objects: [Pipewire.defaultAudioSink, Pipewire.defaultAudioSource].concat(Pipewire.linkGroups.values.filter(x => x.source.isStream).map(x => x.source))
   }
 
+  property bool notifCentreVisible: false
   property bool controlCentreVisible: false
   property string monitorName: "eDP-1"
-
-  property int activeNotifCount: 0
-  property list<Notification> showedNotifs
 
   property string currentPopupName
   IpcHandler {
     target: "globalStates"
     function toggleControlCentre() {
-      root.controlCentreVisible = !root.controlCentreVisible;
+      if (root.controlCentreVisible) {
+        root.controlCentreVisible = false;
+      } else {
+        root.controlCentreVisible = true;
+        root.notifCentreVisible = false;
+      }
+    }
+    function toggleNotificationCentre() {
+      if (root.notifCentreVisible) {
+        root.notifCentreVisible = false;
+      } else {
+        root.notifCentreVisible = true;
+        root.controlCentreVisible = false;
+      }
     }
   }
 }

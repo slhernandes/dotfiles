@@ -58,7 +58,17 @@ Variants {
               if (actions.length > 0) {
                 actions[0].invoke();
               } else {
-                NotificationService.deactivateNotifSignal();
+                NotificationService.deactivateNotifSignal(modelData.metadata.id, false);
+              }
+            }
+            Timer {
+              id: deactivateNotifTimerPartial
+              repeat: false
+              running: false
+              triggeredOnStart: false
+              interval: 200
+              onTriggered: () => {
+                NotificationService.deactivateNotif(rootRectMouseArea.modelData.metadata.id, true);
               }
             }
             Timer {
@@ -68,7 +78,7 @@ Variants {
               triggeredOnStart: false
               interval: 200
               onTriggered: () => {
-                NotificationService.deactivateNotif(rootRectMouseArea.modelData.metadata.id);
+                NotificationService.deactivateNotif(rootRectMouseArea.modelData.metadata.id, false);
               }
             }
             Rectangle {
@@ -91,9 +101,15 @@ Variants {
 
               Connections {
                 target: NotificationService
-                onDeactivateNotifSignal: () => {
-                  rootRectOpacityAnimator.running = true;
-                  deactivateNotifTimer.start();
+                function onDeactivateNotifSignal(notifId, partial) {
+                  if (rootRect.modelData.metadata.id === parseInt(notifId)) {
+                    rootRectOpacityAnimator.running = true;
+                    if (partial) {
+                      deactivateNotifTimerPartial.start();
+                    } else {
+                      deactivateNotifTimer.start();
+                    }
+                  }
                 }
               }
 
@@ -122,13 +138,13 @@ Variants {
                 implicitWidth: rootRect.closeIconSize
                 cursorShape: Qt.PointingHandCursor
                 onClicked: function (event) {
-                  NotificationService.deactivateNotifSignal();
+                  NotificationService.deactivateNotifSignal(rootRect.modelData.metadata.id, false);
                 }
                 Rectangle {
                   implicitHeight: rootRect.closeIconSize
                   implicitWidth: rootRect.closeIconSize
                   radius: 100
-                  color: notifMouseArea.containsMouse ? Theme.activeElement : Theme.inactiveElement
+                  color: notifMouseArea.containsMouse ? Theme.activeElement : "transparent"
                   Behavior on color {
                     ColorAnimation {
                       duration: 200
@@ -219,9 +235,11 @@ Variants {
               onUpdateBodyLineCount: () => {
                 this.notifHeight = this.lineCount === 1 ? this.notifHeightSingle : this.notifHeightDouble;
               }
-              Component.onCompleted: () => {
-                console.log(JSON.stringify(this.modelData.notif));
-              }
+              // Component.onCompleted: () => {
+              //   this.WlrLayershell.layer = WlrLayer.Overlay;
+              //   this.WlrLayershell.keyboardFocus = WlrKeyboardFocus.Exclusive;
+              //   this.WlrLayershell.namespace = "qsNotif";
+              // }
             }
           }
         }

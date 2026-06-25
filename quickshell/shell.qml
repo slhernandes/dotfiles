@@ -26,6 +26,7 @@ Scope {
   }
   Wallpaper {}
   Notification {}
+  NotificationCentre {}
   // LazyLoader {
   //   loading: true
   //   NotificationCentre {}
