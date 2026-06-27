@@ -1,12 +1,12 @@
 # TODO
 ## Quickshell
 - Finish quickshell bar
-  - ❗ ClippedProgressBar
-    - ❗ Fix the "shadow" bug
-  - ❗ Notification
-    - ❗ x-canonical-private-synchronous
-    - ❗ dedup
-    - ❗ action (left click)
-    - ❕ do not disturb
-    - ❕ text eliding
-    - ❕ notificaton centre
+  - [x] ❗ ClippedProgressBar
+    - [x] ❗ Fix the "shadow" bug
+  - [ ] ❗ Notification
+    - [x] ❗ x-canonical-private-synchronous
+    - [ ] ❕ dedup
+    - [x] ❗ action (left click)
+    - [ ] ❕ do not disturb
+    - [x] ❕ text eliding
+    - [x] ❕ notificaton centre

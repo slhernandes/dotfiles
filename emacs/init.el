@@ -54,6 +54,7 @@
 ;; Major mode packages
 (rc/require 'rust-mode)
 (rc/require 'lua-ts-mode)
+(rc/require 'fennel-mode)
 (add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
 
 ;; simpc-mode

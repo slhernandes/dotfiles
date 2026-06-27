@@ -68,13 +68,13 @@ Singleton {
 
   function handleNotif(notif) {
     const id = notif.id;
-    console.log("NEW NOTIF: ", id);
     const data = {
       "notif": notif,
       "metadata": {
         "id": id,
         "transient": notif.hints["transient"] || 0,
-        "xcps": notif.hints["x-canonical-private-synchronous"] || "",
+        "xcps": notif.hints["x-canonical-private-synchronous"] || notif.hints["synchronous"] || "",
+        "dndBypass": notif.hints["dnd-bypass"] || notif.hints["SWAYNC_BYPASS_DND"] || false,
         "summary": notif.summary || "",
         "body": notif.body || "",
         "urgency": notif.urgency < 0 || notif.urgency > 2 ? 1 : notif.urgency,
@@ -86,8 +86,10 @@ Singleton {
     if (data.metadata.xcps !== "") {
       const oldNid = findNotifFromXcps(data.metadata.xcps);
       if (oldNid != -1) {
-        const alid = findActiveIndexFromId(oldNid);
-        activeList.set(alid, data);
+        if (!GlobalStates.dndEnabled || data.metadata.dndBypass || data.metadata.transient !== 0) {
+          const alid = findActiveIndexFromId(oldNid);
+          activeList.set(alid, data);
+        }
 
         if (data.metadata.transient === 0) {
           const ncid = findNcIndexFromId(oldNid);
@@ -100,7 +102,9 @@ Singleton {
         const isNewId = !activeNotif[id];
         activeNotif[id] = data;
         if (isNewId) {
-          activeList.insert(0, data);
+          if (!GlobalStates.dndEnabled || data.metadata.dndBypass || data.metadata.transient !== 0) {
+            activeList.insert(0, data);
+          }
           if (data.metadata.transient === 0) {
             ncList.append(data);
           }
@@ -127,7 +131,6 @@ Singleton {
         ncList.remove(idx);
       }
     });
-    updateNcIndex();
   }
 
   Timer {
@@ -144,7 +147,7 @@ Singleton {
       const notifData = activeNotif[i];
       const urgency = notifData.metadata.urgency || 1;
       const duration = durations[urgency] || 6000;
-      const expire = notifData.metadata.expireTimeout * 1000 || -1;
+      const expire = notifData.metadata.expireTimeout || -1;
       if (now - notifData.metadata.timestamp >= duration && expire < 0) {
         deactivateNotifSignal(i, true);
         continue;
@@ -169,18 +172,11 @@ Singleton {
 
   function dismissNotif(id) {
     activeNotif[id].notif.dismiss();
-    updateNcIndex();
   }
 
   function dismissAllNotif() {
     for (const id of Object.keys(activeNotif)) {
       dismissNotif(id);
-    }
-  }
-
-  function updateNcIndex() {
-    for (const i = 0; i < ncList.count; i++) {
-      ncList.get(i).index = i;
     }
   }
 }

@@ -138,7 +138,7 @@ Scope {
               color: "transparent"
               Text {
                 id: titleText
-                text: "Notification Centre"
+                text: "Notifications"
                 color: Theme.ncTextColour
                 font {
                   family: Variables.fontFamilyTextNC
@@ -241,10 +241,11 @@ Scope {
                 implicitHeight: rootRect.closeIconSize
                 implicitWidth: rootRect.closeIconSize
                 cursorShape: Qt.PointingHandCursor
-                onMouseXChanged: () => {
+                onClicked: () => notifList.currentIndex = rootRect.index
+                onDoubleClicked: () => {
                   notifList.currentIndex = rootRect.index;
+                  rootRect.invokeAction();
                 }
-                onClicked: () => rootRect.invokeAction()
               }
               RowLayout {
                 spacing: notifCentre.gap

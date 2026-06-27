@@ -11,8 +11,15 @@ Singleton {
     objects: [Pipewire.defaultAudioSink, Pipewire.defaultAudioSource].concat(Pipewire.linkGroups.values.filter(x => x.source.isStream).map(x => x.source))
   }
 
+  PersistentProperties {
+    id: dndStatus
+    reloadableId: "dndStatus"
+    property bool dndEnabled: false
+  }
+
   property bool notifCentreVisible: false
   property bool controlCentreVisible: false
+  property bool dndEnabled: dndStatus.dndEnabled
   property string monitorName: "eDP-1"
 
   property string currentPopupName
@@ -33,6 +40,12 @@ Singleton {
         root.notifCentreVisible = true;
         root.controlCentreVisible = false;
       }
+    }
+    function toggleDnd() {
+      dndStatus.dndEnabled = !dndStatus.dndEnabled;
+    }
+    function dndState(): bool {
+      return dndStatus.dndEnabled;
     }
   }
 }
