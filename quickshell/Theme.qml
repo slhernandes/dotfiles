@@ -44,6 +44,7 @@ Singleton {
   property string ncTextColour: theme.white
   property string ncScrollBarColour: theme.white
   property string tooltipColour: theme.white
+  property string launcherTextColour: theme.white
 
   property string osdBarColourBg: theme.brightBlack
   property string osdBarColour: theme.white

@@ -126,3 +126,7 @@ If nvim is not cloned yet, do:
 rmdir nvim
 git clone https://github.com/slhernandes/nvim_config ./nvim
 ```
+
+### Quickshell
+
+Only used in 1080p

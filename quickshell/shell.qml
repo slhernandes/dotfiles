@@ -7,6 +7,7 @@ import qs.controlCentre
 import qs.osd
 import qs.wallpaper
 import qs.notificationCentre
+import qs.launcher
 
 //import qs.notificationCentre
 
@@ -18,6 +19,14 @@ Scope {
   }
   LazyLoader {
     loading: true
+    NotificationCentre {}
+  }
+  LazyLoader {
+    loading: true
+    Launcher {}
+  }
+  LazyLoader {
+    loading: true
     VolumeOSD {}
   }
   LazyLoader {
@@ -26,7 +35,6 @@ Scope {
   }
   Wallpaper {}
   Notification {}
-  NotificationCentre {}
   // LazyLoader {
   //   loading: true
   //   NotificationCentre {}

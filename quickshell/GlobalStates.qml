@@ -19,6 +19,7 @@ Singleton {
 
   property bool notifCentreVisible: false
   property bool controlCentreVisible: false
+  property bool launcherVisible: false
   property bool dndEnabled: dndStatus.dndEnabled
   property string monitorName: "eDP-1"
 
@@ -31,6 +32,7 @@ Singleton {
       } else {
         root.controlCentreVisible = true;
         root.notifCentreVisible = false;
+        root.launcherVisible = false;
       }
     }
     function toggleNotificationCentre() {
@@ -39,8 +41,21 @@ Singleton {
       } else {
         root.notifCentreVisible = true;
         root.controlCentreVisible = false;
+        root.launcherVisible = false;
       }
     }
+
+    function toggleLauncher(): bool {
+      if (root.launcherVisible) {
+        root.launcherVisible = false;
+      } else {
+        root.launcherVisible = true;
+        root.notifCentreVisible = false;
+        root.controlCentreVisible = false;
+      }
+      return root.launcherVisible;
+    }
+
     function toggleDnd() {
       dndStatus.dndEnabled = !dndStatus.dndEnabled;
     }

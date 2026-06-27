@@ -10,3 +10,6 @@
     - [ ] ❕ do not disturb
     - [x] ❕ text eliding
     - [x] ❕ notificaton centre
+  - [ ] ❗ Launcher
+    - [ ] ❗ Fix keybinds
+    - [ ] ❗ Add ListView
