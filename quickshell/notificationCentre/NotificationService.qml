@@ -5,6 +5,8 @@ import QtQuick.Window
 import Quickshell
 import Quickshell.Services.Notifications
 
+import qs
+
 Singleton {
   id: root
   property int test: 10
@@ -83,17 +85,25 @@ Singleton {
         "progress": 1.0
       }
     };
+    if (data.metadata.transient === 1 && GlobalStates.dndEnabled && !data.metadata.dndBypass) {
+      notif.dismiss();
+      return;
+    }
     if (data.metadata.xcps !== "") {
       const oldNid = findNotifFromXcps(data.metadata.xcps);
       if (oldNid != -1) {
         if (!GlobalStates.dndEnabled || data.metadata.dndBypass || data.metadata.transient !== 0) {
           const alid = findActiveIndexFromId(oldNid);
-          activeList.set(alid, data);
+          if (alid !== -1) {
+            activeList.set(alid, data);
+          }
         }
 
         if (data.metadata.transient === 0) {
           const ncid = findNcIndexFromId(oldNid);
-          ncList.set(ncid, data);
+          if (ncid !== -1) {
+            ncList.set(ncid, data);
+          }
         }
 
         activeNotif[id] = data;
@@ -114,7 +124,9 @@ Singleton {
       const isNewId = !activeNotif[id];
       activeNotif[id] = data;
       if (isNewId) {
-        activeList.insert(0, data);
+        if (!GlobalStates.dndEnabled || data.metadata.dndBypass || data.metadata.transient !== 0) {
+          activeList.insert(0, data);
+        }
         if (data.metadata.transient === 0) {
           ncList.append(data);
         }
@@ -160,7 +172,7 @@ Singleton {
   }
 
   function deactivateNotif(id, partial) {
-    if (partial) {
+    if (partial && activeNotif[id].metadata.transient !== 1) {
       const alid = findActiveIndexFromId(id);
       if (alid !== -1) {
         activeList.remove(alid);

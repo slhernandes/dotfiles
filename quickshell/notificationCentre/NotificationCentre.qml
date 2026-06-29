@@ -36,14 +36,14 @@ Scope {
       anchors.fill: parent
       onClicked: function () {
         if (!ncBackground.contains(Qt.point(mouseX, mouseY - Variables.barHeight - 4))) {
-          GlobalStates.notifCentreVisible = false;
+          GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         }
       }
     }
 
     Shortcut {
       sequence: "escape"
-      onActivated: GlobalStates.notifCentreVisible = false
+      onActivated: GlobalStates.currentOverlay = GlobalStates.Overlay.None
     }
 
     Shortcut {
@@ -91,7 +91,7 @@ Scope {
     margins.top: -Variables.barHeight
     margins.right: 4
 
-    visible: GlobalStates.notifCentreVisible
+    visible: GlobalStates.currentOverlay === GlobalStates.Overlay.NotifCentre
 
     Rectangle {
       id: ncBackground
@@ -228,7 +228,7 @@ Scope {
               function invokeAction() {
                 const actions = rootRect.notif.actions;
                 if (actions.length > 0) {
-                  GlobalStates.notifCentreVisible = false;
+                  GlobalStates.currentOverlay = GlobalStates.Overlay.None;
                   actions[0].invoke();
                 } else {
                   NotificationService.dismissNotif(rootRect.metadata.id);

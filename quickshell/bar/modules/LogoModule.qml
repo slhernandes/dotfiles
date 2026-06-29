@@ -38,7 +38,7 @@ ModuleBlock {
         switch (event.button) {
         case Qt.LeftButton:
           {
-            GlobalStates.controlCentreVisible = !GlobalStates.controlCentreVisible;
+            GlobalStates.currentOverlay = GlobalStates.currentOverlay === GlobalStates.Overlay.ControlCentre ? GlobalStates.Overlay.None : GlobalStates.Overlay.ControlCentre;
             GlobalStates.monitorName = root.QsWindow.window?.screen.name;
           }
           break;

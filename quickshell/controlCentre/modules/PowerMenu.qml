@@ -125,7 +125,7 @@ CCModuleBlock {
       implicitWidth: root.boxSize
       cursorShape: Qt.PointingHandCursor
       onClicked: function (event) {
-        GlobalStates.controlCentreVisible = false;
+        GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         lockProcess.running = true;
       }
       Rectangle {
@@ -188,7 +188,7 @@ CCModuleBlock {
   onRestart: () => restartProcess.running = true
   onRestartToWindows: () => rebootWindowsProcess.running = true
   onLock: () => {
-    GlobalStates.controlCentreVisible = false;
+    GlobalStates.currentOverlay = GlobalStates.Overlay.None;
     lockProcess.running = true;
   }
   onLogout: () => logoutProcess.running = true

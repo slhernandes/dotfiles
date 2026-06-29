@@ -27,6 +27,10 @@ Scope {
   }
   LazyLoader {
     loading: true
+    Minimize {}
+  }
+  LazyLoader {
+    loading: true
     VolumeOSD {}
   }
   LazyLoader {

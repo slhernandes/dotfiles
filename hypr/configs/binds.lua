@@ -9,8 +9,10 @@ hl.bind(MainMod .. "+ SHIFT + U",
 hl.bind(MainMod .. "+ T", hl.dsp.exec_cmd(Terminal))
 hl.bind(MainMod .. "+ F", hl.dsp.exec_cmd(Browser))
 hl.bind(MainMod .. "+ M", hl.dsp.exec_cmd(ScriptDir .. "/minimize.py minimize"))
+-- hl.bind(MainMod .. "+ SHIFT + M",
+--   hl.dsp.exec_cmd(ScriptDir .. "/minimize.py restorerofi"))
 hl.bind(MainMod .. "+ SHIFT + M",
-  hl.dsp.exec_cmd(ScriptDir .. "/minimize.py restorerofi"))
+  hl.dsp.exec_cmd("qs ipc call globalStates toggleMinimize"))
 hl.bind(MainMod .. "+ W", hl.dsp.exec_cmd(ScriptDir .. "/change_wallpaper.sh"))
 hl.bind(MainMod .. "+ SHIFT + W",
   hl.dsp.exec_cmd(ScriptDir .. "/change_theme.sh"))

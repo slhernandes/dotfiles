@@ -16,13 +16,13 @@ Scope {
     target: Pipewire.defaultAudioSink?.audio
 
     function onVolumeChanged() {
-      root.shouldShowOsd = true && !GlobalStates.controlCentreVisible;
+      root.shouldShowOsd = true;
       root.isSink = true;
       hideTimer.restart();
     }
 
     function onMutedChanged() {
-      root.shouldShowOsd = true && !GlobalStates.controlCentreVisible;
+      root.shouldShowOsd = true;
       root.isSink = true;
       hideTimer.restart();
     }
@@ -32,13 +32,13 @@ Scope {
     target: Pipewire.defaultAudioSource?.audio
 
     function onVolumeChanged() {
-      root.shouldShowOsd = true && !GlobalStates.controlCentreVisible;
+      root.shouldShowOsd = true;
       root.isSink = false;
       hideTimer.restart();
     }
 
     function onMutedChanged() {
-      root.shouldShowOsd = true && !GlobalStates.controlCentreVisible;
+      root.shouldShowOsd = true;
       root.isSink = false;
       hideTimer.restart();
     }
@@ -162,7 +162,7 @@ Scope {
     target: "volumeOSD"
     function openOSD(isSink: bool) {
       root.isSink = isSink;
-      root.shouldShowOsd = true && !GlobalStates.controlCentreVisible;
+      root.shouldShowOsd = true;
       hideTimer.restart();
     }
   }

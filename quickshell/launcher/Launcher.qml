@@ -33,7 +33,7 @@ Scope {
       anchors.fill: parent
       onClicked: function () {
         if (!ncBackground.contains(Qt.point(mouseX, mouseY - Variables.barHeight - 4))) {
-          GlobalStates.launcherVisible = false;
+          GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         }
       }
     }
@@ -42,7 +42,7 @@ Scope {
       sequence: "escape"
       onActivated: () => {
         if (input.selectedText === "") {
-          GlobalStates.launcherVisible = false;
+          GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         } else {
           input.deselect();
         }
@@ -58,7 +58,7 @@ Scope {
 
     margins.top: -Variables.barHeight
 
-    visible: GlobalStates.launcherVisible
+    visible: GlobalStates.currentOverlay === GlobalStates.Overlay.Launcher
 
     Rectangle {
       id: launcherBackground

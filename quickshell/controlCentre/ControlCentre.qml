@@ -31,14 +31,14 @@ Scope {
       anchors.fill: parent
       onClicked: function () {
         if (!ccBackground.contains(Qt.point(mouseX, mouseY - Variables.barHeight - 4))) {
-          GlobalStates.controlCentreVisible = false;
+          GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         }
       }
     }
 
     Shortcut {
       sequence: "escape"
-      onActivated: GlobalStates.controlCentreVisible = false
+      onActivated: GlobalStates.currentOverlay = GlobalStates.Overlay.None
     }
 
     Shortcut {
@@ -128,7 +128,7 @@ Scope {
     margins.top: -Variables.barHeight
     margins.left: 4
 
-    visible: GlobalStates.controlCentreVisible
+    visible: GlobalStates.currentOverlay === GlobalStates.Overlay.ControlCentre
 
     Rectangle {
       id: ccBackground

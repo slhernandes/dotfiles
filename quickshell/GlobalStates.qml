@@ -17,43 +17,66 @@ Singleton {
     property bool dndEnabled: false
   }
 
+  enum Overlay {
+    None = 0,
+    ControlCentre = 1,
+    NotifCentre = 2,
+    Launcher = 3,
+    Minimize = 4
+  }
+
+  property int currentOverlay: GlobalStates.Overlay.None
   property bool notifCentreVisible: false
   property bool controlCentreVisible: false
   property bool launcherVisible: false
+  property bool minimizeVisible: false
+  property int minimizedCount: 0
   property bool dndEnabled: dndStatus.dndEnabled
   property string monitorName: "eDP-1"
 
   property string currentPopupName
+  Process {
+    id: minimizeNotif
+    running: false
+    command: ["sh", "-c", `notify-send -r 818 -u low -i ${Quickshell.shellDir}/icons/dialog-warning.svg "Minimizer" "No minimized window" -h string:x-canonical-private-synchronous:minimize -h boolean:dnd-bypass:true -h int:transient:1`]
+  }
   IpcHandler {
     target: "globalStates"
-    function toggleControlCentre() {
-      if (root.controlCentreVisible) {
-        root.controlCentreVisible = false;
+    function toggleControlCentre(): bool {
+      if (root.currentOverlay === GlobalStates.Overlay.ControlCentre) {
+        root.currentOverlay = GlobalStates.Overlay.None;
       } else {
-        root.controlCentreVisible = true;
-        root.notifCentreVisible = false;
-        root.launcherVisible = false;
+        root.currentOverlay = GlobalStates.Overlay.ControlCentre;
       }
+      return root.currentOverlay === GlobalStates.Overlay.ControlCentre;
     }
-    function toggleNotificationCentre() {
-      if (root.notifCentreVisible) {
-        root.notifCentreVisible = false;
+    function toggleNotificationCentre(): bool {
+      if (root.currentOverlay === GlobalStates.Overlay.NotifCentre) {
+        root.currentOverlay = GlobalStates.Overlay.None;
       } else {
-        root.notifCentreVisible = true;
-        root.controlCentreVisible = false;
-        root.launcherVisible = false;
+        root.currentOverlay = GlobalStates.Overlay.NotifCentre;
       }
+      return root.currentOverlay === GlobalStates.Overlay.NotifCentre;
     }
 
     function toggleLauncher(): bool {
-      if (root.launcherVisible) {
-        root.launcherVisible = false;
+      if (root.currentOverlay === GlobalStates.Overlay.Launcher) {
+        root.currentOverlay = GlobalStates.Overlay.None;
       } else {
-        root.launcherVisible = true;
-        root.notifCentreVisible = false;
-        root.controlCentreVisible = false;
+        root.currentOverlay = GlobalStates.Overlay.Launcher;
       }
-      return root.launcherVisible;
+      return root.currentOverlay === GlobalStates.Overlay.Launcher;
+    }
+
+    function toggleMinimize(): bool {
+      if (root.currentOverlay === GlobalStates.Overlay.Minimize) {
+        root.currentOverlay = GlobalStates.Overlay.None;
+      } else if (root.minimizedCount <= 0) {
+        minimizeNotif.running = true;
+      } else {
+        root.currentOverlay = GlobalStates.Overlay.Minimize;
+      }
+      return root.currentOverlay === GlobalStates.Overlay.Minimize;
     }
 
     function toggleDnd() {
