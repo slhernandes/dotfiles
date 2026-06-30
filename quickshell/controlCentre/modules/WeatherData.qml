@@ -35,7 +35,7 @@ Singleton {
 
   FileView {
     id: weatherJson
-    path: `file://${Variables.configDir}/weather.json`
+    path: `file://${Variables.configDir}/data/weather.json`
     blockLoading: true
   }
 
@@ -117,8 +117,7 @@ Singleton {
       weatherInfo.lastTimestamp = cur.toString();
       retrieveWeather.running = true;
       var end = new Date().getTime() + 1000;
-      while (new Date().getTime() < end)
-        ;
+      while (new Date().getTime() < end);
       return;
     }
     weatherJson.reload();

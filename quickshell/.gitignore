@@ -1,6 +1,2 @@
-api_keys.json
-weather.json
 .qmlls.ini
-.current_theme
-.wallpaper
-frecency.json
+data/

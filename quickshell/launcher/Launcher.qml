@@ -13,7 +13,11 @@ import qs.launcher.providers
 Scope {
   id: root
   enum Providers {
-    AppLauncher
+    AppLauncher,
+    Search,
+    Pdf,
+    Wallpaper,
+    Theme
   }
   PanelWindow {
     id: launcher
@@ -53,6 +57,7 @@ Scope {
       onClicked: function () {
         if (!ncBackground.contains(Qt.point(mouseX, mouseY - Variables.barHeight - 4))) {
           GlobalStates.currentOverlay = GlobalStates.Overlay.None;
+          launcherList.currentIndex = 0;
           input.clear();
         }
       }
@@ -63,6 +68,7 @@ Scope {
       onActivated: () => {
         if (input.selectedText === "") {
           GlobalStates.currentOverlay = GlobalStates.Overlay.None;
+          launcherList.currentIndex = 0;
           input.clear();
         } else {
           input.deselect();
@@ -93,6 +99,10 @@ Scope {
         case Launcher.Providers.AppLauncher:
           {
             launcherList.model[launcherList.currentIndex]?.execute();
+            let appName = launcherList.model[launcherList.currentIndex]?.name;
+            if (!!appName) {
+              AppLauncherProvider.updateFrecency(appName);
+            }
           }
           break;
         default:
@@ -101,6 +111,7 @@ Scope {
           }
         }
         input.clear();
+        launcherList.currentIndex = 0;
       }
     }
 
@@ -165,7 +176,16 @@ Scope {
         spacing: launcher.gap
         TextField {
           id: input
-          placeholderText: qsTr("Hello, World")
+          placeholderText: {
+            let phText = "";
+            switch (launcher.providerName) {
+            case Launcher.Providers.AppLauncher:
+              {
+                phText = AppLauncherProvider.placeholderText;
+              }
+            }
+            return qsTr(phText);
+          }
           placeholderTextColor: Theme.launcherTextColour
           cursorVisible: true
           Layout.fillWidth: true
@@ -241,6 +261,8 @@ Scope {
           }
           Layout.fillHeight: true
           Layout.fillWidth: true
+          keyNavigationEnabled: true
+          keyNavigationWraps: true
           spacing: launcher.gap / 2
           clip: true
           highlightMoveDuration: 30

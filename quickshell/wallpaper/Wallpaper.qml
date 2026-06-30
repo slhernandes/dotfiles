@@ -101,7 +101,7 @@ Scope {
 
     FileView {
       id: wallFile
-      path: Quickshell.shellDir + "/.wallpaper"
+      path: Quickshell.shellDir + "/data/.wallpaper"
       onLoaded: {
         const pref = wallpaper.checkTime();
         const wall = text().trim();

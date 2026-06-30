@@ -9,6 +9,7 @@ import qs
 
 Singleton {
   id: root
+  property string placeholderText: "Applications"
   property bool showIcons: true
   property list<var> apps: frecencyJson.apps
   property var items: []
@@ -90,7 +91,6 @@ Singleton {
     return defaultScore;
   }
 
-
   function findAppFrecencyFromString(appName: string): var {
     for (const app of apps) {
       if (app.name === appName) {
@@ -98,6 +98,15 @@ Singleton {
       }
     }
     return null;
+  }
+
+  function findAppFrecencyIndexFromString(appName: string): int {
+    for (let i = 0; i < apps.length; i++) {
+      if (apps[i].name === appName) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   function calculateScore(appName: string): int {
@@ -114,5 +123,21 @@ Singleton {
       return Math.ceil(totalVisits * bonus / visits.length);
     }
     return -1;
+  }
+
+  function updateFrecency(appName: string) {
+    let afIndex = findAppFrecencyIndexFromString(appName);
+    const now = Math.floor(Date.now() / 1000);
+    if (afIndex === -1) {
+      const temp = {
+        "name": appName,
+        "visits": [now],
+        "totalVisits": 1
+      };
+      frecencyJson.apps.push(temp);
+    } else {
+      frecencyJson.apps[afIndex].visits.push(now);
+      frecencyJson.apps[afIndex].totalVisits++;
+    }
   }
 }

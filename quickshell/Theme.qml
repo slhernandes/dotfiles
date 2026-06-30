@@ -89,7 +89,7 @@ Singleton {
   }
 
   FileView {
-    path: Quickshell.shellDir + "/.current_theme"
+    path: Quickshell.shellDir + "/data/.current_theme"
     onLoaded: {
       themeProp.currentThemeName = text().trim();
       root.setTheme(themeProp.currentThemeName);
