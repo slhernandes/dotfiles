@@ -8,13 +8,32 @@ import QtQuick.Layouts
 import QtQuick.Effects
 
 import qs
+import qs.launcher.providers
 
 Scope {
   id: root
+  enum Providers {
+    AppLauncher
+  }
   PanelWindow {
     id: launcher
     property real launcherWidth: 400
     property real launcherHeight: 600
+    property int providerName: Launcher.Providers.AppLauncher
+    property var items: {
+      switch (providerName) {
+      case Launcher.Providers.AppLauncher:
+        {
+          return AppLauncherProvider.items;
+        }
+        break;
+      default:
+        {
+          console.log("UNREACHABLE!");
+        }
+      }
+      return null;
+    }
     property real gap: 8
     screen: {
       let screens = Quickshell.screens;
@@ -34,6 +53,7 @@ Scope {
       onClicked: function () {
         if (!ncBackground.contains(Qt.point(mouseX, mouseY - Variables.barHeight - 4))) {
           GlobalStates.currentOverlay = GlobalStates.Overlay.None;
+          input.clear();
         }
       }
     }
@@ -43,9 +63,44 @@ Scope {
       onActivated: () => {
         if (input.selectedText === "") {
           GlobalStates.currentOverlay = GlobalStates.Overlay.None;
+          input.clear();
         } else {
           input.deselect();
         }
+      }
+    }
+
+    Shortcut {
+      sequence: "Ctrl+n"
+      onActivated: () => {
+        launcherList.incrementCurrentIndex();
+      }
+    }
+
+    Shortcut {
+      sequence: "Ctrl+p"
+      onActivated: () => {
+        launcherList.decrementCurrentIndex();
+      }
+    }
+
+    Shortcut {
+      sequence: "Return"
+      onActivated: () => {
+        GlobalStates.currentOverlay = GlobalStates.Overlay.None;
+        launcherList.forceLayout();
+        switch (launcher.providerName) {
+        case Launcher.Providers.AppLauncher:
+          {
+            launcherList.model[launcherList.currentIndex]?.execute();
+          }
+          break;
+        default:
+          {
+            console.log("UNREACHABLE!");
+          }
+        }
+        input.clear();
       }
     }
 
@@ -59,7 +114,6 @@ Scope {
     margins.top: -Variables.barHeight
 
     visible: GlobalStates.currentOverlay === GlobalStates.Overlay.Launcher
-
     Rectangle {
       id: launcherBackground
       color: Theme.inactiveElement
@@ -70,72 +124,162 @@ Scope {
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.topMargin: Variables.barHeight + 4
-      anchors.leftMargin: (launcher.width - launcher.launcherWidth) / 2
+      anchors.leftMargin: {
+        switch (GlobalStates.launcherPosition) {
+        case "left":
+          {
+            return 0;
+          }
+          break;
+        case "center":
+          {
+            return (launcher.width - launcher.launcherWidth) / 2;
+          }
+          break;
+        case "right":
+          {
+            return launcher.width - launcher.launcherWidth;
+          }
+          break;
+        default:
+          {
+            return (launcher.width - launcher.launcherWidth) / 2;
+          }
+        }
+      }
       radius: Variables.radius
       opacity: Variables.ncBgOpacity
       width: launcher.launcherWidth
       height: launcher.launcherHeight
-      visible: true
+    }
 
-      TextField {
-        id: input
-        placeholderText: qsTr("Hello, World")
-        placeholderTextColor: Theme.launcherTextColour
-        cursorVisible: true
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.leftMargin: launcher.gap
-        anchors.topMargin: launcher.gap
-        width: parent.width - 2 * launcher.gap
-        focus: true
-        Keys.onPressed: event => {
-          if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_A) {
-            cursorPosition = 0;
-            event.accepted = true;
-          } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_E) {
-            cursorPosition = text.length;
-            event.accepted = true;
-          } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_Y) {
-            paste();
-            event.accepted = true;
-          } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_F) {
-            cursorPosition += 1;
-            event.accepted = true;
-          } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_B) {
-            cursorPosition -= 1;
-            event.accepted = true;
-          } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_F) {
-            // TODO: Fix multi space behaviour
-            let cPosTemp = text.length;
-            for (let i = cursorPosition + 1; i < text.length; i++) {
-              if (text[i] === " ") {
-                cPosTemp = i;
-                break;
+    Rectangle {
+      color: "transparent"
+      anchors.fill: launcherBackground
+      radius: Variables.radius
+
+      ColumnLayout {
+        id: launcherColumn
+        anchors.fill: parent
+        anchors.margins: launcher.gap
+        spacing: launcher.gap
+        TextField {
+          id: input
+          placeholderText: qsTr("Hello, World")
+          placeholderTextColor: Theme.launcherTextColour
+          cursorVisible: true
+          Layout.fillWidth: true
+          focus: true
+          background: Rectangle {
+            color: Theme.barBgColour
+            opacity: Variables.barOpacity
+            radius: Variables.radius
+          }
+          Keys.onPressed: event => {
+            if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_A) {
+              cursorPosition = 0;
+              event.accepted = true;
+            } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_E) {
+              cursorPosition = text.length;
+              event.accepted = true;
+            } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_Y) {
+              paste();
+              event.accepted = true;
+            } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_F) {
+              cursorPosition += 1;
+              event.accepted = true;
+            } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_B) {
+              cursorPosition -= 1;
+              event.accepted = true;
+            } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_F) {
+              // TODO: Fix multi space behaviour
+              let cPosTemp = text.length;
+              for (let i = cursorPosition + 1; i < text.length; i++) {
+                if (text[i] === " ") {
+                  cPosTemp = i;
+                  break;
+                }
+              }
+              cursorPosition = cPosTemp;
+              event.accepted = true;
+            } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_B) {
+              // TODO: Fix multi space behaviour
+              let cPosTemp = 0;
+              for (let i = cursorPosition - 2; i >= 0; i--) {
+                if (text[i] === " ") {
+                  cPosTemp = i + 1;
+                  break;
+                }
+              }
+              cursorPosition = cPosTemp;
+              event.accepted = true;
+            } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_D) {
+              // TODO: Delete Forward Word
+            } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_Backspace) {
+              // TODO: Delete Backward Word
+            } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_W) {
+              copy();
+              event.accepted = true;
+            } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_W) {
+              cut();
+              event.accepted = true;
+            }
+          }
+        }
+        ListView {
+          id: launcherList
+          model: {
+            const text = input.text;
+            let filteredItems = [];
+            for (const item of launcher.items) {
+              const itemNameLower = item.name?.toLowerCase() || "";
+              if (itemNameLower.includes(text.toLowerCase())) {
+                filteredItems.push(item);
               }
             }
-            cursorPosition = cPosTemp;
-            event.accepted = true;
-          } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_B) {
-            // TODO: Fix multi space behaviour
-            let cPosTemp = 0;
-            for (let i = cursorPosition - 2; i >= 0; i--) {
-              if (text[i] === " ") {
-                cPosTemp = i + 1;
-                break;
+            return filteredItems;
+          }
+          Layout.fillHeight: true
+          Layout.fillWidth: true
+          spacing: launcher.gap / 2
+          clip: true
+          highlightMoveDuration: 30
+          delegate: Rectangle {
+            id: delegateRoot
+            required property string name
+            required property string icon
+            radius: Variables.radius
+            opacity: Variables.barOpacity
+            height: launcherListText.height + 2 * launcher.gap
+            width: launcherList.width
+            color: Theme.barBgColour
+            border {
+              width: ListView.isCurrentItem ? 2 : 0
+              color: Theme.activeBorder
+            }
+            RowLayout {
+              spacing: launcher.gap
+              anchors.verticalCenter: parent.verticalCenter
+              anchors.fill: parent
+              anchors.leftMargin: launcher.gap
+              Rectangle {
+                Layout.fillHeight: true
+                Layout.preferredWidth: parent.height - 2 * launcher.gap
+                color: "transparent"
+                IconImage {
+                  anchors.fill: parent
+                  source: Quickshell.iconPath(delegateRoot.icon)
+                  implicitSize: parent.height
+                }
+              }
+              Text {
+                id: launcherListText
+                Layout.fillWidth: true
+                elide: Text.ElideMiddle
+                text: `${delegateRoot.name}`
+                color: Theme.tlTextColour
               }
             }
-            cursorPosition = cPosTemp;
-            event.accepted = true;
-          } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_D) {
-            // TODO: Delete Forward Word
-          } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_Backspace) {
-            // TODO: Delete Backward Word
-          } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_W) {
-            copy();
-            event.accepted = true;
-          } else if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_W) {
-            cut();
-            event.accepted = true;
           }
         }
       }
@@ -144,7 +288,7 @@ Scope {
     Component.onCompleted: {
       this.WlrLayershell.layer = WlrLayer.Overlay;
       this.WlrLayershell.keyboardFocus = WlrKeyboardFocus.Exclusive;
-      this.WlrLayershell.namespace = "qsLauncher";
+      this.WlrLayershell.namespace = "qsOverlay";
     }
   }
 }

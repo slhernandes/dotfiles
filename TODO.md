@@ -3,13 +3,16 @@
 - Finish quickshell bar
   - [x] ❗ ClippedProgressBar
     - [x] ❗ Fix the "shadow" bug
-  - [ ] ❗ Notification
+  - [x] ❗ Notification
     - [x] ❗ x-canonical-private-synchronous
-    - [ ] ❕ dedup
+    - [ ] ❕ dedup?
     - [x] ❗ action (left click)
-    - [ ] ❕ do not disturb
+    - [x] ❕ do not disturb
     - [x] ❕ text eliding
     - [x] ❕ notificaton centre
   - [ ] ❗ Launcher
     - [ ] ❗ Fix keybinds
-    - [ ] ❗ Add ListView
+    - [x] ❗ Add ListView
+    - [ ] ❗ Add proper DesktopEntry filter
+    - [ ] ❗ Add other providers
+    - [ ] ❕ fuzzy find

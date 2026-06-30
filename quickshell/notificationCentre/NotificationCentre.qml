@@ -366,7 +366,7 @@ Scope {
     Component.onCompleted: {
       this.WlrLayershell.layer = WlrLayer.Overlay;
       this.WlrLayershell.keyboardFocus = WlrKeyboardFocus.Exclusive;
-      this.WlrLayershell.namespace = "qsNotifCentre";
+      this.WlrLayershell.namespace = "qsOverlay";
     }
   }
 }

@@ -69,7 +69,6 @@ Scope {
         if (!item) {
           return;
         }
-        console.log("item.address:", item.address);
         const address = item.address;
         const activeWs = Hyprland.focusedWorkspace;
         if (!activeWs) {
@@ -123,7 +122,7 @@ Scope {
       onMinimizedToplevelsHyprlandChanged: () => {
         GlobalStates.minimizedCount = minimizedToplevelsHyprland.length;
       }
-      property var currentScreen: minimizedToplevelsHyprland[tlList.currentIndex].wayland
+      property var currentScreen: minimizedToplevelsHyprland[tlList.currentIndex]?.wayland || null
       RowLayout {
         spacing: 0
         anchors.fill: parent
@@ -183,7 +182,7 @@ Scope {
     Component.onCompleted: {
       this.WlrLayershell.layer = WlrLayer.Overlay;
       this.WlrLayershell.keyboardFocus = WlrKeyboardFocus.Exclusive;
-      this.WlrLayershell.namespace = "qsMinimize";
+      this.WlrLayershell.namespace = "qsOverlay";
     }
   }
 }

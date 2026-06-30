@@ -141,7 +141,7 @@ hl.layer_rule({
 })
 
 hl.layer_rule({
-  match = { namespace = "qsControlCentre" },
+  match = { namespace = "qsOverlay" },
   blur = true,
   -- xray = true,
   ignore_alpha = 0.5
@@ -149,20 +149,6 @@ hl.layer_rule({
 
 hl.layer_rule({
   match = { namespace = "qsNotifications" },
-  blur = true,
-  -- xray = true,
-  ignore_alpha = 0.5
-})
-
-hl.layer_rule({
-  match = { namespace = "qsNotifCentre" },
-  blur = true,
-  -- xray = true,
-  ignore_alpha = 0.5
-})
-
-hl.layer_rule({
-  match = { namespace = "qsMinimize" },
   blur = true,
   -- xray = true,
   ignore_alpha = 0.5

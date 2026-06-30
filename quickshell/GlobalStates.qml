@@ -2,7 +2,6 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pipewire
-import Quickshell.Services.Notifications
 
 Singleton {
   id: root
@@ -26,10 +25,7 @@ Singleton {
   }
 
   property int currentOverlay: GlobalStates.Overlay.None
-  property bool notifCentreVisible: false
-  property bool controlCentreVisible: false
-  property bool launcherVisible: false
-  property bool minimizeVisible: false
+  property string launcherPosition: "center"
   property int minimizedCount: 0
   property bool dndEnabled: dndStatus.dndEnabled
   property string monitorName: "eDP-1"
@@ -59,11 +55,12 @@ Singleton {
       return root.currentOverlay === GlobalStates.Overlay.NotifCentre;
     }
 
-    function toggleLauncher(): bool {
+    function toggleLauncher(position: string): bool {
       if (root.currentOverlay === GlobalStates.Overlay.Launcher) {
         root.currentOverlay = GlobalStates.Overlay.None;
       } else {
         root.currentOverlay = GlobalStates.Overlay.Launcher;
+        root.launcherPosition = position;
       }
       return root.currentOverlay === GlobalStates.Overlay.Launcher;
     }

@@ -21,12 +21,12 @@ ModuleBlock {
       font.family: Variables.fontFamilyLogo
     }
 
-    Process {
-      id: rofiDrun
-      command: ["rofi", "-show", "drun", "-theme-str", "window {location: northwest; anchor: northwest;}"]
-      // command: ["sh", "-c", "hyprshutdown -t 'Shutting down...' -p 'poweroff' &> /home/samuelhernandes/Dokumente/test/hyprshutdown.log"]
-      running: false
-    }
+    // Process {
+    //   id: rofiDrun
+    //   command: ["rofi", "-show", "drun", "-theme-str", "window {location: northwest; anchor: northwest;}"]
+    //   // command: ["sh", "-c", "hyprshutdown -t 'Shutting down...' -p 'poweroff' &> /home/samuelhernandes/Dokumente/test/hyprshutdown.log"]
+    //   running: false
+    // }
 
     MouseArea {
       id: mouseArea
@@ -44,7 +44,9 @@ ModuleBlock {
           break;
         case Qt.RightButton:
           {
-            rofiDrun.running = true;
+            GlobalStates.launcherPosition = "left";
+            GlobalStates.currentOverlay = GlobalStates.currentOverlay === GlobalStates.Overlay.Launcher ? GlobalStates.Overlay.None : GlobalStates.Overlay.Launcher;
+            GlobalStates.monitorName = root.QsWindow.window?.screen.name;
           }
           break;
         }
