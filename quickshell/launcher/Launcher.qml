@@ -53,7 +53,7 @@ Scope {
       id: launcherMouseArea
       anchors.fill: parent
       onClicked: function () {
-        if (!ncBackground.contains(Qt.point(mouseX, mouseY - Variables.barHeight - 4))) {
+        if (!launcherBackground.contains(Qt.point(mouseX, mouseY - Variables.barHeight - 4))) {
           GlobalStates.currentOverlay = GlobalStates.Overlay.None;
           launcherList.currentIndex = 0;
           input.clear();
@@ -188,22 +188,33 @@ Scope {
               cursorPosition -= 1;
               event.accepted = true;
             } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_F) {
-              // TODO: Fix multi space behaviour
-              let cPosTemp = text.length;
-              for (let i = cursorPosition + 1; i < text.length; i++) {
+              let cPosTemp = cursorPosition;
+              for (let i = cursorPosition; i <= text.length; i++) {
+                cPosTemp = i;
+                if (text[i] !== " " && text[i] !== "\t") {
+                  break;
+                }
+              }
+              for (let i = cPosTemp; i <= text.length; i++) {
+                cPosTemp = i;
                 if (text[i] === " ") {
-                  cPosTemp = i;
                   break;
                 }
               }
               cursorPosition = cPosTemp;
               event.accepted = true;
             } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_B) {
-              // TODO: Fix multi space behaviour
-              let cPosTemp = 0;
-              for (let i = cursorPosition - 2; i >= 0; i--) {
-                if (text[i] === " ") {
-                  cPosTemp = i + 1;
+              let cPosTemp = cursorPosition;
+              for (let i = cursorPosition - 1; i >= 0; i--) {
+                cPosTemp = i;
+                if (text[i] !== " " && text[i] !== "\t") {
+                  break;
+                }
+              }
+              for (let i = cPosTemp; i >= 0; i--) {
+                cPosTemp = i;
+                if (text[i] === " " && i !== 0) {
+                  cPosTemp++;
                   break;
                 }
               }
@@ -246,6 +257,7 @@ Scope {
             id: delegateRoot
             required property string name
             required property string icon
+            required property int index
             radius: Variables.radius
             opacity: Variables.barOpacity
             height: launcherListText.height + 2 * launcher.gap
@@ -254,6 +266,19 @@ Scope {
             border {
               width: ListView.isCurrentItem ? 2 : 0
               color: Theme.activeBorder
+            }
+            MouseArea {
+              anchors.fill: parent
+              hoverEnabled: true
+              onClicked: () => launcherList.currentIndex = delegateRoot.index
+              onDoubleClicked: () => {
+                GlobalStates.currentOverlay = GlobalStates.Overlay.None;
+                launcherList.forceLayout();
+                const item = launcherList.model[launcherList.currentIndex];
+                launcher.provider.execute(item);
+                input.clear();
+                launcherList.currentIndex = 0;
+              }
             }
             RowLayout {
               spacing: launcher.gap

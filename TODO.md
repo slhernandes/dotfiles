@@ -5,7 +5,7 @@
     - [x] ❗ Fix the "shadow" bug
   - [x] ❗ Notification
     - [x] ❗ x-canonical-private-synchronous
-    - [ ] ❕ dedup?
+    - [x] ❕ dedup?
     - [x] ❗ action (left click)
     - [x] ❕ do not disturb
     - [x] ❕ text eliding
