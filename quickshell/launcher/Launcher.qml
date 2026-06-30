@@ -12,32 +12,30 @@ import qs.launcher.providers
 
 Scope {
   id: root
-  enum Providers {
-    AppLauncher,
-    Search,
-    Pdf,
-    Wallpaper,
-    Theme
-  }
   PanelWindow {
     id: launcher
     property real launcherWidth: 400
     property real launcherHeight: 600
-    property int providerName: Launcher.Providers.AppLauncher
-    property var items: {
-      switch (providerName) {
-      case Launcher.Providers.AppLauncher:
+    property var provider: {
+      switch (GlobalStates.launcherProvider) {
+      case "appLauncher":
         {
-          return AppLauncherProvider.items;
+          return AppLauncherProvider;
+        }
+        break;
+      case "pdf":
+        {
+          return PdfProvider;
         }
         break;
       default:
         {
-          console.log("UNREACHABLE!");
+          console.log("Launcher.provider: UNREACHABLE!");
+          return AppLauncherProvider;
         }
       }
-      return null;
     }
+    property var items: provider.items
     property real gap: 8
     screen: {
       let screens = Quickshell.screens;
@@ -95,21 +93,8 @@ Scope {
       onActivated: () => {
         GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         launcherList.forceLayout();
-        switch (launcher.providerName) {
-        case Launcher.Providers.AppLauncher:
-          {
-            launcherList.model[launcherList.currentIndex]?.execute();
-            let appName = launcherList.model[launcherList.currentIndex]?.name;
-            if (!!appName) {
-              AppLauncherProvider.updateFrecency(appName);
-            }
-          }
-          break;
-        default:
-          {
-            console.log("UNREACHABLE!");
-          }
-        }
+        const item = launcherList.model[launcherList.currentIndex];
+        launcher.provider.execute(item);
         input.clear();
         launcherList.currentIndex = 0;
       }
@@ -176,16 +161,7 @@ Scope {
         spacing: launcher.gap
         TextField {
           id: input
-          placeholderText: {
-            let phText = "";
-            switch (launcher.providerName) {
-            case Launcher.Providers.AppLauncher:
-              {
-                phText = AppLauncherProvider.placeholderText;
-              }
-            }
-            return qsTr(phText);
-          }
+          placeholderText: qsTr(launcher.provider.placeholderText)
           placeholderTextColor: Theme.launcherTextColour
           cursorVisible: true
           Layout.fillWidth: true
@@ -285,8 +261,8 @@ Scope {
               anchors.fill: parent
               anchors.leftMargin: launcher.gap
               Rectangle {
-                Layout.fillHeight: true
-                Layout.preferredWidth: parent.height - 2 * launcher.gap
+                Layout.fillHeight: launcher.provider.showIcons ? true : false
+                Layout.preferredWidth: launcher.provider.showIcons ? parent.height - 2 * launcher.gap : 0
                 color: "transparent"
                 IconImage {
                   anchors.fill: parent

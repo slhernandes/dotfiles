@@ -129,4 +129,5 @@ git clone https://github.com/slhernandes/nvim_config ./nvim
 
 ### Quickshell
 
-Only used in 1080p
+- Copy `data_example/` as `data/`, and fill in the api_keys.json to fully use all of the features.
+- Only tested in 1080p

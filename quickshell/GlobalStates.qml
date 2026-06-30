@@ -26,6 +26,7 @@ Singleton {
 
   property int currentOverlay: GlobalStates.Overlay.None
   property string launcherPosition: "center"
+  property string launcherProvider: "appLauncher"
   property int minimizedCount: 0
   property bool dndEnabled: dndStatus.dndEnabled
   property string monitorName: "eDP-1"
@@ -55,12 +56,13 @@ Singleton {
       return root.currentOverlay === GlobalStates.Overlay.NotifCentre;
     }
 
-    function toggleLauncher(position: string): bool {
+    function toggleLauncher(position: string, provider: string): bool {
       if (root.currentOverlay === GlobalStates.Overlay.Launcher) {
         root.currentOverlay = GlobalStates.Overlay.None;
       } else {
         root.currentOverlay = GlobalStates.Overlay.Launcher;
         root.launcherPosition = position;
+        root.launcherProvider = provider;
       }
       return root.currentOverlay === GlobalStates.Overlay.Launcher;
     }

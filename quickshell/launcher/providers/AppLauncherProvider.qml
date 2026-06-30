@@ -136,8 +136,24 @@ Singleton {
       };
       frecencyJson.apps.push(temp);
     } else {
-      frecencyJson.apps[afIndex].visits.push(now);
+      let temp = [...frecencyJson.apps[afIndex].visits];
+      temp.push(now);
+      if (temp.length > 10) {
+        temp = [...temp.slice(temp.length-10)];
+      }
+      frecencyJson.apps[afIndex].visits = [...temp];
       frecencyJson.apps[afIndex].totalVisits++;
+    }
+  }
+
+  function execute(item: var) {
+    if (!item) {
+      return;
+    }
+    item?.execute();
+    let appName = item?.name;
+    if (!!appName) {
+      updateFrecency(appName);
     }
   }
 }
