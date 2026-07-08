@@ -47,7 +47,7 @@ bindkey -e
 bindkey "^?" backward-delete-char
 bindkey "^p" history-search-backward
 bindkey "^n" history-search-forward
-bindkey "^[y" autosuggest-accept
+bindkey "^y" autosuggest-accept
 bindkey -s "^[[15~" "source $ZSHRC^m"
 stty stop undef # disable ^s
 

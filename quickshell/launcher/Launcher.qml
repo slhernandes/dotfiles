@@ -14,8 +14,6 @@ Scope {
   id: root
   PanelWindow {
     id: launcher
-    property real launcherWidth: 400
-    property real launcherHeight: 600
     property var provider: {
       switch (GlobalStates.launcherProvider) {
       case "appLauncher":
@@ -25,9 +23,26 @@ Scope {
         break;
       case "pdf":
         {
+          PdfProvider.updateItems();
           return PdfProvider;
         }
         break;
+      case "theme":
+        {
+          ThemeProvider.updateItems();
+          return ThemeProvider;
+        }
+        break;
+      // case "wallpaper":
+      //   {
+      //     return WallpaperProvider; // TODO: Might be a different file similar to Minimize.qml
+      //   }
+      //   break;
+      // case "websearch":
+      //   {
+      //     return WebSearchProvider; // TODO
+      //   }
+      //   break;
       default:
         {
           console.log("Launcher.provider: UNREACHABLE!");
@@ -35,6 +50,8 @@ Scope {
         }
       }
     }
+    property real launcherWidth: 400 * provider.widthMult || 400
+    property real launcherHeight: 600 * provider.heightMult || 600
     property var items: provider.items
     property real gap: 8
     screen: {
@@ -94,7 +111,7 @@ Scope {
         GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         launcherList.forceLayout();
         const item = launcherList.model[launcherList.currentIndex];
-        launcher.provider.execute(item);
+        launcher.provider?.execute(item);
         input.clear();
         launcherList.currentIndex = 0;
       }
@@ -171,6 +188,23 @@ Scope {
             opacity: Variables.barOpacity
             radius: Variables.radius
           }
+          function isAlnum(c: string): bool {
+            if (isAlnum.length !== 1 || !c) {
+              return false;
+            }
+            const cCode = c.charCodeAt(0);
+            console.log(cCode, c);
+            if (cCode >= 47 && cCode <= 57) {
+              return true;
+            }
+            if (cCode >= 65 && cCode <= 90) {
+              return true;
+            }
+            if (cCode >= 97 && cCode <= 122) {
+              return true;
+            }
+            return false;
+          }
           Keys.onPressed: event => {
             if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_A) {
               cursorPosition = 0;
@@ -189,15 +223,17 @@ Scope {
               event.accepted = true;
             } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_F) {
               let cPosTemp = cursorPosition;
+              console.log("isAlnum");
               for (let i = cursorPosition; i <= text.length; i++) {
                 cPosTemp = i;
-                if (text[i] !== " " && text[i] !== "\t") {
+                if (isAlnum(text[i])) {
                   break;
                 }
               }
+              console.log("!isAlnum");
               for (let i = cPosTemp; i <= text.length; i++) {
                 cPosTemp = i;
-                if (text[i] === " ") {
+                if (!isAlnum(text[i])) {
                   break;
                 }
               }
@@ -207,13 +243,13 @@ Scope {
               let cPosTemp = cursorPosition;
               for (let i = cursorPosition - 1; i >= 0; i--) {
                 cPosTemp = i;
-                if (text[i] !== " " && text[i] !== "\t") {
+                if (isAlnum(text[i])) {
                   break;
                 }
               }
               for (let i = cPosTemp; i >= 0; i--) {
                 cPosTemp = i;
-                if (text[i] === " " && i !== 0) {
+                if (!isAlnum(text[i]) && i !== 0) {
                   cPosTemp++;
                   break;
                 }
@@ -221,9 +257,29 @@ Scope {
               cursorPosition = cPosTemp;
               event.accepted = true;
             } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_D) {
-              // TODO: Delete Forward Word
+              const leftBound = cursorPosition;
+              let rightBound = cursorPosition;
+              while (rightBound < text.length && !isAlnum(text[rightBound])) {
+                rightBound++;
+              }
+              while (rightBound < text.length && isAlnum(text[rightBound])) {
+                rightBound++;
+              }
+              remove(leftBound, rightBound);
+              event.accepted = true;
             } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_Backspace) {
-              // TODO: Delete Backward Word
+              const rightBound = cursorPosition;
+              let leftBound = cursorPosition - 1;
+              while (leftBound >= 0 && !isAlnum(text[leftBound])) {
+                leftBound--;
+              }
+              while (leftBound >= 0 && isAlnum(text[leftBound])) {
+                leftBound--;
+              }
+              if (leftBound < 0 || !isAlnum(text[leftBound]))
+                leftBound++;
+              remove(leftBound, rightBound);
+              event.accepted = true;
             } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_W) {
               copy();
               event.accepted = true;
@@ -235,17 +291,7 @@ Scope {
         }
         ListView {
           id: launcherList
-          model: {
-            const text = input.text;
-            let filteredItems = [];
-            for (const item of launcher.items) {
-              const itemNameLower = item.name?.toLowerCase() || "";
-              if (itemNameLower.includes(text.toLowerCase())) {
-                filteredItems.push(item);
-              }
-            }
-            return filteredItems;
-          }
+          model: launcher.provider.filter(input.text)
           Layout.fillHeight: true
           Layout.fillWidth: true
           keyNavigationEnabled: true
@@ -281,10 +327,12 @@ Scope {
               }
             }
             RowLayout {
-              spacing: launcher.gap
+              spacing: launcher.provider.showIcons ? launcher.gap : 0
+              // spacing: launcher.gap
               anchors.verticalCenter: parent.verticalCenter
               anchors.fill: parent
               anchors.leftMargin: launcher.gap
+              anchors.rightMargin: launcher.gap
               Rectangle {
                 Layout.fillHeight: launcher.provider.showIcons ? true : false
                 Layout.preferredWidth: launcher.provider.showIcons ? parent.height - 2 * launcher.gap : 0
@@ -292,15 +340,21 @@ Scope {
                 IconImage {
                   anchors.fill: parent
                   source: Quickshell.iconPath(delegateRoot.icon)
-                  implicitSize: parent.height
+                  implicitSize: parent.width
                 }
               }
-              Text {
-                id: launcherListText
+              Rectangle {
                 Layout.fillWidth: true
-                elide: Text.ElideMiddle
-                text: `${delegateRoot.name}`
-                color: Theme.tlTextColour
+                Layout.fillHeight: true
+                color: "transparent"
+                Text {
+                  id: launcherListText
+                  anchors.verticalCenter: parent.verticalCenter
+                  width: parent.width
+                  elide: launcher.provider.elideMode ?? Text.ElideMiddle
+                  text: `${delegateRoot.name}`
+                  color: Theme.tlTextColour
+                }
               }
             }
           }

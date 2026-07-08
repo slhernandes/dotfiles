@@ -15,6 +15,9 @@ export ZSHRC=$XDG_CONFIG_HOME/zsh/.zshrc
 export CLANGD_FLAGS=""
 export MANPAGER='nvim +Man!'
 export EDITOR=nvim
+export TERMINAL=ghostty
+export PDFREADER=zathura
+export BROWSER=firefox
 
 # OMNeT++ env
 # export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:/opt/omnetpp/include

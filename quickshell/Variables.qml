@@ -4,6 +4,10 @@ import QtQuick
 import Quickshell
 
 Singleton {
+  property string terminal: Quickshell.env("TERMINAL") || "xterm"
+  property string pdfReader: Quickshell.env("PDFREADER") || "xdg-open"
+  property string browser: Quickshell.env("BROWSER") || "xdg-open"
+
   property string configDir: Quickshell.shellDir
   property string wallDir: "/home/samuelhernandes/.config/hypr/wallpapers"
 

@@ -1,5 +1,6 @@
 pragma Singleton
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Services.Pipewire
 
@@ -34,8 +35,9 @@ Singleton {
   property string currentPopupName
   Process {
     id: minimizeNotif
+    property string message: ""
     running: false
-    command: ["sh", "-c", `notify-send -r 818 -u low -i ${Quickshell.shellDir}/icons/dialog-warning.svg "Minimizer" "No minimized window" -h string:x-canonical-private-synchronous:minimize -h boolean:dnd-bypass:true -h int:transient:1`]
+    command: ["sh", "-c", `notify-send -r 818 -u low -i ${Quickshell.shellDir}/icons/dialog-warning.svg "Minimizer" "${message}" -h string:x-canonical-private-synchronous:minimize -h boolean:dnd-bypass:true -h int:transient:1`]
   }
   IpcHandler {
     target: "globalStates"
@@ -67,15 +69,26 @@ Singleton {
       return root.currentOverlay === GlobalStates.Overlay.Launcher;
     }
 
-    function toggleMinimize(): bool {
-      if (root.currentOverlay === GlobalStates.Overlay.Minimize) {
-        root.currentOverlay = GlobalStates.Overlay.None;
-      } else if (root.minimizedCount <= 0) {
-        minimizeNotif.running = true;
+    function toggleMinimize(restore: bool): bool {
+      if (restore) {
+        if (root.currentOverlay === GlobalStates.Overlay.Minimize) {
+          root.currentOverlay = GlobalStates.Overlay.None;
+        } else if (root.minimizedCount <= 0) {
+          minimizeNotif.message = "No minimized window";
+          minimizeNotif.running = true;
+        } else {
+          root.currentOverlay = GlobalStates.Overlay.Minimize;
+        }
+        return root.currentOverlay === GlobalStates.Overlay.Minimize;
       } else {
-        root.currentOverlay = GlobalStates.Overlay.Minimize;
+        console.log("Hyprland.activeToplevel:", Hyprland.activeToplevel.wayland.activated);
+        if (!Hyprland.activeToplevel?.wayland.activated) {
+          minimizeNotif.message = "No active window detected";
+          minimizeNotif.running = true;
+        } else {
+          Hyprland.dispatch("hl.dsp.window.move({workspace = \"special:minimized\", follow = false})");
+        }
       }
-      return root.currentOverlay === GlobalStates.Overlay.Minimize;
     }
 
     function toggleDnd() {

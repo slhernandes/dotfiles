@@ -11,6 +11,7 @@ Singleton {
   id: root
   property string placeholderText: "Applications"
   property bool showIcons: true
+  property real widthMult: 1.0
   property list<var> apps: frecencyJson.apps
   property var items: []
   FileView {
@@ -139,7 +140,7 @@ Singleton {
       let temp = [...frecencyJson.apps[afIndex].visits];
       temp.push(now);
       if (temp.length > 10) {
-        temp = [...temp.slice(temp.length-10)];
+        temp = [...temp.slice(temp.length - 10)];
       }
       frecencyJson.apps[afIndex].visits = [...temp];
       frecencyJson.apps[afIndex].totalVisits++;
@@ -150,10 +151,33 @@ Singleton {
     if (!item) {
       return;
     }
-    item?.execute();
+    if (item?.runInTerminal && item?.execString !== "") {
+      Quickshell.execDetached([Variables.terminal, "-e", ...item?.execString.split(" ")]);
+    } else {
+      item?.execute();
+    }
     let appName = item?.name;
     if (!!appName) {
       updateFrecency(appName);
     }
+  }
+
+  function filter(inputText: string): list<var> {
+    let filteredItems = [];
+    for (const item of root.items) {
+      let nameList = [];
+      nameList.push(item.name?.toLowerCase() || ""); // Name
+      nameList.push(item.genericName?.toLowerCase() || ""); // GenericName
+      const categories = item.categories?.map(x => x.toLowerCase()) || []; // Categories
+      const keywords = item.keywords?.map(x => x.toLowerCase()) || []; // Keywords
+      nameList = [...nameList, ...categories, ...keywords];
+      for (const name of nameList) {
+        if (name.includes(inputText.toLowerCase())) {
+          filteredItems.push(item);
+          break;
+        }
+      }
+    }
+    return filteredItems;
   }
 }
