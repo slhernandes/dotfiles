@@ -147,7 +147,7 @@ Singleton {
     }
   }
 
-  function execute(item: var) {
+  function execute(item: var, inputText: string) {
     if (!item) {
       return;
     }

@@ -38,11 +38,11 @@ Scope {
       //     return WallpaperProvider; // TODO: Might be a different file similar to Minimize.qml
       //   }
       //   break;
-      // case "websearch":
-      //   {
-      //     return WebSearchProvider; // TODO
-      //   }
-      //   break;
+      case "websearch":
+        {
+          return WebSearchProvider;
+        }
+        break;
       default:
         {
           console.log("Launcher.provider: UNREACHABLE!");
@@ -111,7 +111,7 @@ Scope {
         GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         launcherList.forceLayout();
         const item = launcherList.model[launcherList.currentIndex];
-        launcher.provider?.execute(item);
+        launcher.provider?.execute(item, input.text);
         input.clear();
         launcherList.currentIndex = 0;
       }
@@ -339,7 +339,13 @@ Scope {
                 color: "transparent"
                 IconImage {
                   anchors.fill: parent
-                  source: Quickshell.iconPath(delegateRoot.icon)
+                  source: {
+                    const prefix = delegateRoot.icon.split(":")[0];
+                    if (prefix === "file") {
+                      return delegateRoot.icon;
+                    }
+                    return Quickshell.iconPath(delegateRoot.icon, true) || `file://${Variables.configDir}/icons/unknown.png`;
+                  }
                   implicitSize: parent.width
                 }
               }

@@ -37,7 +37,7 @@ Singleton {
     lsProc.running = true;
   }
 
-  function execute(item: var) {
+  function execute(item: var, inputText: string) {
     if (!item) {
       return;
     }
@@ -52,8 +52,6 @@ Singleton {
         filteredItems.push(i);
       }
     }
-    // console.log(root.items);
-    // console.log(filteredItems);
     return filteredItems;
   }
 }

@@ -43,7 +43,7 @@ Singleton {
     fdProc.running = true;
   }
 
-  function execute(item: var) {
+  function execute(item: var, inputText: string) {
     if (!item) {
       return;
     }
@@ -67,7 +67,7 @@ Singleton {
         }
         if (i[0] === "+") {
           const dirname = i.slice(1).toLowerCase();
-          const found = false;
+          let found = false;
           for (const dir of item.dirlist) {
             if (dir.toLowerCase().includes(dirname)) {
               found = true;
