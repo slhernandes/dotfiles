@@ -1,0 +1,31 @@
+#+TITLE: Dotfiles Todo List
+#+AUTHOR: Samuel Lewi Hernandes
+#+TODO: TODO(t) WIP(w) | DONE(d)
+* Quickshell
+** DONE [#A] ClippedProgressBar
+*** DONE [#A] Fix the "shadow" bug
+** DONE [#A] Notification
+*** DONE [#A] x-canonical-private-synchronous
+*** DONE [#B] dedup?
+*** DONE [#A] action (left click)
+*** DONE [#B] do not disturb
+*** DONE [#B] text eliding
+*** DONE [#B] notificaton centre
+** WIP [#A] Launcher
+*** DONE [#A] Fix keybinds
+*** DONE [#A] Add ListView
+*** TODO [#A] Add proper DesktopEntry filter
+*** WIP [#A] Add other providers
+*** TODO [#B] fuzzy find
+** TODO [#B] HyprlandUtils
+*** TODO [#B] Refactor HyprlandUtils.qml (less Process, more Quickshell.Hyprland)
+*** TODO [#B] bar/modules/CurrentWorkspaceWindowsModule.qml:64: use Qt.callLater
+*** TODO [#B] Possible windowAdded/windowremoved on CurrentWorkspacewindowsmodule.qml
+#+BEGIN_SRC js
+  this.model.push({...})     // onWindowAdded
+  this.model.splice(index, 1) // onWindowRemoved
+#+END_SRC
+Mutating a plain JS array that's already assigned as a Repeater.model generally doesn't notify the view —
+you usually need to reassign the property for QML to pick up the change. If window icons ever seem to only
+update when you switch workspaces (rather than immediately on open/close), this is why. Worth verifying it
+behaves as expected once you're on a dogfoodable setup.

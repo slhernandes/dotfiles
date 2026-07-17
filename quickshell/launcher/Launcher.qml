@@ -202,7 +202,7 @@ Scope {
             radius: Variables.radius
           }
           function isAlnum(c: string): bool {
-            if (isAlnum.length !== 1 || !c) {
+            if (c.length !== 1 || !c) {
               return false;
             }
             const cCode = c.charCodeAt(0);
@@ -332,7 +332,7 @@ Scope {
                 GlobalStates.currentOverlay = GlobalStates.Overlay.None;
                 launcherList.forceLayout();
                 const item = launcherList.model[launcherList.currentIndex];
-                launcher.provider.execute(item);
+                launcher.provider.execute(item, input.text);
                 input.clear();
                 launcherList.currentIndex = 0;
               }
