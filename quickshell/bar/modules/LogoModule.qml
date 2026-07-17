@@ -45,6 +45,7 @@ ModuleBlock {
         case Qt.RightButton:
           {
             GlobalStates.launcherPosition = "left";
+            GlobalStates.launcherProvider = "appLauncher";
             GlobalStates.currentOverlay = GlobalStates.currentOverlay === GlobalStates.Overlay.Launcher ? GlobalStates.Overlay.None : GlobalStates.Overlay.Launcher;
             GlobalStates.monitorName = root.QsWindow.window?.screen.name;
           }

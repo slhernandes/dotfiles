@@ -103,7 +103,11 @@
 (rc/require 'mood-line
 	    'magit
 	    'elfeed
+	    'expand-region
 	    'evil)
+
+;; expand region
+(global-set-key (kbd "C-ä") 'er/expand-region)
 
 ;; elfeed config
 (setq elfeed-feeds
@@ -190,3 +194,33 @@
 
 (load-file custom-file)
 (put 'downcase-region 'disabled nil)
+
+;; org-mode config
+(require 'org)
+
+(setq org-agenda-files '("~/Dokumente/notes/agenda/"))
+(setq org-log-done 'time)
+(setq org-return-follows-link t)
+
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(add-hook 'org-mode-hook 'org-indent-mode)
+
+(define-key org-mode-map (kbd "C-c k") 'org-priority-up)
+(define-key org-mode-map (kbd "C-c j") 'org-priority-down)
+
+(define-key global-map (kbd "C-c l") 'org-store-link)
+(define-key global-map (kbd "C-c a") 'org-agenda)
+(define-key global-map (kbd "C-c c") 'org-capture)
+
+(custom-theme-set-faces
+ 'user
+ '(org-default ((t :family "Sans Serif")))
+  '(org-level-8 ((t (:inherit org-default :weight bold))))
+  '(org-level-7 ((t (:inherit org-default :weight bold))))
+  '(org-level-6 ((t (:inherit org-default :weight bold))))
+  '(org-level-5 ((t (:inherit org-default :weight bold))))
+  '(org-level-4 ((t (:inherit org-default :weight bold :height 1.1))))
+  '(org-level-3 ((t (:inherit org-default :weight bold :height 1.2))))
+  '(org-level-2 ((t (:inherit org-default :weight bold :height 1.3))))
+  '(org-level-1 ((t (:inherit org-default :weight bold :height 1.5))))
+  '(org-document-title ((t (:inherit org-default :weight bold :height 1.8 :underline nil)))))

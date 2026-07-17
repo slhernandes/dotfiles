@@ -44,21 +44,7 @@ Singleton {
         return 0;
       return 1;
     }
-    let apps = [...DesktopEntries.applications.values];
-
-    for (let i = apps.length - 1; i >= 0; i--) {
-      let swap = false;
-      for (let j = 0; j < i; j++) {
-        if (compare(apps[j], apps[j + 1]) === 1) {
-          const temp = apps[j];
-          apps[j] = apps[j + 1];
-          apps[j + 1] = temp;
-          swap = true;
-        }
-      }
-      if (!swap)
-        break;
-    }
+    let apps = [...DesktopEntries.applications.values].sort(compare);
     root.items = apps;
   }
   function timeScore(secs: int): int {
@@ -172,7 +158,7 @@ Singleton {
       const keywords = item.keywords?.map(x => x.toLowerCase()) || []; // Keywords
       nameList = [...nameList, ...categories, ...keywords];
       for (const name of nameList) {
-        if (name.includes(inputText.toLowerCase())) {
+        if (name.includes(inputText?.toLowerCase() || "")) {
           filteredItems.push(item);
           break;
         }

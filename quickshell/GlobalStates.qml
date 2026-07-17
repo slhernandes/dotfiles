@@ -33,12 +33,6 @@ Singleton {
   property string monitorName: "eDP-1"
 
   property string currentPopupName
-  Process {
-    id: minimizeNotif
-    property string message: ""
-    running: false
-    command: ["sh", "-c", `notify-send -r 818 -u low -i ${Quickshell.shellDir}/icons/dialog-warning.svg "Minimizer" "${message}" -h string:x-canonical-private-synchronous:minimize -h boolean:dnd-bypass:true -h int:transient:1`]
-  }
   IpcHandler {
     target: "globalStates"
     function toggleControlCentre(): bool {
@@ -62,20 +56,22 @@ Singleton {
       if (root.currentOverlay === GlobalStates.Overlay.Launcher) {
         root.currentOverlay = GlobalStates.Overlay.None;
       } else {
-        root.currentOverlay = GlobalStates.Overlay.Launcher;
         root.launcherPosition = position;
         root.launcherProvider = provider;
+        root.currentOverlay = GlobalStates.Overlay.Launcher;
       }
       return root.currentOverlay === GlobalStates.Overlay.Launcher;
     }
 
     function toggleMinimize(restore: bool): bool {
+      const warningIcon = `${Variables.configDir}/icons/dialog-warning.svg`;
+      const hints = "-h string:x-canonical-private-synchronous:minimize -h boolean:dnd-bypass:true -h int:transient:1";
       if (restore) {
         if (root.currentOverlay === GlobalStates.Overlay.Minimize) {
           root.currentOverlay = GlobalStates.Overlay.None;
         } else if (root.minimizedCount <= 0) {
-          minimizeNotif.message = "No minimized window";
-          minimizeNotif.running = true;
+          const message = "No minimized window";
+          Quickshell.execDetached(["sh", "-c", `notify-send -r 818 -u low -i ${warningIcon} "Minimizer" "${message}" ${hints}`]);
         } else {
           root.currentOverlay = GlobalStates.Overlay.Minimize;
         }
@@ -83,8 +79,8 @@ Singleton {
       } else {
         console.log("Hyprland.activeToplevel:", Hyprland.activeToplevel.wayland.activated);
         if (!Hyprland.activeToplevel?.wayland.activated) {
-          minimizeNotif.message = "No active window detected";
-          minimizeNotif.running = true;
+          const message = "No active window detected";
+          Quickshell.execDetached(["sh", "-c", `notify-send -r 818 -u low -i ${warningIcon} "Minimizer" "${message}" ${hints}`]);
         } else {
           Hyprland.dispatch("hl.dsp.window.move({workspace = \"special:minimized\", follow = false})");
         }
