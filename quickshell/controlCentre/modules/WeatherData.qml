@@ -33,6 +33,23 @@ Singleton {
     command: [`${Variables.configDir}/scripts/weather.sh`]
   }
 
+  // Example of using JsonAdapter
+  // FileView {
+  //   id: frecencyFile
+  //   path: Quickshell.shellDir + "/data/frecency.json"
+  //   watchChanges: true
+  //   onAdapterUpdated: writeAdapter()
+  //   JsonAdapter {
+  //     id: frecencyJson
+  //     property list<var> apps: []
+  //     onAppsChanged: () => {
+  //       root.updateItems();
+  //     }
+  //   }
+  //   onLoaded: () => {
+  //     root.updateItems();
+  //   }
+  // }
   FileView {
     id: weatherJson
     path: `file://${Variables.configDir}/data/weather.json`

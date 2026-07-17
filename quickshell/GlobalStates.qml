@@ -77,7 +77,6 @@ Singleton {
         }
         return root.currentOverlay === GlobalStates.Overlay.Minimize;
       } else {
-        console.log("Hyprland.activeToplevel:", Hyprland.activeToplevel.wayland.activated);
         if (!Hyprland.activeToplevel?.wayland.activated) {
           const message = "No active window detected";
           Quickshell.execDetached(["sh", "-c", `notify-send -r 818 -u low -i ${warningIcon} "Minimizer" "${message}" ${hints}`]);

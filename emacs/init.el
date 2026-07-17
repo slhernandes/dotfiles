@@ -224,3 +224,5 @@
   '(org-level-2 ((t (:inherit org-default :weight bold :height 1.3))))
   '(org-level-1 ((t (:inherit org-default :weight bold :height 1.5))))
   '(org-document-title ((t (:inherit org-default :weight bold :height 1.8 :underline nil)))))
+
+(plist-put org-format-latex-options :scale 1.5)

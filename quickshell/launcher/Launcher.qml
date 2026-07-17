@@ -23,13 +23,11 @@ Scope {
         break;
       case "pdf":
         {
-          PdfProvider.updateItems();
           return PdfProvider;
         }
         break;
       case "theme":
         {
-          ThemeProvider.updateItems();
           return ThemeProvider;
         }
         break;
@@ -49,6 +47,21 @@ Scope {
           return AppLauncherProvider;
         }
       }
+    }
+    onProviderChanged: () => {
+      launcher.provider.updateItems();
+      Qt.callLater(launcher.refreshFilter);
+    }
+
+    Connections {
+      target: launcher.provider
+      function onItemsChanged() {
+        Qt.callLater(launcher.refreshFilter);
+      }
+    }
+    property var filteredItems: []
+    function refreshFilter() {
+      launcher.filteredItems = launcher.provider.filter(input.text);
     }
     property real launcherWidth: 400 * provider.widthMult || 400
     property real launcherHeight: 600 * provider.heightMult || 600
@@ -193,7 +206,6 @@ Scope {
               return false;
             }
             const cCode = c.charCodeAt(0);
-            console.log(cCode, c);
             if (cCode >= 47 && cCode <= 57) {
               return true;
             }
@@ -205,6 +217,7 @@ Scope {
             }
             return false;
           }
+          onTextChanged: Qt.callLater(launcher.refreshFilter)
           Keys.onPressed: event => {
             if (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_A) {
               cursorPosition = 0;
@@ -223,14 +236,12 @@ Scope {
               event.accepted = true;
             } else if (event.modifiers & Qt.AltModifier && event.key === Qt.Key_F) {
               let cPosTemp = cursorPosition;
-              console.log("isAlnum");
               for (let i = cursorPosition; i <= text.length; i++) {
                 cPosTemp = i;
                 if (isAlnum(text[i])) {
                   break;
                 }
               }
-              console.log("!isAlnum");
               for (let i = cPosTemp; i <= text.length; i++) {
                 cPosTemp = i;
                 if (!isAlnum(text[i])) {
@@ -291,7 +302,7 @@ Scope {
         }
         ListView {
           id: launcherList
-          model: launcher.provider.filter(input.text)
+          model: launcher.filteredItems
           Layout.fillHeight: true
           Layout.fillWidth: true
           keyNavigationEnabled: true

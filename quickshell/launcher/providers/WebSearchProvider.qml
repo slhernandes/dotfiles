@@ -133,6 +133,10 @@ Singleton {
     Quickshell.execDetached([Variables.browser, item.url + searchText]);
   }
 
+  function updateItems() {
+    return;
+  }
+
   function filter(inputText: string): list<var> {
     if (inputText.length <= 0)
       return root.items;
