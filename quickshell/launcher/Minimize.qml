@@ -15,7 +15,9 @@ Scope {
     id: minimize
     property real monitorWidth: width
     property real monitorHeight: height + Variables.barHeight
-    property real minimizeWidth: 0.5 * monitorWidth
+    property real previewWidth: 1 / 4 * monitorWidth
+    property real listWidth: 3 / 16 * monitorWidth
+    property real minimizeWidth: previewWidth + listWidth
     property real minimizeHeight: 0.26 * monitorHeight
     property real gap: 8
     screen: {
@@ -101,7 +103,7 @@ Scope {
       anchors.topMargin: (minimize.height - minimize.minimizeHeight) / 2
       anchors.leftMargin: (minimize.width - minimize.minimizeWidth) / 2
       radius: Variables.radius
-      opacity: 1
+      opacity: Variables.barOpacity
       width: minimize.minimizeWidth
       height: minimize.minimizeHeight
       visible: true
@@ -127,7 +129,8 @@ Scope {
         anchors.fill: parent
         Rectangle {
           Layout.fillHeight: true
-          Layout.fillWidth: true
+          // Layout.fillWidth: true
+          Layout.preferredWidth: minimize.previewWidth
           color: "transparent"
           ScreencopyView {
             id: activeWindow
@@ -142,7 +145,8 @@ Scope {
         }
         Rectangle {
           Layout.fillHeight: true
-          Layout.preferredWidth: 0.5 * minimize.minimizeWidth
+          // Layout.preferredWidth: 0.5 * minimize.minimizeWidth
+          Layout.preferredWidth: minimize.listWidth
           color: "transparent"
           ListView {
             id: tlList

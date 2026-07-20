@@ -1,11 +1,12 @@
-hl.curve( "overshoot", { type = "bezier", points = { {0.5, 0.9}, {0.1, 1.05} } } )
-hl.curve( "rubber", { type = "spring", mass = 2, stiffness = 70, dampening = 17 } )
+hl.curve("overshoot", { type = "bezier", points = { { 0.5, 0.9 }, { 0.1, 1.05 } } })
+hl.curve("rubber",
+  { type = "spring", mass = 1, stiffness = 878.5, dampening = 45 })
 hl.animation({
   leaf = "windows",
   enabled = true,
   speed = 3,
   bezier = "overshoot",
-  style = "gnomed",
+  style = "gnomed"
 })
 
 hl.animation({
@@ -13,7 +14,7 @@ hl.animation({
   enabled = true,
   speed = 3,
   bezier = "default",
-  style = "popin 80%",
+  style = "popin 80%"
 })
 
 hl.animation({
@@ -21,35 +22,25 @@ hl.animation({
   enabled = true,
   speed = 3,
   bezier = "overshoot",
-  style = "slide",
+  style = "slide"
 })
 
-hl.animation({
-  leaf = "border",
-  enabled = true,
-  speed = 10,
-  bezier = "default",
-})
+hl.animation({ leaf = "border", enabled = true, speed = 10, bezier = "default" })
 
 hl.animation({
   leaf = "borderangle",
   enabled = true,
   speed = 8,
-  bezier = "default",
+  bezier = "default"
 })
 
-hl.animation({
-  leaf = "fade",
-  enabled = true,
-  speed = 4,
-  bezier = "default",
-})
+hl.animation({ leaf = "fade", enabled = true, speed = 4, bezier = "default" })
 
 hl.animation({
   leaf = "workspaces",
   enabled = true,
   speed = 3,
-  bezier = "overshoot",
+  bezier = "overshoot"
 })
 
 hl.animation({
@@ -57,5 +48,5 @@ hl.animation({
   enabled = true,
   speed = 3,
   spring = "rubber",
-  style = "slidefadevert",
+  style = "slidefadevert"
 })

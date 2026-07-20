@@ -14,7 +14,7 @@ hl.config({
     follow_mouse_shrink = 4,
     natural_scroll = true,
     repeat_rate = 50,
-    repeat_delay = 150,
+    repeat_delay = 175,
     accel_profile = "flat",
     force_no_accel = false,
 
