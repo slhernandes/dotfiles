@@ -19,6 +19,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
+  match = { class = "^(Emacs)$" },
+  opacity = "1.0 0.97",
+  workspace = "5"
+})
+
+hl.window_rule({
   match = { class = "^(firefox)$" },
   opacity = "1.0 0.97",
   workspace = "5"

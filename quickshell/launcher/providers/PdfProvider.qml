@@ -56,6 +56,20 @@ Singleton {
     return;
   }
 
+  // optional
+  function execute_alt(item: var, inputText: string) {
+    if (!item) {
+      return;
+    }
+    Quickshell.execDetached({
+      "command": ["dragon-drop", "-x", "-T", item.filename],
+      "environment": {},
+      "clearEnvironment": false,
+      "workingDirectory": item.dirlist.join("/")
+    });
+    return;
+  }
+
   function filter(inputText: string): list<var> {
     let filteredItems = [];
     const inputList = inputText.split(" ");

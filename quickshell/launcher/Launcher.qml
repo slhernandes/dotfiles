@@ -48,10 +48,10 @@ Scope {
         }
       }
     }
-    onProviderChanged: () => {
-      launcher.provider.updateItems();
-      Qt.callLater(launcher.refreshFilter);
-    }
+    // onProviderChanged: () => {
+    //   launcher.provider.updateItems();
+    //   Qt.callLater(launcher.refreshFilter);
+    // }
 
     Connections {
       target: launcher.provider
@@ -124,7 +124,23 @@ Scope {
         GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         launcherList.forceLayout();
         const item = launcherList.model[launcherList.currentIndex];
-        launcher.provider?.execute(item, input.text);
+        launcher.provider?.execute?.(item, input.text);
+        input.clear();
+        launcherList.currentIndex = 0;
+      }
+    }
+
+    Shortcut {
+      sequence: "Shift+Return"
+      onActivated: () => {
+        GlobalStates.currentOverlay = GlobalStates.Overlay.None;
+        launcherList.forceLayout();
+        const item = launcherList.model[launcherList.currentIndex];
+        if (typeof launcher.provider?.execute_alt === "function") {
+          launcher.provider?.execute_alt(item, input.text);
+        } else {
+          launcher.provider?.execute(item, input.text);
+        }
         input.clear();
         launcherList.currentIndex = 0;
       }
@@ -140,6 +156,10 @@ Scope {
     margins.top: -Variables.barHeight
 
     visible: GlobalStates.currentOverlay === GlobalStates.Overlay.Launcher
+    onVisibleChanged: () => {
+      launcher.provider.updateItems();
+      Qt.callLater(launcher.refreshFilter);
+    }
     Rectangle {
       id: launcherBackground
       color: Theme.inactiveElement
