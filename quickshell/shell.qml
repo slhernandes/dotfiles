@@ -31,6 +31,10 @@ Scope {
   }
   LazyLoader {
     loading: true
+    WallpaperPicker {}
+  }
+  LazyLoader {
+    loading: true
     VolumeOSD {}
   }
   LazyLoader {

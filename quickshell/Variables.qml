@@ -9,7 +9,7 @@ Singleton {
   property string browser: Quickshell.env("BROWSER") || "xdg-open"
 
   property string configDir: Quickshell.shellDir
-  property string wallDir: "/home/samuelhernandes/.config/hypr/wallpapers"
+  property string wallDir: Quickshell.env("XDG_CONFIG_HOME") + "/hypr/wallpapers"
 
   property string fontFamilyText: "Noto Sans Mono"
   property string fontFamilyTextCC: "Noto Sans CJK"

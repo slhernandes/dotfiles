@@ -21,7 +21,7 @@ Scope {
       }
     }
 
-    function checkTime() {
+    function checkTime(): string {
       const cur = Math.round(Date.now() / 1000);
       const today = new Date();
       const sunrise = parseInt(WeatherData.sunrise) || Math.round(today.setHours(6, 0, 0, 0) / 1000);

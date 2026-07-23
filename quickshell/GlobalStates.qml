@@ -22,7 +22,8 @@ Singleton {
     ControlCentre = 1,
     NotifCentre = 2,
     Launcher = 3,
-    Minimize = 4
+    Minimize = 4,
+    WallPicker = 5
   }
 
   property int currentOverlay: GlobalStates.Overlay.None
@@ -84,6 +85,15 @@ Singleton {
           Hyprland.dispatch("hl.dsp.window.move({workspace = \"special:minimized\", follow = false})");
         }
       }
+    }
+
+    function toggleWallPicker(): bool {
+      if (root.currentOverlay === GlobalStates.Overlay.WallPicker) {
+        root.currentOverlay = GlobalStates.Overlay.None;
+      } else {
+        root.currentOverlay = GlobalStates.Overlay.WallPicker;
+      }
+      return root.currentOverlay === GlobalStates.Overlay.WallPicker;
     }
 
     function toggleDnd() {

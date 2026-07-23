@@ -13,6 +13,7 @@
 - [tmux](https://github.com/tmux/tmux)
 - [yazi](https://github.com/sxyazi/yazi)
 - [zsh](https://www.zsh.org/)
+- [dragon-drop](https://github.com/mwh/dragon)
 
 ## Download
 
@@ -24,6 +25,7 @@ git clone https://github.com/slhernandes/dotfiles.git --depth=1
 ### Hyprland & Quickshell
 ```sh
 sudo pacman -S hyprland rofi quickshell ttf-material-symbols-variable tmux
+pikaur -S dragon-drop
 ```
 
 ## Usage
@@ -130,4 +132,4 @@ git clone https://github.com/slhernandes/nvim_config ./nvim
 ### Quickshell
 
 - Copy `data_example/` as `data/`, and fill in the api_keys.json to fully use all of the features.
-- Only tested in 1080p
+- The layout is only tested in 1080p
