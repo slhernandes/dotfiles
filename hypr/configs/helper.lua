@@ -13,8 +13,7 @@ module.moveWindow = function(direction, debug)
       local next = (now % 9) + 1
       if debug then
         hl.notification.create({
-          text = "now: " .. tostring(now) .. ", prev: " .. tostring(prev) ..
-              ", next: " .. tostring(next),
+          text = "now: " .. tostring(now) .. ", prev: " .. tostring(prev) .. ", next: " .. tostring(next),
           duration = 5000
         })
       end
@@ -41,24 +40,12 @@ module.namedSp = function(app)
   return function()
     local specialWs = hl.get_workspace("name:special:" .. app.name)
     if specialWs == nil then
-      if app.layout ~= nil then
-        hl.workspace_rule({
-          workspace = "special:" .. app.name,
-          layout = app.layout
-        })
-      end
+      if app.layout ~= nil then hl.workspace_rule({workspace = "special:" .. app.name, layout = app.layout}) end
       if type(app.cmd) == "string" then
-        hl.exec_cmd(app.cmd, {
-          workspace = "special:" .. app.name,
-          focus_on_activate = true
-        })
+        hl.exec_cmd(app.cmd, {workspace = "special:" .. app.name, focus_on_activate = true})
       elseif type(app.cmd) == "table" then
         for _, cmd in ipairs(app.cmd) do
-          hl.exec_cmd(cmd, {
-            workspace = "special:" .. app.name,
-            group = "set",
-            tag = "+" .. app.name
-          })
+          hl.exec_cmd(cmd, {workspace = "special:" .. app.name, group = "set", tag = "+" .. app.name})
         end
       else
         hl.notification.create({
@@ -106,19 +93,14 @@ module.volume = function(io, operation)
   if io == "out" then
     if operation == "up" then
       return function()
-        hl.exec_cmd(
-            "amixer set Master on && amixer set Master 5%+ && qs ipc call volumeOSD openOSD true")
+        hl.exec_cmd("amixer set Master on && amixer set Master 5%+ && qs ipc call volumeOSD openOSD true")
       end
     elseif operation == "down" then
       return function()
-        hl.exec_cmd(
-            "amixer set Master on && amixer set Master 5%- && qs ipc call volumeOSD openOSD true")
+        hl.exec_cmd("amixer set Master on && amixer set Master 5%- && qs ipc call volumeOSD openOSD true")
       end
     elseif operation == "mute" then
-      return function()
-        hl.exec_cmd(
-            "amixer set Master 1+ toggle && qs ipc call volumeOSD openOSD true")
-      end
+      return function() hl.exec_cmd("amixer set Master 1+ toggle && qs ipc call volumeOSD openOSD true") end
     end
   elseif io == "in" then
     if operation == "up" then
@@ -132,17 +114,10 @@ module.volume = function(io, operation)
             "amixer cset name='Capture Switch' on && amixer set Capture 5%- && qs ipc call volumeOSD openOSD false")
       end
     elseif operation == "mute" then
-      return function()
-        hl.exec_cmd(
-            "amixer set Capture 1+ toggle && qs ipc call volumeOSD openOSD false")
-      end
+      return function() hl.exec_cmd("amixer set Capture 1+ toggle && qs ipc call volumeOSD openOSD false") end
     end
   end
-  hl.notification.create({
-    text = "Unreachable!:module.volume",
-    duration = 3000,
-    color = module.rgb(theme.color.red)
-  })
+  hl.notification.create({text = "Unreachable!:module.volume", duration = 3000, color = module.rgb(theme.color.red)})
   return hl.dispatch(hl.dsp.no_op())
 end
 
@@ -195,9 +170,7 @@ module.maximizeToggle = function()
             if t == "mmaster" then
               hl.dispatch(hl.dsp.focus({window = "address:" .. v.address}))
               hl.dispatch(hl.dsp.layout("swapwithmaster ignoremaster"))
-              hl.dispatch(hl.dsp.window.clear_tags({
-                window = "address:" .. v.address
-              }))
+              hl.dispatch(hl.dsp.window.clear_tags({window = "address:" .. v.address}))
             end
           end
         end
@@ -209,9 +182,7 @@ module.maximizeToggle = function()
       local windows = currentWorkspace:get_windows()
       if activeWindow == nil then return end
       for _, w in ipairs(windows) do
-        if w.address ~= activeWindow.address then
-          if w.at.x == activeWindow.at.x then soloColumn = false end
-        end
+        if w.address ~= activeWindow.address then if w.at.x == activeWindow.at.x then soloColumn = false end end
       end
       local full = false
       local expelled = false
@@ -290,8 +261,7 @@ module.cycleWindow = function(dl)
         hl.dispatch(hl.dsp.group.next())
       end
     else
-      if currentSpecial == nil and currentWorkspace ~= nil and
-          currentWorkspace.tiled_layout == "scrolling" then
+      if currentSpecial == nil and currentWorkspace ~= nil and currentWorkspace.tiled_layout == "scrolling" then
         local windows = currentWorkspace:get_windows()
         local below = false
         local above = false
@@ -430,8 +400,7 @@ module.launcher = function()
       count = currentWorkspace.windows or 0
     end
     if count == 0 then
-      hl.dispatch(hl.dsp.exec_cmd(
-                      "rofi -show drun -theme-str \"window { y-offset: -36px; }\""))
+      hl.dispatch(hl.dsp.exec_cmd("rofi -show drun -theme-str \"window { y-offset: -36px; }\""))
     else
       hl.dispatch(hl.dsp.exec_cmd("rofi -show drun"))
     end
@@ -462,8 +431,7 @@ module.changeTheme = function(themeName)
       col = {
         border_active = {
           colors = {
-            module.rgba("0000FF", "AA"),
-            -- module.rgba(newTheme.colour.blue, "AA"),
+            module.rgba("0000FF", "AA"), -- module.rgba(newTheme.colour.blue, "AA"),
             module.rgba(newTheme.colour.magenta, "AA")
           }
         },
@@ -479,12 +447,7 @@ module.changeTheme = function(themeName)
     },
     general = {
       col = {
-        active_border = {
-          colors = {
-            module.rgba(newTheme.colour.blue, "AA"),
-            module.rgba(newTheme.colour.magenta, "AA")
-          }
-        },
+        active_border = {colors = {module.rgba(newTheme.colour.blue, "AA"), module.rgba(newTheme.colour.magenta, "AA")}},
         inactive_border = module.rgba(newTheme.colour.background, "AA")
       }
     }

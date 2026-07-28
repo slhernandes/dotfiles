@@ -119,6 +119,16 @@ Scope {
     }
 
     Shortcut {
+      sequence: "Alt+r"
+      onActivated: () => {
+        Qt.callLater(() => {
+          launcher.provider.updateItems();
+          launcher.refreshFilter();
+        });
+      }
+    }
+
+    Shortcut {
       sequence: "Return"
       onActivated: () => {
         GlobalStates.currentOverlay = GlobalStates.Overlay.None;
@@ -157,8 +167,13 @@ Scope {
 
     visible: GlobalStates.currentOverlay === GlobalStates.Overlay.Launcher
     onVisibleChanged: () => {
-      launcher.provider.updateItems();
-      Qt.callLater(launcher.refreshFilter);
+      if (visible) {
+        Qt.callLater(launcher.refreshFilter);
+      } else {
+        Qt.callLater(() => {
+          launcher.filteredItems = [];
+        });
+      }
     }
     Rectangle {
       id: launcherBackground

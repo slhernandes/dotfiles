@@ -6,8 +6,7 @@
 -- hl.env("AQ_DRM_DEVICES", "/dev/dri/card0:/dev/dri/card1")
 -- hl.env("AQ_DRM_DEVICES", "/dev/dri/nvidia-gpu:/dev/dri/amd-igpu")
 -- AMD Driver
-hl.env("__EGL_VENDOR_LIBRARY_FILENAMES",
-  "/usr/share/glvnd/egl_vendor.d/50_mesa.json")
+hl.env("__EGL_VENDOR_LIBRARY_FILENAMES", "/usr/share/glvnd/egl_vendor.d/50_mesa.json")
 hl.env("AQ_DRM_DEVICES", "/dev/dri/amd-igpu:/dev/dri/nvidia-gpu")
 
 -- Wayland envs
