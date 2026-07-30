@@ -31,11 +31,11 @@ Scope {
           return ThemeProvider;
         }
         break;
-      // case "wallpaper":
-      //   {
-      //     return WallpaperProvider; // TODO: Might be a different file similar to Minimize.qml
-      //   }
-      //   break;
+      case "pass":
+        {
+          return PassProvider;
+        }
+        break;
       case "websearch":
         {
           return WebSearchProvider;

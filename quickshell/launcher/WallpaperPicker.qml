@@ -76,8 +76,9 @@ Scope {
           return;
         }
         GlobalStates.currentOverlay = GlobalStates.Overlay.None;
-        const pref = Wallpaper.wallpaper.checkTime();
-        Wallpaper.wallpaper.changeWallpaper(`${pref}_${item.name}`);
+        if (wpList.currentItem.name !== null) {
+          Quickshell.execDetached(["qs", "ipc", "call", "wallpaper", "changeWallpaperCheckTime", wpList.currentItem.name]);
+        }
       }
     }
 
@@ -100,9 +101,10 @@ Scope {
               ret.push(walls[i]);
             }
           }
-          ret = ret.map(x => {
+          ret = ret.map((x, i) => {
             return {
-              name: x
+              name: x,
+              index: i
             };
           });
           Qt.callLater(() => wallPicker.wallItems = ret);
@@ -138,83 +140,99 @@ Scope {
           Layout.fillHeight: true
           Layout.preferredWidth: wallPicker.previewWidth
           color: "transparent"
-          Image {
-            id: dayImage
+          Repeater {
+            model: wallPicker.wallItems
             anchors.fill: parent
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin: wallPicker.gap
-            anchors.topMargin: wallPicker.gap
-            anchors.bottomMargin: wallPicker.gap
-            layer.enabled: true
-            visible: false
-            asynchronous: false
-            cache: true
-            source: `file://${Variables.wallDir}/day_${wpList.currentItem?.name}.png`
-            sourceSize.width: width
-            sourceSize.height: height
-          }
-          Image {
-            id: nightImage
-            anchors.fill: parent
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin: wallPicker.gap
-            anchors.topMargin: wallPicker.gap
-            anchors.bottomMargin: wallPicker.gap
-            layer.enabled: true
-            visible: false
-            asynchronous: false
-            cache: true
-            source: `file://${Variables.wallDir}/night_${wpList.currentItem?.name}.png`
-            sourceSize.width: width
-            sourceSize.height: height
-          }
-          Shape {
-            id: imageShape
-            anchors.fill: parent
-            anchors.leftMargin: wallPicker.gap
-            anchors.topMargin: wallPicker.gap
-            anchors.bottomMargin: wallPicker.gap
-            preferredRendererType: Shape.CurveRenderer
-            visible: false
-            layer.enabled: true
-            ShapePath {
-              PathLine {
-                x: 0
-                y: 0
+            delegate: Rectangle {
+              id: wallComponent
+              anchors.fill: parent
+              color: "transparent"
+              required property string name
+              required property int index
+              visible: {
+                return index == wpList.currentIndex;
               }
-              PathLine {
-                x: imageShape.width
-                y: 0
+              Image {
+                id: dayImage
+                anchors.fill: parent
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: wallPicker.gap
+                anchors.topMargin: wallPicker.gap
+                anchors.bottomMargin: wallPicker.gap
+                layer.enabled: true
+                visible: false
+                asynchronous: true
+                cache: true
+                source: `file://${Variables.wallDir}/day_${wallComponent.name}.png`
+                sourceSize.width: width
+                sourceSize.height: height
               }
-              PathLine {
-                x: 0
-                y: imageShape.height
+              Image {
+                id: nightImage
+                anchors.fill: parent
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: wallPicker.gap
+                anchors.topMargin: wallPicker.gap
+                anchors.bottomMargin: wallPicker.gap
+                layer.enabled: true
+                visible: false
+                asynchronous: true
+                cache: true
+                source: `file://${Variables.wallDir}/night_${wallComponent.name}.png`
+                sourceSize.width: width
+                sourceSize.height: height
               }
-              strokeColor: "transparent"
+              Shape {
+                id: imageShape
+                anchors.fill: parent
+                anchors.leftMargin: wallPicker.gap
+                anchors.topMargin: wallPicker.gap
+                anchors.bottomMargin: wallPicker.gap
+                preferredRendererType: Shape.CurveRenderer
+                visible: false
+                layer.enabled: true
+                ShapePath {
+                  PathLine {
+                    x: 0
+                    y: 0
+                  }
+                  PathLine {
+                    x: imageShape.width
+                    y: 0
+                  }
+                  PathLine {
+                    x: 0
+                    y: imageShape.height
+                  }
+                  strokeColor: "transparent"
+                }
+              }
+              MultiEffect {
+                anchors.fill: parent
+                visible: parent.visible
+                anchors.leftMargin: wallPicker.gap
+                anchors.topMargin: wallPicker.gap
+                anchors.bottomMargin: wallPicker.gap
+                source: dayImage
+                maskSpreadAtMin: 1.0
+                maskThresholdMin: 0.5
+                maskEnabled: true
+                maskSource: imageShape
+              }
+              MultiEffect {
+                anchors.fill: parent
+                visible: parent.visible
+                anchors.leftMargin: wallPicker.gap
+                anchors.topMargin: wallPicker.gap
+                anchors.bottomMargin: wallPicker.gap
+                source: nightImage
+                maskInverted: true
+                maskSpreadAtMin: 1.0
+                maskThresholdMin: 0.5
+                maskEnabled: true
+                maskSource: imageShape
+              }
             }
-          }
-          MultiEffect {
-            anchors.fill: parent
-            anchors.leftMargin: wallPicker.gap
-            anchors.topMargin: wallPicker.gap
-            anchors.bottomMargin: wallPicker.gap
-            source: nightImage
-            maskSpreadAtMin: 1.0
-            maskThresholdMin: 0.5
-            maskEnabled: true
-            maskSource: imageShape
-          }
-          MultiEffect {
-            anchors.fill: parent
-            anchors.leftMargin: wallPicker.gap
-            anchors.topMargin: wallPicker.gap
-            anchors.bottomMargin: wallPicker.gap
-            source: dayImage
-            maskInverted: true
-            maskSpreadAtMin: 1.0
-            maskThresholdMin: 0.5
-            maskEnabled: true
-            maskSource: imageShape
           }
         }
         Rectangle {

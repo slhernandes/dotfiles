@@ -13,7 +13,8 @@ hl.bind(MainMod .. "+ M", hl.dsp.exec_cmd("qs ipc call globalStates toggleMinimi
 -- hl.bind(MainMod .. "+ SHIFT + M",
 --   hl.dsp.exec_cmd(ScriptDir .. "/minimize.py restorerofi"))
 hl.bind(MainMod .. "+ SHIFT + M", hl.dsp.exec_cmd("qs ipc call globalStates toggleMinimize true"))
-hl.bind(MainMod .. "+ W", hl.dsp.exec_cmd(ScriptDir .. "/change_wallpaper.sh"))
+-- hl.bind(MainMod .. "+ W", hl.dsp.exec_cmd(ScriptDir .. "/change_wallpaper.sh"))
+hl.bind(MainMod .. "+ W", hl.dsp.exec_cmd("qs ipc call globalStates toggleWallPicker"))
 -- hl.bind(MainMod .. "+ SHIFT + W",
 --         hl.dsp.exec_cmd(ScriptDir .. "/change_theme.sh"))
 hl.bind(MainMod .. "+ SHIFT + W", hl.dsp.exec_cmd("qs ipc call globalStates toggleLauncher middle theme"))
@@ -21,7 +22,8 @@ hl.bind(MainMod .. "+ SHIFT + W", hl.dsp.exec_cmd("qs ipc call globalStates togg
 hl.bind(MainMod .. "+ P", hl.dsp.exec_cmd("qs ipc call globalStates toggleLauncher center appLauncher"))
 hl.bind(MainMod .. "+ Return", helper.maximizeToggle())
 hl.bind(MainMod .. "+ SHIFT + Return", hl.dsp.window.fullscreen({action = "toggle", mode = "fullscreen"}))
-hl.bind(MainMod .. "+ C", hl.dsp.exec_cmd(ScriptDir .. "/passmenu"))
+-- hl.bind(MainMod .. "+ C", hl.dsp.exec_cmd(ScriptDir .. "/passmenu"))
+hl.bind(MainMod .. "+ C", hl.dsp.exec_cmd("qs ipc call globalStates toggleLauncher center pass"))
 hl.bind(MainMod .. "+ SHIFT + C", hl.dsp.window.close({}))
 hl.bind(MainMod .. "+ SHIFT + S", helper.toggleFloat())
 hl.bind(MainMod .. "+ SHIFT + Q", hl.dsp.exec_cmd("qs ipc call globalStates toggleControlCentre"))
