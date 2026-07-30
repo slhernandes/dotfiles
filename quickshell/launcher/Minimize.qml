@@ -94,16 +94,30 @@ Scope {
     Rectangle {
       id: minimizeBackground
       color: Theme.inactiveElement
+      opacity: Variables.pcBgOpacity
+      anchors.top: parent.top
+      anchors.left: parent.left
+      // anchors.topMargin: (minimize.height - minimize.minimizeHeight) / 2
+      anchors.topMargin: Variables.barHeight + Variables.windowGap
+      anchors.leftMargin: (minimize.width - minimize.minimizeWidth) / 2
+      radius: Variables.radius
+      width: minimize.minimizeWidth
+      height: minimize.minimizeHeight
+    }
+
+    Rectangle {
+      id: minimizeArea
+      color: "transparent"
       border {
         width: 2
         color: Theme.activeBorder
       }
       anchors.top: parent.top
       anchors.left: parent.left
-      anchors.topMargin: (minimize.height - minimize.minimizeHeight) / 2
+      // anchors.topMargin: (minimize.height - minimize.minimizeHeight) / 2
+      anchors.topMargin: Variables.barHeight + Variables.windowGap
       anchors.leftMargin: (minimize.width - minimize.minimizeWidth) / 2
       radius: Variables.radius
-      opacity: Variables.barOpacity
       width: minimize.minimizeWidth
       height: minimize.minimizeHeight
       visible: true
@@ -138,7 +152,7 @@ Scope {
             anchors.leftMargin: minimize.gap
             anchors.topMargin: minimize.gap
             anchors.bottomMargin: minimize.gap
-            captureSource: minimizeBackground.currentScreen
+            captureSource: minimizeArea.currentScreen
             paintCursor: false
             live: true
           }
@@ -150,7 +164,7 @@ Scope {
           color: "transparent"
           ListView {
             id: tlList
-            model: minimizeBackground.minimizedToplevelsHyprland
+            model: minimizeArea.minimizedToplevelsHyprland
             anchors.fill: parent
             spacing: minimize.gap / 2
             anchors.margins: minimize.gap

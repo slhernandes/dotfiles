@@ -51,6 +51,7 @@ Scope {
       sequence: "escape"
       onActivated: () => {
         GlobalStates.currentOverlay = GlobalStates.Overlay.None;
+        wpList.currentIndex = 0;
       }
     }
 
@@ -77,6 +78,7 @@ Scope {
         }
         GlobalStates.currentOverlay = GlobalStates.Overlay.None;
         if (wpList.currentItem.name !== null) {
+          wpList.currentIndex = 0;
           Quickshell.execDetached(["qs", "ipc", "call", "wallpaper", "changeWallpaperCheckTime", wpList.currentItem.name]);
         }
       }
@@ -119,16 +121,30 @@ Scope {
     Rectangle {
       id: wallPickerBackground
       color: Theme.inactiveElement
+      opacity: Variables.pcBgOpacity
+      anchors.top: parent.top
+      anchors.left: parent.left
+      // anchors.topMargin: (wallPicker.height - wallPicker.wallPickerHeight) / 2
+      anchors.topMargin: Variables.barHeight + Variables.windowGap
+      anchors.leftMargin: (wallPicker.width - wallPicker.wallPickerWidth) / 2
+      radius: Variables.radius
+      width: wallPicker.wallPickerWidth
+      height: wallPicker.wallPickerHeight
+    }
+
+    Rectangle {
+      id: wallPickerArea
+      color: "transparent"
       border {
         width: 2
         color: Theme.activeBorder
       }
       anchors.top: parent.top
       anchors.left: parent.left
-      anchors.topMargin: (wallPicker.height - wallPicker.wallPickerHeight) / 2
+      // anchors.topMargin: (wallPicker.height - wallPicker.wallPickerHeight) / 2
+      anchors.topMargin: Variables.barHeight + Variables.windowGap
       anchors.leftMargin: (wallPicker.width - wallPicker.wallPickerWidth) / 2
       radius: Variables.radius
-      opacity: Variables.barOpacity
       width: wallPicker.wallPickerWidth
       height: wallPicker.wallPickerHeight
       visible: true
@@ -163,6 +179,7 @@ Scope {
                 visible: false
                 asynchronous: true
                 cache: true
+                smooth: false
                 source: `file://${Variables.wallDir}/day_${wallComponent.name}.png`
                 sourceSize.width: width
                 sourceSize.height: height
@@ -178,6 +195,7 @@ Scope {
                 visible: false
                 asynchronous: true
                 cache: true
+                smooth: false
                 source: `file://${Variables.wallDir}/night_${wallComponent.name}.png`
                 sourceSize.width: width
                 sourceSize.height: height

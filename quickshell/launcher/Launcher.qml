@@ -209,7 +209,7 @@ Scope {
         }
       }
       radius: Variables.radius
-      opacity: Variables.ncBgOpacity
+      opacity: Variables.pcBgOpacity
       width: launcher.launcherWidth
       height: launcher.launcherHeight
     }

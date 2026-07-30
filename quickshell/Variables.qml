@@ -31,9 +31,11 @@ Singleton {
   property real barHeight: 32
   property real ccBgOpacity: 0.5
   property real ncBgOpacity: 0.5
+  property real pcBgOpacity: 0.5
   property real barOpacity: 0.85
   property int borderWidth: 2
   property int radius: 5
+  property int windowGap: 4
 
   property real fontSizeTooltip: 10
   property real paddingTooltip: 6
